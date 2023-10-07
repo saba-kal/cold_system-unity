@@ -1,0 +1,34 @@
+{
+    "name": "RtsInputActions",
+    "maps": [
+        {
+            "name": "Gameplay",
+            "id": "221bbe9d-16c6-4179-8de1-2d64ffd19374",
+            "actions": [
+                {
+                    "name": "SelectLocation",
+                    "type": "Button",
+                    "id": "5b7c8b29-6999-4294-b4c6-faa6fbeed5fb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "02325f5a-d6c2-4007-a94a-57835aee5081",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectLocation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
