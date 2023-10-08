@@ -2,13 +2,13 @@
 
 public class UnitAutoAttack : MonoBehaviour
 {
-    [SerializeField] private GameObject _tempTarget;
     [SerializeField] private GameObject _turret;
     [SerializeField] private float _turretRotationSpeed = 5f;
     [SerializeField] private float _range = 20f;
     [SerializeField] private bool _showRange = false;
 
     private BaseWeapon[] _weapons;
+    private Unit[] _opposingUnits;
 
     private void Start()
     {
@@ -18,34 +18,58 @@ public class UnitAutoAttack : MonoBehaviour
     private void Update()
     {
         var turretIsFacingTarget = false;
-        if (_tempTarget != null && _turret != null)
+        var target = GetNearestOpposingUnit();
+        if (target != null && _turret != null)
         {
-            turretIsFacingTarget = RotatetToFaceTarget();
+            turretIsFacingTarget = RotatetToFaceTarget(target.gameObject);
+        }
+        else
+        {
+            ResetAllRotation();
         }
         SetWeaponsEnabled(turretIsFacingTarget);
     }
 
-    private bool RotatetToFaceTarget()
+    public void SetOpposingUnits(Unit[] units)
     {
-        var turretIsFacingTarget = false;
-        if (Vector3.Distance(_tempTarget.transform.position, transform.position) > _range)
+        _opposingUnits = units;
+    }
+
+    private Unit GetNearestOpposingUnit()
+    {
+        Unit nearestOpponent = null;
+        var minDistanceSqr = _range * _range;
+        foreach (var opposingUnit in _opposingUnits)
         {
-            ResetRotation(_turret);
-            foreach (var weapon in _weapons)
+            var distanceSqr = (opposingUnit.transform.position - transform.position).sqrMagnitude;
+            if (distanceSqr < minDistanceSqr)
             {
-                ResetRotation(weapon.gameObject);
-            }
-        }
-        else
-        {
-            turretIsFacingTarget = RotateToFaceTarget(_turret, new Vector3(0, 1, 0), -360, 360);
-            foreach (var weapon in _weapons)
-            {
-                RotateToFaceTarget(weapon.gameObject, new Vector3(1, 1, 1), -10, 10);
+                minDistanceSqr = distanceSqr;
+                nearestOpponent = opposingUnit;
             }
         }
 
+        return nearestOpponent;
+    }
+
+    private bool RotatetToFaceTarget(GameObject target)
+    {
+        var turretIsFacingTarget = RotateToFaceTarget(_turret, target, new Vector3(0, 1, 0), -360, 360);
+        foreach (var weapon in _weapons)
+        {
+            RotateToFaceTarget(weapon.gameObject, target, new Vector3(1, 1, 1), -10, 10);
+        }
+
         return turretIsFacingTarget;
+    }
+
+    private void ResetAllRotation()
+    {
+        ResetRotation(_turret);
+        foreach (var weapon in _weapons)
+        {
+            ResetRotation(weapon.gameObject);
+        }
     }
 
     private void ResetRotation(GameObject objectToRotate)
@@ -56,9 +80,9 @@ public class UnitAutoAttack : MonoBehaviour
             _turretRotationSpeed * Time.deltaTime);
     }
 
-    private bool RotateToFaceTarget(GameObject objectToRotate, Vector3 axis, float minAngle, float maxAngle)
+    private bool RotateToFaceTarget(GameObject objectToRotate, GameObject target, Vector3 axis, float minAngle, float maxAngle)
     {
-        var targetDirection = _tempTarget.transform.position - objectToRotate.transform.position;
+        var targetDirection = target.transform.position - objectToRotate.transform.position;
         var desiredRotation = Quaternion.LookRotation(targetDirection);
         desiredRotation = Quaternion.Euler(Vector3.Scale(desiredRotation.eulerAngles, axis));
         var rotation = Quaternion.Slerp(objectToRotate.transform.rotation, desiredRotation, _turretRotationSpeed * Time.deltaTime);

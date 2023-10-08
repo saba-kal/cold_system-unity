@@ -20,7 +20,7 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log($"Bullet hit! name: {collision.gameObject.name}");
+        //TODO: on destroy effect.
         Destroy(gameObject);
     }
 }

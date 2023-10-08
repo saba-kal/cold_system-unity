@@ -35,6 +35,60 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectUnit1"",
+                    ""type"": ""Button"",
+                    ""id"": ""044cc01c-38c2-4aa4-ac7e-9046433a0102"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectUnit2"",
+                    ""type"": ""Button"",
+                    ""id"": ""5aee15ec-798e-49b2-8f12-8417a3da2986"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectUnit3"",
+                    ""type"": ""Button"",
+                    ""id"": ""b99ad3c3-9494-4794-9470-3b1c707e0e52"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectUnit4"",
+                    ""type"": ""Button"",
+                    ""id"": ""d7abf95e-b9e2-4aaa-817a-70f4238287a0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectUnit5"",
+                    ""type"": ""Button"",
+                    ""id"": ""c90860ed-1d31-4422-a1ac-2ff9485efa91"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectAllUnits"",
+                    ""type"": ""Button"",
+                    ""id"": ""fe11d217-361a-4a11-a238-8b12762d5d3f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -48,6 +102,72 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""SelectLocation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d6e8c532-4aae-4796-9873-676c73438f52"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectUnit1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""da6a11fe-9145-4f0c-935c-d932e8af910c"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectUnit2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4c5a9cf-4f75-4c6c-9e3c-75126e5e0e58"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectUnit3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""432b06cf-e0b1-42cd-8035-3378080a2e20"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectUnit4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9c0dc5c7-12dc-4b8e-ae79-f478b6321157"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectUnit5"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3b6c3909-b347-4b7f-86cf-e9b4951c3bd1"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectAllUnits"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -57,6 +177,12 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_SelectLocation = m_Gameplay.FindAction("SelectLocation", throwIfNotFound: true);
+        m_Gameplay_SelectUnit1 = m_Gameplay.FindAction("SelectUnit1", throwIfNotFound: true);
+        m_Gameplay_SelectUnit2 = m_Gameplay.FindAction("SelectUnit2", throwIfNotFound: true);
+        m_Gameplay_SelectUnit3 = m_Gameplay.FindAction("SelectUnit3", throwIfNotFound: true);
+        m_Gameplay_SelectUnit4 = m_Gameplay.FindAction("SelectUnit4", throwIfNotFound: true);
+        m_Gameplay_SelectUnit5 = m_Gameplay.FindAction("SelectUnit5", throwIfNotFound: true);
+        m_Gameplay_SelectAllUnits = m_Gameplay.FindAction("SelectAllUnits", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -119,11 +245,23 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Gameplay;
     private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
     private readonly InputAction m_Gameplay_SelectLocation;
+    private readonly InputAction m_Gameplay_SelectUnit1;
+    private readonly InputAction m_Gameplay_SelectUnit2;
+    private readonly InputAction m_Gameplay_SelectUnit3;
+    private readonly InputAction m_Gameplay_SelectUnit4;
+    private readonly InputAction m_Gameplay_SelectUnit5;
+    private readonly InputAction m_Gameplay_SelectAllUnits;
     public struct GameplayActions
     {
         private @RtsInputActions m_Wrapper;
         public GameplayActions(@RtsInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @SelectLocation => m_Wrapper.m_Gameplay_SelectLocation;
+        public InputAction @SelectUnit1 => m_Wrapper.m_Gameplay_SelectUnit1;
+        public InputAction @SelectUnit2 => m_Wrapper.m_Gameplay_SelectUnit2;
+        public InputAction @SelectUnit3 => m_Wrapper.m_Gameplay_SelectUnit3;
+        public InputAction @SelectUnit4 => m_Wrapper.m_Gameplay_SelectUnit4;
+        public InputAction @SelectUnit5 => m_Wrapper.m_Gameplay_SelectUnit5;
+        public InputAction @SelectAllUnits => m_Wrapper.m_Gameplay_SelectAllUnits;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -136,6 +274,24 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
             @SelectLocation.started += instance.OnSelectLocation;
             @SelectLocation.performed += instance.OnSelectLocation;
             @SelectLocation.canceled += instance.OnSelectLocation;
+            @SelectUnit1.started += instance.OnSelectUnit1;
+            @SelectUnit1.performed += instance.OnSelectUnit1;
+            @SelectUnit1.canceled += instance.OnSelectUnit1;
+            @SelectUnit2.started += instance.OnSelectUnit2;
+            @SelectUnit2.performed += instance.OnSelectUnit2;
+            @SelectUnit2.canceled += instance.OnSelectUnit2;
+            @SelectUnit3.started += instance.OnSelectUnit3;
+            @SelectUnit3.performed += instance.OnSelectUnit3;
+            @SelectUnit3.canceled += instance.OnSelectUnit3;
+            @SelectUnit4.started += instance.OnSelectUnit4;
+            @SelectUnit4.performed += instance.OnSelectUnit4;
+            @SelectUnit4.canceled += instance.OnSelectUnit4;
+            @SelectUnit5.started += instance.OnSelectUnit5;
+            @SelectUnit5.performed += instance.OnSelectUnit5;
+            @SelectUnit5.canceled += instance.OnSelectUnit5;
+            @SelectAllUnits.started += instance.OnSelectAllUnits;
+            @SelectAllUnits.performed += instance.OnSelectAllUnits;
+            @SelectAllUnits.canceled += instance.OnSelectAllUnits;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -143,6 +299,24 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
             @SelectLocation.started -= instance.OnSelectLocation;
             @SelectLocation.performed -= instance.OnSelectLocation;
             @SelectLocation.canceled -= instance.OnSelectLocation;
+            @SelectUnit1.started -= instance.OnSelectUnit1;
+            @SelectUnit1.performed -= instance.OnSelectUnit1;
+            @SelectUnit1.canceled -= instance.OnSelectUnit1;
+            @SelectUnit2.started -= instance.OnSelectUnit2;
+            @SelectUnit2.performed -= instance.OnSelectUnit2;
+            @SelectUnit2.canceled -= instance.OnSelectUnit2;
+            @SelectUnit3.started -= instance.OnSelectUnit3;
+            @SelectUnit3.performed -= instance.OnSelectUnit3;
+            @SelectUnit3.canceled -= instance.OnSelectUnit3;
+            @SelectUnit4.started -= instance.OnSelectUnit4;
+            @SelectUnit4.performed -= instance.OnSelectUnit4;
+            @SelectUnit4.canceled -= instance.OnSelectUnit4;
+            @SelectUnit5.started -= instance.OnSelectUnit5;
+            @SelectUnit5.performed -= instance.OnSelectUnit5;
+            @SelectUnit5.canceled -= instance.OnSelectUnit5;
+            @SelectAllUnits.started -= instance.OnSelectAllUnits;
+            @SelectAllUnits.performed -= instance.OnSelectAllUnits;
+            @SelectAllUnits.canceled -= instance.OnSelectAllUnits;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -163,5 +337,11 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
     public interface IGameplayActions
     {
         void OnSelectLocation(InputAction.CallbackContext context);
+        void OnSelectUnit1(InputAction.CallbackContext context);
+        void OnSelectUnit2(InputAction.CallbackContext context);
+        void OnSelectUnit3(InputAction.CallbackContext context);
+        void OnSelectUnit4(InputAction.CallbackContext context);
+        void OnSelectUnit5(InputAction.CallbackContext context);
+        void OnSelectAllUnits(InputAction.CallbackContext context);
     }
 }
