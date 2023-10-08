@@ -1,0 +1,98 @@
+﻿using UnityEngine;
+
+public class UnitAutoAttack : MonoBehaviour
+{
+    [SerializeField] private GameObject _tempTarget;
+    [SerializeField] private GameObject _turret;
+    [SerializeField] private float _turretRotationSpeed = 5f;
+    [SerializeField] private float _range = 20f;
+    [SerializeField] private bool _showRange = false;
+
+    private BaseWeapon[] _weapons;
+
+    private void Start()
+    {
+        _weapons = GetComponentsInChildren<BaseWeapon>();
+    }
+
+    private void Update()
+    {
+        var turretIsFacingTarget = false;
+        if (_tempTarget != null && _turret != null)
+        {
+            turretIsFacingTarget = RotatetToFaceTarget();
+        }
+        SetWeaponsEnabled(turretIsFacingTarget);
+    }
+
+    private bool RotatetToFaceTarget()
+    {
+        var turretIsFacingTarget = false;
+        if (Vector3.Distance(_tempTarget.transform.position, transform.position) > _range)
+        {
+            ResetRotation(_turret);
+            foreach (var weapon in _weapons)
+            {
+                ResetRotation(weapon.gameObject);
+            }
+        }
+        else
+        {
+            turretIsFacingTarget = RotateToFaceTarget(_turret, new Vector3(0, 1, 0), -360, 360);
+            foreach (var weapon in _weapons)
+            {
+                RotateToFaceTarget(weapon.gameObject, new Vector3(1, 1, 1), -10, 10);
+            }
+        }
+
+        return turretIsFacingTarget;
+    }
+
+    private void ResetRotation(GameObject objectToRotate)
+    {
+        objectToRotate.transform.localRotation = Quaternion.Lerp(
+            objectToRotate.transform.localRotation,
+            Quaternion.Euler(0, 0, 0),
+            _turretRotationSpeed * Time.deltaTime);
+    }
+
+    private bool RotateToFaceTarget(GameObject objectToRotate, Vector3 axis, float minAngle, float maxAngle)
+    {
+        var targetDirection = _tempTarget.transform.position - objectToRotate.transform.position;
+        var desiredRotation = Quaternion.LookRotation(targetDirection);
+        desiredRotation = Quaternion.Euler(Vector3.Scale(desiredRotation.eulerAngles, axis));
+        var rotation = Quaternion.Slerp(objectToRotate.transform.rotation, desiredRotation, _turretRotationSpeed * Time.deltaTime);
+        objectToRotate.transform.rotation = rotation;
+        objectToRotate.transform.localRotation = Quaternion.Euler(
+            ClampAngle(objectToRotate.transform.localRotation.eulerAngles.x, minAngle, maxAngle),
+            ClampAngle(objectToRotate.transform.localRotation.eulerAngles.y, minAngle, maxAngle),
+            ClampAngle(objectToRotate.transform.localRotation.eulerAngles.z, minAngle, maxAngle));
+        return Mathf.Abs(_turret.transform.eulerAngles.y - desiredRotation.eulerAngles.y) < 1;
+    }
+
+    private float ClampAngle(float angle, float minAngle, float maxAngle)
+    {
+        if (angle > 180)
+        {
+            angle -= 360;
+        }
+        return Mathf.Clamp(angle, minAngle, maxAngle);
+    }
+
+    private void SetWeaponsEnabled(bool enabled)
+    {
+        foreach (var weapon in _weapons)
+        {
+            weapon.SetEnabled(enabled);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (_showRange)
+        {
+            Gizmos.color = new Color(1, 0, 0, 0.1f);
+            Gizmos.DrawSphere(transform.position, _range);
+        }
+    }
+}
