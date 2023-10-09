@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 2d94e244a8c3ec6439cde54933611a3e
+  - enabled: 1
     path: Assets/Scenes/SabaTestLevel/SabaTestLevel.unity
     guid: a5344ab5e75d4b148973c50277d7487b
+  - enabled: 1
+    path: Assets/Scenes/GameMenu.unity
+    guid: 9fb2d1e5a5cebcd41b56e3bd2d75256e
   m_configObjects: {}

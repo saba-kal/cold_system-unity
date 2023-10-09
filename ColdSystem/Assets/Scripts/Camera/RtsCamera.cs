@@ -37,7 +37,7 @@ public class RtsCamera : MonoBehaviour
         var translation = Quaternion.Euler(0, _cameraTarget.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.y) *
             _panSpeed * Mathf.Abs(_targetZoom / 2f) * Time.deltaTime;
         var rayStartPosition = _cameraTarget.position + new Vector3(0, 10, 0) + translation;
-        if (Physics.Raycast(rayStartPosition, Vector3.down, out var hit, 500f))
+        if (Physics.Raycast(rayStartPosition, Vector3.down, out var hit, 500f, LayerMask.GetMask(Constants.GROUND_LAYER)))
         {
             _cameraTarget.position = hit.point;
         }
