@@ -4,8 +4,9 @@ using UnityEngine.InputSystem;
 public class PlayerRtsController : MonoBehaviour
 {
     [SerializeField] private PlayerUnitManager _unitManager;
-    [SerializeField] private Camera _camera;
+    [SerializeField] private RtsCamera _rtsCamera;
 
+    private Camera _camera;
     private RtsInputActions _rtsInpusActions;
     private InputAction[] _selectUnitInputActions;
 
@@ -27,11 +28,13 @@ public class PlayerRtsController : MonoBehaviour
     {
         _rtsInpusActions.Enable();
         _rtsInpusActions.Gameplay.SelectLocation.performed += OnLocationSelected;
+        _rtsInpusActions.Gameplay.ZoomCamera.performed += OnCameraZoom;
     }
 
     private void OnDisable()
     {
         _rtsInpusActions.Gameplay.SelectLocation.performed -= OnLocationSelected;
+        _rtsInpusActions.Gameplay.ZoomCamera.performed -= OnCameraZoom;
         _rtsInpusActions.Disable();
     }
 
@@ -41,6 +44,8 @@ public class PlayerRtsController : MonoBehaviour
         {
             _unitManager.SetUnitSelected(i, _selectUnitInputActions[i].IsPressed() || _rtsInpusActions.Gameplay.SelectAllUnits.IsPressed());
         }
+        _rtsCamera.MoveCamera(_rtsInpusActions.Gameplay.MoveCamera.ReadValue<Vector2>());
+        _rtsCamera.RotateCamera(_rtsInpusActions.Gameplay.RotateCamera.ReadValue<float>());
     }
 
     private void OnLocationSelected(InputAction.CallbackContext context)
@@ -50,5 +55,12 @@ public class PlayerRtsController : MonoBehaviour
         {
             _unitManager.SetDestination(hit.point);
         }
+    }
+
+    private void OnCameraZoom(InputAction.CallbackContext context)
+    {
+        // This stupid bugs requires me to clamp axis value: https://forum.unity.com/threads/how-do-you-get-mouse-scroll-input.825672/
+        var value = Mathf.Clamp(context.ReadValue<float>(), -1, 1);
+        _rtsCamera.ZoomCamera(value);
     }
 }

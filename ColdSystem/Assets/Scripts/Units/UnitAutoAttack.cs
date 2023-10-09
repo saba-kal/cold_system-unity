@@ -10,7 +10,7 @@ public class UnitAutoAttack : MonoBehaviour
     private BaseWeapon[] _weapons;
     private Unit[] _opposingUnits;
 
-    private void Start()
+    private void Awake()
     {
         _weapons = GetComponentsInChildren<BaseWeapon>();
     }
@@ -30,9 +30,13 @@ public class UnitAutoAttack : MonoBehaviour
         SetWeaponsEnabled(turretIsFacingTarget);
     }
 
-    public void SetOpposingUnits(Unit[] units)
+    public void Initialize(Unit[] opposingUnits, UnitType type)
     {
-        _opposingUnits = units;
+        _opposingUnits = opposingUnits;
+        foreach (var weapon in _weapons)
+        {
+            weapon.Initialize(type);
+        }
     }
 
     private Unit GetNearestOpposingUnit()

@@ -29,7 +29,7 @@ public class ProjectileWeapon : BaseWeapon
             {
                 direction = -direction;
             }
-            projectile.Initialize(_projectileSpeed * direction, _projectileDamage);
+            projectile.Initialize(_projectileSpeed * direction, _projectileDamage, _parentUnitType);
             _timeSinceLastShot = 0;
         }
 

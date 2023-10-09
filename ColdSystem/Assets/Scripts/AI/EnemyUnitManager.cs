@@ -16,8 +16,7 @@ public class EnemyUnitManager : MonoBehaviour
     {
         foreach (var unit in _enemyUnits)
         {
-            unit.gameObject.layer = LayerMask.NameToLayer(Constants.PLAYER_UNIT_LAYER);
-            unit.SetOpposingUnits(_playerUnitManager.GetUnits());
+            unit.Initialize(_playerUnitManager.GetUnits(), UnitType.Enemy);
         }
     }
 

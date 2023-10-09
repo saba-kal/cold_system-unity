@@ -12,10 +12,11 @@ public class Projectile : MonoBehaviour
         Destroy(gameObject, _lifeTime);
     }
 
-    public void Initialize(Vector3 velocity, float damage)
+    public void Initialize(Vector3 velocity, float damage, UnitType parentUnitType)
     {
         GetComponent<Rigidbody>().velocity = velocity;
         _damage = damage;
+        gameObject.layer = UnitFunctions.GetProjectileLayer(parentUnitType);
     }
 
     private void OnCollisionEnter(Collision collision)
