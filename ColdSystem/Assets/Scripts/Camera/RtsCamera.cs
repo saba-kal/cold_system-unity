@@ -34,7 +34,8 @@ public class RtsCamera : MonoBehaviour
             return;
         }
 
-        var translation = _cameraTarget.TransformDirection(new Vector3(direction.x, 0, direction.y)) * _panSpeed * Time.deltaTime;
+        var translation = Quaternion.Euler(0, _cameraTarget.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.y) *
+            _panSpeed * Mathf.Abs(_targetZoom / 2f) * Time.deltaTime;
         var rayStartPosition = _cameraTarget.position + new Vector3(0, 10, 0) + translation;
         if (Physics.Raycast(rayStartPosition, Vector3.down, out var hit, 500f))
         {
@@ -42,7 +43,7 @@ public class RtsCamera : MonoBehaviour
         }
         else
         {
-            _cameraTarget.Translate(translation);
+            _cameraTarget.position += translation;
         }
     }
 
