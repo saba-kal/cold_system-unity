@@ -95,7 +95,7 @@ public class UnitAutoAttack : MonoBehaviour
             ClampAngle(objectToRotate.transform.localRotation.eulerAngles.x, minAngle, maxAngle),
             ClampAngle(objectToRotate.transform.localRotation.eulerAngles.y, minAngle, maxAngle),
             ClampAngle(objectToRotate.transform.localRotation.eulerAngles.z, minAngle, maxAngle));
-        return Mathf.Abs(_turret.transform.eulerAngles.y - desiredRotation.eulerAngles.y) < 1;
+        return Mathf.Abs(_turret.transform.eulerAngles.y - desiredRotation.eulerAngles.y) < 20;
     }
 
     private float ClampAngle(float angle, float minAngle, float maxAngle)

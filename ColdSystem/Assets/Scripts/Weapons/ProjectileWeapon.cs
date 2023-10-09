@@ -8,6 +8,7 @@ public class ProjectileWeapon : BaseWeapon
     [SerializeField] private float _timeBetweenShots = 1f;
     [SerializeField] private Transform _projectileSpawnPoint;
     [SerializeField] private Projectile _projectilePrefab;
+    [SerializeField] private GameObject _onProjectileHitEffectPrefab;
     [SerializeField]
     [Description("Usefull for when the weapon is mirrored, and therefore the forward direction is backwards.")]
     private bool _negateProjectileDirection = false;
@@ -29,7 +30,7 @@ public class ProjectileWeapon : BaseWeapon
             {
                 direction = -direction;
             }
-            projectile.Initialize(_projectileSpeed * direction, _projectileDamage, _parentUnitType);
+            projectile.Initialize(_projectileSpeed * direction, _projectileDamage, _parentUnitType, _onProjectileHitEffectPrefab);
             _timeSinceLastShot = 0;
         }
 

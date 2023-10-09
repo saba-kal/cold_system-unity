@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SabaTestLevel.unity
+    path: Assets/Scenes/SabaTestLevel/SabaTestLevel.unity
     guid: a5344ab5e75d4b148973c50277d7487b
   m_configObjects: {}
