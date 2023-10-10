@@ -30,7 +30,7 @@ public class PlayerUnitManager : MonoBehaviour
     {
         foreach (var unit in _playerUnits)
         {
-            if (unit.Selected)
+            if (unit != null && unit.Selected)
             {
                 unit.SetDestination(destination);
             }
@@ -46,6 +46,11 @@ public class PlayerUnitManager : MonoBehaviour
         }
 
         var unit = _playerUnits[unitIndex];
+        if (unit == null)
+        {
+            return;
+        }
+
         unit.Selected = selected;
         if (unit.SelectedIndicator == null)
         {

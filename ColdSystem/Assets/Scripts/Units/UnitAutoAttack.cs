@@ -45,6 +45,12 @@ public class UnitAutoAttack : MonoBehaviour
         var minDistanceSqr = _range * _range;
         foreach (var opposingUnit in _opposingUnits)
         {
+            if (opposingUnit == null)
+            {
+                //Unit is dead.
+                continue;
+            }
+
             var distanceSqr = (opposingUnit.transform.position - transform.position).sqrMagnitude;
             if (distanceSqr < minDistanceSqr)
             {

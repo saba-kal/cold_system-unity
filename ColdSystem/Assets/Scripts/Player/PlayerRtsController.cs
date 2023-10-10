@@ -5,6 +5,7 @@ public class PlayerRtsController : MonoBehaviour
 {
     [SerializeField] private PlayerUnitManager _unitManager;
     [SerializeField] private RtsCamera _rtsCamera;
+    [SerializeField] private float _cameraPanScreenEdgeSize = 40;
 
     private Camera _camera;
     private RtsInputActions _rtsInpusActions;
@@ -44,7 +45,27 @@ public class PlayerRtsController : MonoBehaviour
         {
             _unitManager.SetUnitSelected(i, _selectUnitInputActions[i].IsPressed() || _rtsInpusActions.Gameplay.SelectAllUnits.IsPressed());
         }
-        _rtsCamera.MoveCamera(_rtsInpusActions.Gameplay.MoveCamera.ReadValue<Vector2>());
+
+        var cameraMoveDirection = _rtsInpusActions.Gameplay.MoveCamera.ReadValue<Vector2>();
+        var mousePosition = Mouse.current.position.ReadValue();
+        if (Screen.width - mousePosition.x < _cameraPanScreenEdgeSize)
+        {
+            cameraMoveDirection.x = 1;
+        }
+        if (mousePosition.x < _cameraPanScreenEdgeSize)
+        {
+            cameraMoveDirection.x = -1;
+        }
+        if (Screen.height - mousePosition.y < _cameraPanScreenEdgeSize)
+        {
+            cameraMoveDirection.y = 1;
+        }
+        if (mousePosition.y < _cameraPanScreenEdgeSize)
+        {
+            cameraMoveDirection.y = -1;
+        }
+
+        _rtsCamera.MoveCamera(cameraMoveDirection.normalized);
         _rtsCamera.RotateCamera(_rtsInpusActions.Gameplay.RotateCamera.ReadValue<float>());
     }
 

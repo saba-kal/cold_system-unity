@@ -14,6 +14,11 @@ public class Unit : MonoBehaviour
     {
         _unitMovement = GetComponent<UnitMovement>();
         _unitAutoAttack = GetComponent<UnitAutoAttack>();
+        var health = GetComponent<Health>();
+        if (health != null)
+        {
+            health.OnHealthLost += OnHealthLost;
+        }
     }
 
     public void Initialize(Unit[] opposingUnits, UnitType type)
@@ -25,5 +30,10 @@ public class Unit : MonoBehaviour
     public void SetDestination(Vector3 destination)
     {
         _unitMovement.SetDestination(destination);
+    }
+
+    private void OnHealthLost()
+    {
+        Destroy(gameObject);
     }
 }

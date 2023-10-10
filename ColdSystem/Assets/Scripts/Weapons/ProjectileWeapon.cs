@@ -14,10 +14,12 @@ public class ProjectileWeapon : BaseWeapon
     private bool _negateProjectileDirection = false;
 
     private float _timeSinceLastShot = 1f;
+    private AudioSource _audioSource;
 
     private void Start()
     {
         _timeSinceLastShot = _timeBetweenShots;
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -32,6 +34,7 @@ public class ProjectileWeapon : BaseWeapon
             }
             projectile.Initialize(_projectileSpeed * direction, _projectileDamage, _parentUnitType, _onProjectileHitEffectPrefab);
             _timeSinceLastShot = 0;
+            _audioSource?.Play();
         }
 
         _timeSinceLastShot += Time.deltaTime;

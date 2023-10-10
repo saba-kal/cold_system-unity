@@ -35,6 +35,9 @@ public class Projectile : MonoBehaviour
                 effect.transform.position = transform.position;
             }
         }
+
+        var health = collision.gameObject.GetComponent<Health>();
+        health?.TakeDamage(_damage);
         Destroy(gameObject);
     }
 }
