@@ -765,6 +765,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _unitManager: {fileID: 1311745554}
   _rtsCamera: {fileID: 918814970}
+  _cameraPanScreenEdgeSize: 40
 --- !u!4 &887868833
 Transform:
   m_ObjectHideFlags: 0
@@ -926,7 +927,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 1
   m_VoxelSize: 0.25
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: fcf5a73c51a0b0240adb73413ce6803e, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: a956f19ff7aa533459a4e1af963b6363, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &1311745553
 GameObject:
