@@ -39,9 +39,14 @@ public class PlayerUnitManager : MonoBehaviour
 
     public void SetUnitSelected(int unitIndex, bool selected)
     {
-        if (unitIndex < 0 || unitIndex >= _playerUnits.Length)
+        if (unitIndex < 0)
         {
             Debug.LogError($"Unit index out of range: {unitIndex}");
+            return;
+        }
+
+        if (_playerUnits.Length == 0 || unitIndex >= _playerUnits.Length)
+        {
             return;
         }
 

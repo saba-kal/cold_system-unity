@@ -43,7 +43,7 @@ public class PlayerRtsController : MonoBehaviour
     {
         for (var i = 0; i < _selectUnitInputActions.Length; i++)
         {
-            _unitManager.SetUnitSelected(i, _selectUnitInputActions[i].IsPressed() || _rtsInpusActions.Gameplay.SelectAllUnits.IsPressed());
+            _unitManager?.SetUnitSelected(i, _selectUnitInputActions[i].IsPressed() || _rtsInpusActions.Gameplay.SelectAllUnits.IsPressed());
         }
 
         var cameraMoveDirection = _rtsInpusActions.Gameplay.MoveCamera.ReadValue<Vector2>();
@@ -74,7 +74,7 @@ public class PlayerRtsController : MonoBehaviour
         var ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
         if (Physics.Raycast(ray, out var hit) && hit.collider)
         {
-            _unitManager.SetDestination(hit.point);
+            _unitManager?.SetDestination(hit.point);
         }
     }
 
