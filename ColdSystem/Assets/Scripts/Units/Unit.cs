@@ -32,6 +32,16 @@ public class Unit : MonoBehaviour
         _unitMovement.SetDestination(destination);
     }
 
+    public bool IsAttacking()
+    {
+        return _unitAutoAttack?.IsAttacking() ?? false;
+    }
+
+    public void SetHealthBarActive(bool isActive)
+    {
+        GetComponentInChildren<HealthBar>()?.gameObject.SetActive(isActive);
+    }
+
     private void OnHealthLost()
     {
         Destroy(gameObject);

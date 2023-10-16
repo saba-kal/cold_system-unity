@@ -9,6 +9,8 @@ public class UnitAutoAttack : MonoBehaviour
 
     private BaseWeapon[] _weapons;
     private Unit[] _opposingUnits;
+    private Unit _target;
+    private UnitType _type;
 
     private void Awake()
     {
@@ -18,10 +20,10 @@ public class UnitAutoAttack : MonoBehaviour
     private void Update()
     {
         var turretIsFacingTarget = false;
-        var target = GetNearestOpposingUnit();
-        if (target != null && _turret != null)
+        _target = GetNearestOpposingUnit();
+        if (_target != null && _turret != null)
         {
-            turretIsFacingTarget = RotatetToFaceTarget(target.gameObject);
+            turretIsFacingTarget = RotatetToFaceTarget(_target.gameObject);
         }
         else
         {
@@ -32,11 +34,17 @@ public class UnitAutoAttack : MonoBehaviour
 
     public void Initialize(Unit[] opposingUnits, UnitType type)
     {
+        _type = type;
         _opposingUnits = opposingUnits;
         foreach (var weapon in _weapons)
         {
             weapon.Initialize(type);
         }
+    }
+
+    public bool IsAttacking()
+    {
+        return _target != null;
     }
 
     private Unit GetNearestOpposingUnit()
@@ -64,10 +72,11 @@ public class UnitAutoAttack : MonoBehaviour
 
     private bool RotatetToFaceTarget(GameObject target)
     {
-        var turretIsFacingTarget = RotateToFaceTarget(_turret, target, new Vector3(0, 1, 0), -360, 360);
+        var targetPos = target.transform.position + new Vector3(0, 2, 0);
+        var turretIsFacingTarget = RotateToFaceTarget(_turret, targetPos, new Vector3(0, 1, 0));
         foreach (var weapon in _weapons)
         {
-            RotateToFaceTarget(weapon.gameObject, target, new Vector3(1, 1, 1), -10, 10);
+            RotateToFaceTarget(weapon.gameObject, targetPos, new Vector3(1, 0, 0));
         }
 
         return turretIsFacingTarget;
@@ -90,18 +99,14 @@ public class UnitAutoAttack : MonoBehaviour
             _turretRotationSpeed * Time.deltaTime);
     }
 
-    private bool RotateToFaceTarget(GameObject objectToRotate, GameObject target, Vector3 axis, float minAngle, float maxAngle)
+    private bool RotateToFaceTarget(GameObject objectToRotate, Vector3 targetWorldPosition, Vector3 axis)
     {
-        var targetDirection = target.transform.position - objectToRotate.transform.position;
-        var desiredRotation = Quaternion.LookRotation(targetDirection);
-        desiredRotation = Quaternion.Euler(Vector3.Scale(desiredRotation.eulerAngles, axis));
-        var rotation = Quaternion.Slerp(objectToRotate.transform.rotation, desiredRotation, _turretRotationSpeed * Time.deltaTime);
-        objectToRotate.transform.rotation = rotation;
-        objectToRotate.transform.localRotation = Quaternion.Euler(
-            ClampAngle(objectToRotate.transform.localRotation.eulerAngles.x, minAngle, maxAngle),
-            ClampAngle(objectToRotate.transform.localRotation.eulerAngles.y, minAngle, maxAngle),
-            ClampAngle(objectToRotate.transform.localRotation.eulerAngles.z, minAngle, maxAngle));
-        return Mathf.Abs(_turret.transform.eulerAngles.y - desiredRotation.eulerAngles.y) < 20;
+        var originalRotation = objectToRotate.transform.localRotation;
+        objectToRotate.transform.LookAt(targetWorldPosition);
+        var rotation = Quaternion.Slerp(originalRotation, objectToRotate.transform.localRotation, _turretRotationSpeed * Time.deltaTime);
+        rotation = Quaternion.Euler(Vector3.Scale(rotation.eulerAngles, axis));
+        objectToRotate.transform.localRotation = rotation;
+        return true;
     }
 
     private float ClampAngle(float angle, float minAngle, float maxAngle)

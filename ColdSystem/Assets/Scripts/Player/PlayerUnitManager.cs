@@ -18,6 +18,7 @@ public class PlayerUnitManager : MonoBehaviour
         foreach (var unit in _playerUnits)
         {
             unit.Initialize(_enemyUnitManager.GetUnits(), UnitType.Player);
+            unit.SetHealthBarActive(false);
         }
     }
 
