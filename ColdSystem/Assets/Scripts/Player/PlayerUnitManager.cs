@@ -5,6 +5,7 @@ public class PlayerUnitManager : MonoBehaviour
 {
     [SerializeField] private EnemyUnitManager _enemyUnitManager;
     [SerializeField] private GameObject _selectedUnitIndicatorPrefab;
+    [SerializeField] private FieldOfViewMeshGenerator _fieldOfViewPrefab;
 
     private Unit[] _playerUnits;
 
@@ -19,6 +20,12 @@ public class PlayerUnitManager : MonoBehaviour
         {
             unit.Initialize(_enemyUnitManager.GetUnits(), UnitType.Player);
             unit.SetHealthBarActive(false);
+
+            if (_fieldOfViewPrefab != null)
+            {
+                var fieldOfView = Instantiate(_fieldOfViewPrefab, unit.transform);
+                fieldOfView.SetRadius(unit.GetRadius());
+            }
         }
     }
 

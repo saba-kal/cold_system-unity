@@ -25,4 +25,16 @@ public static class UnitFunctions
         }
         return 0;
     }
+
+    public static int GetUnitLayerMask(UnitType type)
+    {
+        switch (type)
+        {
+            case UnitType.Player:
+                return LayerMask.GetMask(Constants.PLAYER_UNIT_LAYER);
+            case UnitType.Enemy:
+                return LayerMask.GetMask(Constants.ENEMY_UNIT_LAYER);
+        }
+        return 0;
+    }
 }

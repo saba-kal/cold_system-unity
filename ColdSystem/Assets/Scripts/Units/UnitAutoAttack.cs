@@ -8,6 +8,7 @@ public class UnitAutoAttack : MonoBehaviour
     [SerializeField] private bool _showRange = false;
 
     private BaseWeapon[] _weapons;
+    private UnitLineOfSight _unitLineOfSight;
     private Unit[] _opposingUnits;
     private Unit _target;
     private UnitType _type;
@@ -20,7 +21,7 @@ public class UnitAutoAttack : MonoBehaviour
     private void Update()
     {
         var turretIsFacingTarget = false;
-        _target = GetNearestOpposingUnit();
+        _target = _unitLineOfSight.GetNearestVisibleUnit();
         if (_target != null && _turret != null)
         {
             turretIsFacingTarget = RotatetToFaceTarget(_target.gameObject);
@@ -36,6 +37,7 @@ public class UnitAutoAttack : MonoBehaviour
     {
         _type = type;
         _opposingUnits = opposingUnits;
+        _unitLineOfSight = new UnitLineOfSight(GetComponent<Unit>(), opposingUnits, _range);
         foreach (var weapon in _weapons)
         {
             weapon.Initialize(type);
@@ -47,28 +49,7 @@ public class UnitAutoAttack : MonoBehaviour
         return _target != null;
     }
 
-    private Unit GetNearestOpposingUnit()
-    {
-        Unit nearestOpponent = null;
-        var minDistanceSqr = _range * _range;
-        foreach (var opposingUnit in _opposingUnits)
-        {
-            if (opposingUnit == null)
-            {
-                //Unit is dead.
-                continue;
-            }
-
-            var distanceSqr = (opposingUnit.transform.position - transform.position).sqrMagnitude;
-            if (distanceSqr < minDistanceSqr)
-            {
-                minDistanceSqr = distanceSqr;
-                nearestOpponent = opposingUnit;
-            }
-        }
-
-        return nearestOpponent;
-    }
+    public float GetRange() => _range;
 
     private bool RotatetToFaceTarget(GameObject target)
     {

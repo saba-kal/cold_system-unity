@@ -6,6 +6,7 @@ public class Unit : MonoBehaviour
 {
     public bool Selected { get; set; }
     public GameObject SelectedIndicator { get; set; }
+    public UnitType Type { get; private set; }
 
     private UnitMovement _unitMovement;
     private UnitAutoAttack _unitAutoAttack;
@@ -24,6 +25,7 @@ public class Unit : MonoBehaviour
     public void Initialize(Unit[] opposingUnits, UnitType type)
     {
         gameObject.layer = UnitFunctions.GetUnitLayer(type);
+        Type = type;
         _unitAutoAttack?.Initialize(opposingUnits, type);
     }
 
@@ -40,6 +42,11 @@ public class Unit : MonoBehaviour
     public void SetHealthBarActive(bool isActive)
     {
         GetComponentInChildren<HealthBar>()?.gameObject.SetActive(isActive);
+    }
+
+    public float GetRadius()
+    {
+        return _unitAutoAttack?.GetRange() ?? 0f;
     }
 
     private void OnHealthLost()
