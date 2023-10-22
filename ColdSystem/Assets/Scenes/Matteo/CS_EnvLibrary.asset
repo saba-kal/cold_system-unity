@@ -1,0 +1,129 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4784606326194185206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612aa45d38dd94a479185b83f080aa22, type: 3}
+  m_Name: Night_Star
+  m_EditorClassIdentifier: 
+  m_CubemapGUID: c080bdd01ed4ebe4c8b9d1940e80d069
+  rotation: 0
+  exposure: 0
+  m_Latitude: 59.09091
+  m_Longitude: 132.0603
+  shadowColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+--- !u!114 &-2019752469956746632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612aa45d38dd94a479185b83f080aa22, type: 3}
+  m_Name: Overcast_Dome
+  m_EditorClassIdentifier: 
+  m_CubemapGUID: 7ca1952ed47548d40ac45ee193795163
+  rotation: 0
+  exposure: 0
+  m_Latitude: 84.545456
+  m_Longitude: 179.09549
+  shadowColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 985c12cb5f71c6440825869433552460, type: 3}
+  m_Name: CS_EnvLibrary
+  m_EditorClassIdentifier: 
+  <environments>k__BackingField:
+  - {fileID: -2019752469956746632}
+  - {fileID: -4784606326194185206}
+  - {fileID: 5042272376453511645}
+  - {fileID: 7996801047384041855}
+  - {fileID: 7727649725930681051}
+  - {fileID: 7029550161720959360}
+--- !u!114 &5042272376453511645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612aa45d38dd94a479185b83f080aa22, type: 3}
+  m_Name: Cloudt_Dome
+  m_EditorClassIdentifier: 
+  m_CubemapGUID: accddc71f0528e54ab6eef2480cc557b
+  rotation: 0
+  exposure: 0
+  m_Latitude: 75.45455
+  m_Longitude: 227.93971
+  shadowColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+--- !u!114 &7029550161720959360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612aa45d38dd94a479185b83f080aa22, type: 3}
+  m_Name: Sunny_Snow
+  m_EditorClassIdentifier: 
+  m_CubemapGUID: 4580c453fb6561d4eb434abdd740ffec
+  rotation: 0
+  exposure: 0
+  m_Latitude: 31.818184
+  m_Longitude: 229.74875
+  shadowColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+--- !u!114 &7727649725930681051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612aa45d38dd94a479185b83f080aa22, type: 3}
+  m_Name: Snow_Field2
+  m_EditorClassIdentifier: 
+  m_CubemapGUID: 21d1857d95fb9b14dba64dc9293b6b94
+  rotation: 0
+  exposure: 0
+  m_Latitude: 60.909092
+  m_Longitude: 218.89449
+  shadowColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+--- !u!114 &7996801047384041855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612aa45d38dd94a479185b83f080aa22, type: 3}
+  m_Name: Snow_Field1
+  m_EditorClassIdentifier: 
+  m_CubemapGUID: d18293e8ca4f19346b20d73b8227dce7
+  rotation: 0
+  exposure: 0
+  m_Latitude: 66.36364
+  m_Longitude: 264.1206
+  shadowColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
