@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using FischlWorks_FogWar;
+using Unity.VisualScripting;
+using UnityEngine;
 
 
 public class PlayerUnitManager : MonoBehaviour
@@ -16,16 +18,14 @@ public class PlayerUnitManager : MonoBehaviour
 
     private void Start()
     {
+        var fogOfWar = csFogWar.Instance;
         foreach (var unit in _playerUnits)
         {
             unit.Initialize(_enemyUnitManager.GetUnits(), UnitType.Player);
             unit.SetHealthBarActive(false);
-
-            if (_fieldOfViewPrefab != null)
-            {
-                var fieldOfView = Instantiate(_fieldOfViewPrefab, unit.transform);
-                fieldOfView.SetRadius(unit.GetRadius());
-            }
+            unit.AddComponent<csFogVisibilityAgent>();
+            unit.OnUnitDestroyed += OnUnitDeatroyed;
+            fogOfWar?.AddFogRevealer(new csFogWar.FogRevealer(unit.transform, Mathf.RoundToInt(unit.GetRadius()), true));
         }
     }
 
@@ -72,5 +72,14 @@ public class PlayerUnitManager : MonoBehaviour
             unit.SelectedIndicator.transform.localPosition = Vector3.zero;
         }
         unit.SelectedIndicator.SetActive(selected);
+    }
+
+    private void OnUnitDeatroyed(Unit unit)
+    {
+        var fogOfWar = csFogWar.Instance;
+        if (fogOfWar != null)
+        {
+            fogOfWar.RemoveFogRevealer(unit.transform);
+        }
     }
 }
