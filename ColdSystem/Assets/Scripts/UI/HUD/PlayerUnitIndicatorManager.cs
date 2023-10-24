@@ -5,6 +5,13 @@ public class PlayerUnitIndicatorManager : MonoBehaviour
 {
     [SerializeField] private Camera _positionIndicatorCamera;
 
+    private Camera _camera;
+
+    private void Awake()
+    {
+        _camera = Camera.main;
+    }
+
     private void Start()
     {
         var playerUnitManager = FindObjectOfType<PlayerUnitManager>();
@@ -22,5 +29,10 @@ public class PlayerUnitIndicatorManager : MonoBehaviour
                 playerUnitIndicators[i].gameObject.SetActive(false);
             }
         }
+    }
+
+    private void Update()
+    {
+        _positionIndicatorCamera.transform.position = _camera.transform.position;
     }
 }

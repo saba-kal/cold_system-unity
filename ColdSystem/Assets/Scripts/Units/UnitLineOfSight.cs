@@ -1,3 +1,4 @@
+using FischlWorks_FogWar;
 using UnityEngine;
 
 public class UnitLineOfSight
@@ -39,6 +40,11 @@ public class UnitLineOfSight
 
     private bool UnitIsInLineOfSight(Unit unit)
     {
+        if (_self.Type == UnitType.Player && csFogWar.Instance != null)
+        {
+            return csFogWar.Instance.CheckVisibility(unit.transform.position, 0);
+        }
+
         var layerMask = ~UnitFunctions.GetUnitLayerMask(unit.Type);
         var fromPosition = _self.transform.position + new Vector3(0, 2, 0);
         var toPosition = (unit.transform.position - _self.transform.position) + new Vector3(0, 2, 0);

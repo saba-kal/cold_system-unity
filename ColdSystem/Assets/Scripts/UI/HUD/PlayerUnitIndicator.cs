@@ -20,7 +20,7 @@ public class PlayerUnitIndicator : MonoBehaviour
         _camera = Camera.main;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (_unit == null)
         {
@@ -28,9 +28,9 @@ public class PlayerUnitIndicator : MonoBehaviour
             return;
         }
 
-        _positionIndicatorCamera.transform.position = _camera.transform.position;
         var unitWorldPosition = _unit.transform.position + new Vector3(0, 4, 0);
         var viewportPosition = _camera.WorldToViewportPoint(unitWorldPosition);
+        //var viewportPosition = RectTransformUtility.WorldToScreenPoint(_camera, unitWorldPosition);
         if (viewportPosition.z < 0)
         {
             //Target is behind the camera, so the position needs to be flipped.
@@ -51,7 +51,7 @@ public class PlayerUnitIndicator : MonoBehaviour
         var targetPosition = new Vector2(
             Mathf.Clamp(viewportPosition.x * Screen.width, screenMargin, Screen.width - screenMargin),
             Mathf.Clamp(viewportPosition.y * Screen.height, screenMargin, Screen.height - screenMargin));
-        _rectTransform.position = targetPosition;
+        transform.position = targetPosition;
 
         UpdateDirctionalIndicators(viewportPosition);
     }

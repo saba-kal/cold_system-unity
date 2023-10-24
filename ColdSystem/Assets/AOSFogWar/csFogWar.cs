@@ -218,6 +218,9 @@ namespace FischlWorks_FogWar
         [Range(0, 1)]
         private float fogPlaneAlpha = 1;
         [SerializeField]
+        [Range(0, 1)]
+        private float visitedTileAlpha = 0.8f;
+        [SerializeField]
         [Range(1, 5)]
         private float fogLerpSpeed = 2.5f;
         [Header("Debug")]
@@ -254,6 +257,8 @@ namespace FischlWorks_FogWar
         [SerializeField]
         private LayerMask obstacleLayers = new LayerMask();
         [SerializeField]
+        private LayerMask terrainLayer = new LayerMask();
+        [SerializeField]
         private bool ignoreTriggers = true;
 
         [BigHeader("Debug Options")]
@@ -274,7 +279,7 @@ namespace FischlWorks_FogWar
 
         private const string levelScanDataPath = "/LevelData";
 
-
+        private Dictionary<Vector2Int, float> rayStartHeights = new Dictionary<Vector2Int, float>();
 
         // --- --- ---
 
@@ -295,6 +300,7 @@ namespace FischlWorks_FogWar
             CheckProperties();
 
             InitializeVariables();
+            InitializeHeightAdjustedFog();
 
             if (LevelDataToLoad == null)
             {
@@ -313,7 +319,7 @@ namespace FischlWorks_FogWar
                 LoadLevelData();
             }
 
-            InitializeFog();
+            //InitializeFog();
 
             // This part passes the needed references to the shadowcaster
             shadowcaster.Initialize(this);
@@ -415,7 +421,79 @@ namespace FischlWorks_FogWar
             fogPlane.GetComponent<MeshCollider>().enabled = false;
         }
 
+        private void InitializeHeightAdjustedFog()
+        {
+            fogPlane = new GameObject();
+            fogPlane.name = "[RUNTIME] Fog_Plane";
+            fogPlane.transform.position = new Vector3(
+                levelMidPoint.position.x,
+                levelMidPoint.position.y + fogPlaneHeight,
+                levelMidPoint.position.z);
+            fogPlane.transform.localScale = new Vector3(
+                unitScale,
+                1,
+                unitScale);
 
+            var vertices = new Vector3[(levelDimensionX + 1) * (levelDimensionY + 1)];
+            var uvs = new Vector2[vertices.Length];
+            for (int i = 0, y = 0; y <= levelDimensionY; y++)
+            {
+                for (int x = 0; x <= levelDimensionX; x++, i++)
+                {
+                    var xPosition = x - (levelDimensionX / 2f);
+                    var zPosition = y - (levelDimensionY / 2f);
+                    var yPosition = GetFogOfPlaneVertexHeight(xPosition, zPosition);
+                    vertices[i] = new Vector3(xPosition, yPosition, zPosition);
+                    uvs[i] = new Vector2(1.0f - x / (float)levelDimensionX, 1.0f - y / (float)levelDimensionY);
+                    rayStartHeights.Add(new Vector2Int(x, y), yPosition);
+                }
+            }
+
+            var triangles = new int[levelDimensionX * levelDimensionY * 6];
+            for (int ti = 0, vi = 0, y = 0; y < levelDimensionY; y++, vi++)
+            {
+                for (int x = 0; x < levelDimensionX; x++, ti += 6, vi++)
+                {
+                    triangles[ti] = vi;
+                    triangles[ti + 3] = triangles[ti + 2] = vi + 1;
+                    triangles[ti + 4] = triangles[ti + 1] = vi + levelDimensionX + 1;
+                    triangles[ti + 5] = vi + levelDimensionX + 2;
+                }
+            }
+
+            var mesh = new Mesh();
+            mesh.name = "Fog of War Plane";
+            mesh.vertices = vertices;
+            mesh.triangles = triangles;
+            mesh.uv = uvs;
+
+            var meshFilter = fogPlane.AddComponent<MeshFilter>();
+            meshFilter.mesh = mesh;
+
+            var meshRenderer = fogPlane.AddComponent<MeshRenderer>();
+
+            fogPlaneTextureLerpTarget = new Texture2D(levelDimensionX, levelDimensionY);
+            fogPlaneTextureLerpBuffer = new Texture2D(levelDimensionX, levelDimensionY);
+            fogPlaneTextureLerpBuffer.wrapMode = TextureWrapMode.Clamp;
+            fogPlaneTextureLerpBuffer.filterMode = FilterMode.Bilinear;
+
+            meshRenderer.material = new Material(fogPlaneMaterial);
+            meshRenderer.material.SetTexture("_MainTex", fogPlaneTextureLerpBuffer);
+        }
+
+        private float GetFogOfPlaneVertexHeight(float x, float z)
+        {
+            if (Physics.Raycast(
+                new Vector3(x * unitScale, rayStartHeight, z * unitScale) + new Vector3(levelMidPoint.position.x, 0, levelMidPoint.position.z),
+                Vector3.down,
+                out var hit,
+                rayMaxDistance,
+                terrainLayer))
+            {
+                return hit.point.y;
+            }
+            return 0f;
+        }
 
         private void ForceUpdateFog()
         {
@@ -518,7 +596,7 @@ namespace FischlWorks_FogWar
         {
             fogPlane.GetComponent<MeshRenderer>().material.SetColor("_Color", fogColor);
 
-            fogPlaneTextureLerpTarget.SetPixels(shadowcaster.fogField.GetColors(fogPlaneAlpha));
+            fogPlaneTextureLerpTarget.SetPixels(shadowcaster.fogField.GetColors(fogPlaneAlpha, visitedTileAlpha));
 
             fogPlaneTextureLerpTarget.Apply();
         }
@@ -542,10 +620,15 @@ namespace FischlWorks_FogWar
 
                 for (int yIterator = 0; yIterator < levelDimensionY; yIterator++)
                 {
+                    var rayYPosition = levelMidPoint.position.y + rayStartHeight;
+                    if (rayStartHeights.TryGetValue(new Vector2Int(xIterator, yIterator), out var adjustedHeight))
+                    {
+                        rayYPosition = adjustedHeight + rayStartHeight;
+                    }
                     bool isObstacleHit = Physics.BoxCast(
                         new Vector3(
                             GetWorldX(xIterator),
-                            levelMidPoint.position.y + rayStartHeight,
+                            rayYPosition,
                             GetWorldY(yIterator)),
                         new Vector3(
                             (unitScale - scanSpacingPerUnit) / 2.0f,

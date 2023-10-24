@@ -37,6 +37,7 @@ namespace FischlWorks_FogWar
 
         [SerializeField]
         private bool visibility = false;
+        public bool IsVisible => visibility;
 
         [SerializeField]
         [Range(0, 2)]
