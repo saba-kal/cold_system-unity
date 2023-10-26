@@ -3,10 +3,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerRtsController : MonoBehaviour
 {
-    [SerializeField] private PlayerUnitManager _unitManager;
     [SerializeField] private RtsCamera _rtsCamera;
     [SerializeField] private float _cameraPanScreenEdgeSize = 40;
 
+    private PlayerUnitManager _unitManager;
     private Camera _camera;
     private RtsInputActions _rtsInpusActions;
     private InputAction[] _selectUnitInputActions;
@@ -23,6 +23,11 @@ public class PlayerRtsController : MonoBehaviour
             _rtsInpusActions.Gameplay.SelectUnit4,
             _rtsInpusActions.Gameplay.SelectUnit5
         };
+    }
+
+    private void Start()
+    {
+        _unitManager = PlayerUnitManager.Instance;
     }
 
     private void OnEnable()

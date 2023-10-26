@@ -16,6 +16,11 @@ public class UnitLineOfSight
 
     public Unit GetNearestVisibleUnit()
     {
+        if (_opposingUnits == null || _opposingUnits.Length == 0)
+        {
+            return null;
+        }
+
         var minimumDistanceSqr = float.MaxValue;
         var maxDistanceSqr = _viewRadius * _viewRadius;
         Unit nearestUnit = null;

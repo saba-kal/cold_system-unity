@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerUnitManager : MonoBehaviour
 {
+    public static PlayerUnitManager Instance { get; private set; }
+
     [SerializeField] private EnemyUnitManager _enemyUnitManager;
     [SerializeField] private GameObject _selectedUnitIndicatorPrefab;
     [SerializeField] private FieldOfViewMeshGenerator _fieldOfViewPrefab;
@@ -13,6 +15,15 @@ public class PlayerUnitManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+
         _playerUnits = GetComponentsInChildren<Unit>();
     }
 
@@ -21,11 +32,17 @@ public class PlayerUnitManager : MonoBehaviour
         var fogOfWar = csFogWar.Instance;
         foreach (var unit in _playerUnits)
         {
-            unit.Initialize(_enemyUnitManager.GetUnits(), UnitType.Player);
+            unit.Initialize(_enemyUnitManager?.GetUnits(), UnitType.Player);
             unit.SetHealthBarActive(false);
             unit.AddComponent<csFogVisibilityAgent>();
             unit.OnUnitDestroyed += OnUnitDeatroyed;
             fogOfWar?.AddFogRevealer(new csFogWar.FogRevealer(unit.transform, Mathf.RoundToInt(unit.GetRadius()), true));
+
+            if (_fieldOfViewPrefab != null)
+            {
+                var fieldOfView = Instantiate(_fieldOfViewPrefab, unit.transform);
+                fieldOfView.SetRadius(unit.GetRadius());
+            }
         }
     }
 

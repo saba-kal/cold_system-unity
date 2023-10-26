@@ -66,8 +66,9 @@ namespace FischlWorks_FogWar
                 {
                     for (int yIterator = 0; yIterator < levelRow.Count; yIterator++)
                     {
-                        int visibility = (int)levelRow[yIterator][levelRow[0].Count() - 1 - xIterator];
-                        float alphaMultiplier = levelRow[yIterator].WasVisited(levelRow[0].Count() - 1 - xIterator) ? visitedTileAlpha : 1.0f;
+                        var tile = levelRow[yIterator][levelRow[0].Count() - 1 - xIterator];
+                        int visibility = (int)tile.Visibility;
+                        float alphaMultiplier = tile.WasVisited ? visitedTileAlpha : 1.0f;
 
                         // The reason that the darker side is the revealed ones is to let users customize fog's color
                         colors[levelRow.Count() * (xIterator + 1) - (yIterator + 1)] =
@@ -123,24 +124,16 @@ namespace FischlWorks_FogWar
 
         public class LevelColumn
         {
-            public LevelColumn(IEnumerable<ETileVisibility> visibilityTiles)
+            public LevelColumn(IEnumerable<LevelTile> visibilityTiles)
             {
-                levelColumn = new List<ETileVisibility>(visibilityTiles);
-                visitedColum = new bool[visibilityTiles.Count()];
-            }
-
-            // This is separated from the LevelColumn class of csHomebrewOfWar due to the size of the level data file
-            public enum ETileVisibility
-            {
-                Hidden,
-                Revealed
+                levelColumn = new List<LevelTile>(visibilityTiles);
             }
 
             public void Reset()
             {
                 for (int i = 0; i < levelColumn.Count; i++)
                 {
-                    levelColumn[i] = ETileVisibility.Hidden;
+                    levelColumn[i].Visibility = ETileVisibility.Hidden;
                 }
             }
 
@@ -150,7 +143,7 @@ namespace FischlWorks_FogWar
             }
 
             // Indexer definition
-            public ETileVisibility this[int index]
+            public LevelTile this[int index]
             {
                 get
                 {
@@ -162,7 +155,7 @@ namespace FischlWorks_FogWar
                     {
                         Debug.LogErrorFormat("index given in y axis is out of range");
 
-                        return ETileVisibility.Hidden;
+                        return new LevelTile(ETileVisibility.Hidden, false, 0);
                     }
                 }
                 set
@@ -180,31 +173,30 @@ namespace FischlWorks_FogWar
                 }
             }
 
-            public bool WasVisited(int index)
-            {
-                if (index >= 0 && index < visitedColum.Length)
-                {
-                    return visitedColum[index];
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            public void SetVisited(int index, bool visited)
-            {
-                if (index >= 0 && index < visitedColum.Length)
-                {
-                    visitedColum[index] = visited;
-                }
-            }
-
-            private List<ETileVisibility> levelColumn = new List<ETileVisibility>();
-            private bool[] visitedColum;
+            private List<LevelTile> levelColumn = new List<LevelTile>();
         }
 
 
+        public class LevelTile
+        {
+            public ETileVisibility Visibility;
+            public bool WasVisited;
+            public float Height;
+
+            public LevelTile(ETileVisibility visibility, bool wasVisited, float height)
+            {
+                Visibility = visibility;
+                WasVisited = wasVisited;
+                Height = height;
+            }
+        }
+
+        // This is separated from the LevelColumn class of csHomebrewOfWar due to the size of the level data file
+        public enum ETileVisibility
+        {
+            Hidden,
+            Revealed
+        }
 
         /// An iterator that transforms coordinates based on a single quadrant to all the others.
         /// 
@@ -330,9 +322,13 @@ namespace FischlWorks_FogWar
 
             for (int xIterator = 0; xIterator < fogWar.levelData.levelDimensionX; xIterator++)
             {
-                // Adding a new list for column (y axis) for each unit in row (x axis)
-                fogField.AddColumn(new LevelColumn(
-                    Enumerable.Repeat(LevelColumn.ETileVisibility.Hidden, fogWar.levelData.levelDimensionY)));
+                var columnTiles = new List<LevelTile>();
+                for (int yIterator = 0; yIterator < fogWar.levelData.levelDimensionY; yIterator++)
+                {
+                    var levelCoord = new Vector2Int(xIterator, yIterator);
+                    columnTiles.Add(new LevelTile(ETileVisibility.Hidden, false, fogWar.GetHeight(levelCoord)));
+                }
+                fogField.AddColumn(new LevelColumn(columnTiles));
             }
 
             quadrantIterator = new QuadrantIterator(fogWar);
@@ -445,8 +441,8 @@ namespace FischlWorks_FogWar
                 return;
             }
 
-            fogField[levelCoordinates.x][levelCoordinates.y] = LevelColumn.ETileVisibility.Revealed;
-            fogField[levelCoordinates.x].SetVisited(levelCoordinates.y, true);
+            fogField[levelCoordinates.x][levelCoordinates.y].Visibility = ETileVisibility.Revealed;
+            fogField[levelCoordinates.x][levelCoordinates.y].WasVisited = true;
         }
 
 
@@ -458,8 +454,8 @@ namespace FischlWorks_FogWar
                 return;
             }
 
-            fogField[levelCoordinates.x][levelCoordinates.y] = LevelColumn.ETileVisibility.Revealed;
-            fogField[levelCoordinates.x].SetVisited(levelCoordinates.y, true);
+            fogField[levelCoordinates.x][levelCoordinates.y].Visibility = ETileVisibility.Revealed;
+            fogField[levelCoordinates.x][levelCoordinates.y].WasVisited = true;
         }
 
 

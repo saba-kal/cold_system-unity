@@ -783,8 +783,8 @@ namespace FischlWorks_FogWar
 
             if (additionalRadius == 0)
             {
-                return shadowcaster.fogField[levelCoordinates.x][levelCoordinates.y] ==
-                    Shadowcaster.LevelColumn.ETileVisibility.Revealed;
+                return shadowcaster.fogField[levelCoordinates.x][levelCoordinates.y].Visibility ==
+                    Shadowcaster.ETileVisibility.Revealed;
             }
 
             int scanResult = 0;
@@ -803,8 +803,8 @@ namespace FischlWorks_FogWar
                     }
 
                     scanResult += Convert.ToInt32(
-                        shadowcaster.fogField[levelCoordinates.x + xIterator][levelCoordinates.y + yIterator] ==
-                        Shadowcaster.LevelColumn.ETileVisibility.Revealed);
+                        shadowcaster.fogField[levelCoordinates.x + xIterator][levelCoordinates.y + yIterator].Visibility ==
+                        Shadowcaster.ETileVisibility.Revealed);
                 }
             }
 
@@ -882,14 +882,21 @@ namespace FischlWorks_FogWar
         }
 
 
-
         /// Converts world coordinate to unit world coordinates.
         public int GetUnitY(float yValue)
         {
             return Mathf.RoundToInt((yValue - levelMidPoint.position.z) / unitScale);
         }
 
+        public float GetHeight(Vector2Int levelCoordinates)
+        {
+            if (!rayStartHeights.ContainsKey(levelCoordinates))
+            {
+                return 0;
+            }
 
+            return rayStartHeights[levelCoordinates];
+        }
 
 #if UNITY_EDITOR
         private void OnDrawGizmos()
@@ -912,7 +919,7 @@ namespace FischlWorks_FogWar
                 {
                     if (levelData[xIterator][yIterator] == LevelColumn.ETileState.Obstacle)
                     {
-                        if (shadowcaster.fogField[xIterator][yIterator] == Shadowcaster.LevelColumn.ETileVisibility.Revealed)
+                        if (shadowcaster.fogField[xIterator][yIterator].Visibility == Shadowcaster.ETileVisibility.Revealed)
                         {
                             Handles.color = Color.green;
                         }
@@ -943,7 +950,7 @@ namespace FischlWorks_FogWar
                             unitScale / 5.0f);
                     }
 
-                    if (shadowcaster.fogField[xIterator][yIterator] == Shadowcaster.LevelColumn.ETileVisibility.Revealed)
+                    if (shadowcaster.fogField[xIterator][yIterator].Visibility == Shadowcaster.ETileVisibility.Revealed)
                     {
                         Gizmos.color = Color.green;
 
