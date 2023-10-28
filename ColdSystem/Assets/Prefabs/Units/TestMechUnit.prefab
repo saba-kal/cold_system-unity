@@ -124,7 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _turret: {fileID: 3737538279939832885}
   _turretRotationSpeed: 50
-  _range: 30
+  _range: 20
   _showRange: 0
 --- !u!114 &3233220225316238771
 MonoBehaviour:

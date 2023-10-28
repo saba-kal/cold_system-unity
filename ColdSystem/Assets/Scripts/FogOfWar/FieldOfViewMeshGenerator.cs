@@ -15,10 +15,13 @@ public class FieldOfViewMeshGenerator : MonoBehaviour
     [SerializeField] private FieldOfViewType _type;
     [SerializeField] private LayerMask _collisionLayerMask;
 
+    private List<Vector4> _rayEndPositions = new List<Vector4>();
+
     public enum FieldOfViewType
     {
         Flat = 0,
         Pyramid = 1,
+        PyramidLines = 2,
     }
 
     private float _radius = 20f;
@@ -43,6 +46,9 @@ public class FieldOfViewMeshGenerator : MonoBehaviour
             case FieldOfViewType.Pyramid:
                 DrawPyramidFieldOfView();
                 break;
+            case FieldOfViewType.PyramidLines:
+                DrawPyramidFieldOfViewLines();
+                break;
         }
     }
 
@@ -50,6 +56,8 @@ public class FieldOfViewMeshGenerator : MonoBehaviour
     {
         _radius = radius;
     }
+
+    public List<Vector4> GetRayEndPositions() { return _rayEndPositions; }
 
     private void DrawFlatFieldOfView()
     {
@@ -172,6 +180,16 @@ public class FieldOfViewMeshGenerator : MonoBehaviour
         _mesh.Clear();
         _mesh.vertices = vertices;
         _mesh.triangles = triangles;
+    }
+
+    private void DrawPyramidFieldOfViewLines()
+    {
+        var viewPoints = GetProjectedRectangleFieldOfViewPoints();
+        _rayEndPositions = new List<Vector4>();
+        foreach (var point in viewPoints)
+        {
+            _rayEndPositions.Add(point.Point);
+        }
     }
 
     private List<ViewCastInfo> GetProjectedRectangleFieldOfViewPoints()

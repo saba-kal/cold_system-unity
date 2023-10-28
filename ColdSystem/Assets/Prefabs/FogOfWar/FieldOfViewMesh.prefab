@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17cca4f116d76d446962ac91161a76a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _meshResolution: 20
+  _meshResolution: 8
   _edgeResolveIterations: 5
   _edgeDistanceThreshold: 10
   _viewAngle: 122
@@ -188,7 +188,7 @@ MonoBehaviour:
   _elevationAngle: 0
   _wrapHeightOffset: 3
   _wrapResolution: 10
-  _type: 0
+  _type: 2
   _collisionLayerMask:
     serializedVersion: 2
     m_Bits: 1032
