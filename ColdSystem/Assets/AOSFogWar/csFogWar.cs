@@ -272,6 +272,9 @@ namespace FischlWorks_FogWar
 
         public LevelData levelData { get; private set; } = new LevelData();
 
+        public LayerMask ObstacleLayers => obstacleLayers;
+        public LayerMask TerrainLayer => terrainLayer;
+
         // The primitive plane which will act as a mesh for rendering the fog with
         private GameObject fogPlane = null;
 
@@ -562,7 +565,8 @@ namespace FischlWorks_FogWar
 
                 shadowcaster.ProcessLevelData(
                     fogRevealer._CurrentLevelCoordinates,
-                    Mathf.RoundToInt(fogRevealer._SightRange / unitScale));
+                    Mathf.RoundToInt(fogRevealer._SightRange / unitScale),
+                    GetHeight(WorldToLevel(GetWorldVector(fogRevealer._CurrentLevelCoordinates))));
             }
 
             UpdateFogPlaneTextureTarget();

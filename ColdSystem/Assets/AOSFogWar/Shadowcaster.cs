@@ -345,7 +345,7 @@ namespace FischlWorks_FogWar
 
 
         /// Processes the level data with shadowcasting algorithm, and updates the FogField object accordingly
-        public void ProcessLevelData(Vector2Int revealerPoint, int sightRange)
+        public void ProcessLevelData(Vector2Int revealerPoint, int sightRange, float revealerHeight)
         {
             // Reveal the first tile where the revealer is at
             RevealTile(fogWar.WorldToLevel(fogWar.GetWorldVector(revealerPoint)));
@@ -381,7 +381,7 @@ namespace FischlWorks_FogWar
                     {
                         if (IsTileObstacle(quadrantPoint) == true || IsTileVisible(columnIterator, quadrantPoint))
                         {
-                            RevealTileIteratively(quadrantPoint, sightRange);
+                            RevealTileIteratively(quadrantPoint, sightRange, revealerHeight, revealerPoint);
                         }
 
                         if (firstStepFlag == false)
@@ -427,7 +427,7 @@ namespace FischlWorks_FogWar
 
 
 
-        private void RevealTileIteratively(Vector2Int quadrantPoint, int sightRange)
+        private void RevealTileIteratively(Vector2Int quadrantPoint, int sightRange, float revealerHeight, Vector2Int revealerPoint)
         {
             Vector2Int levelCoordinates = quadrantIterator.QuadrantToLevel(quadrantPoint);
 
@@ -439,6 +439,26 @@ namespace FischlWorks_FogWar
             if (quadrantPoint.magnitude > sightRange)
             {
                 return;
+            }
+
+            if (Mathf.Abs(fogWar.GetHeight(levelCoordinates) - revealerHeight) > 3)
+            {
+                var rayStart = new Vector3(
+                    fogWar.GetWorldX(revealerPoint.x),
+                    revealerHeight + 4,
+                    fogWar.GetWorldY(revealerPoint.y));
+                var rayEnd = new Vector3(
+                    fogWar.GetWorldX(levelCoordinates.x),
+                    fogWar.GetHeight(levelCoordinates),
+                    fogWar.GetWorldY(levelCoordinates.y));
+                if (Physics.Raycast(
+                    rayStart,
+                    (rayEnd - rayStart),
+                    Vector3.Distance(rayStart, rayEnd) - 1f,
+                    fogWar.TerrainLayer))
+                {
+                    return;
+                }
             }
 
             fogField[levelCoordinates.x][levelCoordinates.y].Visibility = ETileVisibility.Revealed;

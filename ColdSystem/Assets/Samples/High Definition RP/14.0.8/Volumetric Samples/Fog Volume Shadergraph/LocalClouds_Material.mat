@@ -86,8 +86,8 @@ Material:
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 0
     - _EnableFogOnTransparent: 1
-    - _Erode: 0.75
-    - _Erode_On_Border: 0.75
+    - _Erode: 0.448
+    - _Erode_On_Border: 0
     - _Float: 0.47
     - _Main_Noise_Tiling: 0.5
     - _OpaqueCullMode: 2
@@ -95,7 +95,7 @@ Material:
     - _Power: 2
     - _RenderQueueType: 1
     - _Secondary_Noise: 0.1
-    - _Secondary_Noise_Intensity: 0.1
+    - _Secondary_Noise_Intensity: 0.173
     - _Secondary_Noise_Tiling: 3
     - _SrcBlend: 1
     - _SurfaceType: 0
@@ -109,14 +109,14 @@ Material:
     - _TransparentZWrite: 0
     - _UseShadowThreshold: 0
     - _Use_Alpha_Channel: 0
-    - _Wind_Force: 0.1
+    - _Wind_Force: 18.15
     - _ZTestDepthEqualForOpaque: 4
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
     - _Clouds_Color: {r: 0.8207547, g: 0.8207547, b: 0.8207547, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 0}
-    - _Color_Border: {r: 0.8, g: 0.8, b: 0.8, a: 0}
+    - _Color: {r: 0.9339623, g: 0.039649326, b: 0.039649326, a: 0}
+    - _Color_Border: {r: 0.95002675, g: 1, b: 0.5518868, a: 0}
     - _Color_Dense: {r: 0.8867924, g: 0.8867924, b: 0.8867924, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}

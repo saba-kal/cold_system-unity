@@ -1190,9 +1190,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a60c82ccdcb9f4347a9491502b888c15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unitManager: {fileID: 1311745554}
   _rtsCamera: {fileID: 918814970}
-  _cameraPanScreenEdgeSize: -500
+  _cameraPanScreenEdgeSize: 40
 --- !u!4 &887868833
 Transform:
   m_ObjectHideFlags: 0

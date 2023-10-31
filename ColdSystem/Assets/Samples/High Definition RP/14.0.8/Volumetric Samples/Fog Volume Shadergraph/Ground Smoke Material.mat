@@ -76,7 +76,7 @@ Material:
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 0
     - _EnableFogOnTransparent: 1
-    - _Flatten: 2
+    - _Flatten: 0.63
     - _Float: 4
     - _Height_Tiling: 1.84
     - _Max_Height: 4

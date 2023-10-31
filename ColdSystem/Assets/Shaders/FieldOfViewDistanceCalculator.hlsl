@@ -26,14 +26,14 @@ void DistanceToLine_float(float3 position, float3 lineStart, float3 lineEnd, out
     if (T <= 0.0)
     {
         // Closest point is the line start
-        // Out = length(position - lineStart); // Rounded endpoints.
-        Out = 1000; // Hard endpoints.
+        Out = length(position - lineStart); // Rounded endpoints.
+        // Out = 1000; // Hard endpoints.
     }
     else if (T >= 1.0)
     {
         // Closest point is the line end
-        // Out = length(position - lineEnd); // Rounded endpoints.
-        Out = 1000; // Hard endpoints.
+        Out = length(position - lineEnd); // Rounded endpoints.
+        // Out = 1000; // Hard endpoints.
     }
     else
     {
@@ -43,12 +43,18 @@ void DistanceToLine_float(float3 position, float3 lineStart, float3 lineEnd, out
     }
 }
 
-void CalculateDistanceToFieldOfView_float(float3 position, float distanceThreshold, out float Out, out float T) 
+void CalculateDistanceToFieldOfView_float(float3 position, float distanceThreshold, out float Out, out float T, out float lineLength) 
 {
     Out = 1000.0;
     T = 1000.0;
+    lineLength = 1;
     for (int i = 0; i < _RayOriginCount; i++) {
         float3 lineStart = _RayStartPositions[i];
+
+        if (distance(lineStart, position) > 50){
+            continue;
+        }
+
         for (int j = 0; j < _RayCount; j++) {
             float3 lineEnd = _RayEndPositions[j];
             float dist;
@@ -58,10 +64,7 @@ void CalculateDistanceToFieldOfView_float(float3 position, float distanceThresho
             {
                 Out = dist;
                 T = t;
-            }
-
-            if (dist < distanceThreshold){
-                return;
+                lineLength = distance(lineStart, lineEnd);
             }
         }
     }

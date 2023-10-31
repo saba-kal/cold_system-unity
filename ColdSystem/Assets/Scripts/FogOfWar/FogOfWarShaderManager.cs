@@ -27,6 +27,7 @@ public class FogOfWarShaderManager : MonoBehaviour
         Shader.SetGlobalVector("_LineEnd", _lineEnd);
         Shader.SetGlobalFloat("_RayStartRadius", _lineStartRadius);
         Shader.SetGlobalFloat("_RayEndRadius", _lineEndRadius);
+        Shader.SetGlobalFloat("_RayConeAngle", 2f);
 
         if (_fieldOfView != null)
         {

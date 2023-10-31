@@ -5,6 +5,7 @@ public class FogOfWarMeshGenerator : MonoBehaviour
 {
     [SerializeField] private int _meshSizeX = 100;
     [SerializeField] private int _meshSizeY = 100;
+    [SerializeField][Range(0.1f, 10f)] private float _fogMeshCellSize = 1f;
     [SerializeField] private float _rayStartHeight = 100f;
     [SerializeField] private float _rayMaxDistance = 95f;
     [SerializeField] private float _fogOfWarPlaneHeightOffset = 2f;
@@ -17,22 +18,23 @@ public class FogOfWarMeshGenerator : MonoBehaviour
         _meshFilter = GetComponent<MeshFilter>();
     }
 
-    // Start is called before the first frame update
-    private void Start()
+    public void InitializeHeightAdjustedFog()
     {
-        InitializeHeightAdjustedFog();
-    }
+        if (_meshFilter == null)
+        {
+            _meshFilter = GetComponent<MeshFilter>();
+        }
 
-    private void InitializeHeightAdjustedFog()
-    {
         var vertices = new Vector3[(_meshSizeX + 1) * (_meshSizeY + 1)];
         var uvs = new Vector2[vertices.Length];
         var i = 0;
-        for (int y = 0; y <= _meshSizeY; y++)
+        for (int y = 0; y <= _meshSizeX; y++)
         {
-            for (int x = 0; x <= _meshSizeX; x++)
+            for (int x = 0; x <= _meshSizeY; x++)
             {
-                vertices[i] = new Vector3(x, GetFogOfPlaneVertexHeight(x, y), y);
+                var xPosition = x * _fogMeshCellSize;
+                var zPosition = y * _fogMeshCellSize;
+                vertices[i] = GetFogOfPlaneVertex(xPosition, zPosition);
                 uvs[i] = new Vector2(1.0f - x / (float)_meshSizeX, 1.0f - y / (float)_meshSizeY);
                 i++;
             }
@@ -62,7 +64,7 @@ public class FogOfWarMeshGenerator : MonoBehaviour
     private float GetFogOfPlaneVertexHeight(float x, float z)
     {
         if (Physics.Raycast(
-            new Vector3(x, _rayStartHeight, z),
+            new Vector3(x + transform.position.x, _rayStartHeight, z + transform.position.z),
             Vector3.down,
             out var hit,
             _rayMaxDistance,
@@ -71,5 +73,20 @@ public class FogOfWarMeshGenerator : MonoBehaviour
             return hit.point.y + _fogOfWarPlaneHeightOffset;
         }
         return _fogOfWarPlaneHeightOffset;
+    }
+
+    private Vector3 GetFogOfPlaneVertex(float x, float z)
+    {
+        if (Physics.Raycast(
+            new Vector3(x + transform.position.x, _rayStartHeight, z + transform.position.z),
+            Vector3.down,
+            out var hit,
+            _rayMaxDistance,
+            _raycastLayers))
+        {
+            return transform.InverseTransformPoint(hit.point + hit.normal * _fogOfWarPlaneHeightOffset);
+        }
+
+        return new Vector3(x, _fogOfWarPlaneHeightOffset, z);
     }
 }
