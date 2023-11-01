@@ -9,6 +9,13 @@ public class Unit : MonoBehaviour
     public bool Selected { get; set; }
     public GameObject SelectedIndicator { get; set; }
     public UnitType Type { get; private set; }
+    public float FieldOfViewAngle => _fieldOfViewAngle;
+    public float FieldOfViewDepressionAngle => _fieldOfViewDepressionAngle;
+    public float FieldOfViewElevationAngle => _fieldOfViewElevationAngle;
+
+    [SerializeField][Range(10f, 360f)] private float _fieldOfViewAngle = 120f;
+    [SerializeField][Range(0f, 180f)] private float _fieldOfViewDepressionAngle = 60f;
+    [SerializeField][Range(0f, 180f)] private float _fieldOfViewElevationAngle = 30f;
 
     private UnitMovement _unitMovement;
     private UnitAutoAttack _unitAutoAttack;

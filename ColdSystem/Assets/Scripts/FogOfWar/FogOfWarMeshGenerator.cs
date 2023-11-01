@@ -34,7 +34,7 @@ public class FogOfWarMeshGenerator : MonoBehaviour
             {
                 var xPosition = x * _fogMeshCellSize;
                 var zPosition = y * _fogMeshCellSize;
-                vertices[i] = GetFogOfPlaneVertex(xPosition, zPosition);
+                vertices[i] = GetHeightAdjustedPointUsingRaycast(xPosition, zPosition);
                 uvs[i] = new Vector2(1.0f - x / (float)_meshSizeX, 1.0f - y / (float)_meshSizeY);
                 i++;
             }
@@ -56,26 +56,13 @@ public class FogOfWarMeshGenerator : MonoBehaviour
         mesh.name = "Fog of War Plane";
         mesh.vertices = vertices;
         mesh.triangles = triangles;
+        mesh.RecalculateNormals();
         mesh.uv = uvs;
 
         _meshFilter.mesh = mesh;
     }
 
-    private float GetFogOfPlaneVertexHeight(float x, float z)
-    {
-        if (Physics.Raycast(
-            new Vector3(x + transform.position.x, _rayStartHeight, z + transform.position.z),
-            Vector3.down,
-            out var hit,
-            _rayMaxDistance,
-            _raycastLayers))
-        {
-            return hit.point.y + _fogOfWarPlaneHeightOffset;
-        }
-        return _fogOfWarPlaneHeightOffset;
-    }
-
-    private Vector3 GetFogOfPlaneVertex(float x, float z)
+    private Vector3 GetHeightAdjustedPointUsingRaycast(float x, float z)
     {
         if (Physics.Raycast(
             new Vector3(x + transform.position.x, _rayStartHeight, z + transform.position.z),

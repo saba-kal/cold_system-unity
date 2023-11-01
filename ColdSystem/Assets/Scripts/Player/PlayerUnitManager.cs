@@ -9,7 +9,6 @@ public class PlayerUnitManager : MonoBehaviour
 
     [SerializeField] private EnemyUnitManager _enemyUnitManager;
     [SerializeField] private GameObject _selectedUnitIndicatorPrefab;
-    [SerializeField] private FieldOfViewMeshGenerator _fieldOfViewPrefab;
 
     private Unit[] _playerUnits;
 
@@ -37,12 +36,6 @@ public class PlayerUnitManager : MonoBehaviour
             unit.AddComponent<csFogVisibilityAgent>();
             unit.OnUnitDestroyed += OnUnitDeatroyed;
             fogOfWar?.AddFogRevealer(new csFogWar.FogRevealer(unit.transform, Mathf.RoundToInt(unit.GetRadius()), true));
-
-            if (_fieldOfViewPrefab != null)
-            {
-                var fieldOfView = Instantiate(_fieldOfViewPrefab, unit.transform);
-                fieldOfView.SetRadius(unit.GetRadius());
-            }
         }
     }
 

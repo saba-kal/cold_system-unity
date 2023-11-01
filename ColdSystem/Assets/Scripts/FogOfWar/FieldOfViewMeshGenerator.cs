@@ -210,6 +210,7 @@ public class FieldOfViewMeshGenerator : MonoBehaviour
         _rayEndPositions = new List<Vector4>();
         foreach (var point in viewPoints)
         {
+            Debug.DrawLine(transform.position, point.Point);
             _rayEndPositions.Add(point.Point);
         }
     }
