@@ -4,12 +4,9 @@ public class UnitAutoAttack : MonoBehaviour
 {
     [SerializeField] private GameObject _turret;
     [SerializeField] private float _turretRotationSpeed = 5f;
-    [SerializeField] private float _range = 20f;
-    [SerializeField] private bool _showRange = false;
 
+    private float _range = 20f;
     private BaseWeapon[] _weapons;
-    private UnitLineOfSight _unitLineOfSight;
-    private Unit[] _opposingUnits;
     private Unit _target;
     private UnitType _type;
 
@@ -21,7 +18,7 @@ public class UnitAutoAttack : MonoBehaviour
     private void Update()
     {
         var turretIsFacingTarget = false;
-        _target = _unitLineOfSight.GetNearestVisibleUnit();
+        _target = GetNearestVisibleEnemy();
         if (_target != null && _turret != null)
         {
             turretIsFacingTarget = RotatetToFaceTarget(_target.gameObject);
@@ -33,11 +30,10 @@ public class UnitAutoAttack : MonoBehaviour
         SetWeaponsEnabled(turretIsFacingTarget);
     }
 
-    public void Initialize(Unit[] opposingUnits, UnitType type)
+    public void Initialize(UnitType type, float range)
     {
         _type = type;
-        _opposingUnits = opposingUnits;
-        _unitLineOfSight = new UnitLineOfSight(GetComponent<Unit>(), opposingUnits, _range);
+        _range = range;
         foreach (var weapon in _weapons)
         {
             weapon.Initialize(type);
@@ -50,6 +46,52 @@ public class UnitAutoAttack : MonoBehaviour
     }
 
     public float GetRange() => _range;
+
+    public Vector3 GetFaceDirectionEulerAngles()
+    {
+        if (_turret == null)
+        {
+            return transform.eulerAngles;
+        }
+
+        return _turret.transform.eulerAngles;
+    }
+
+    private Unit GetNearestVisibleEnemy()
+    {
+        Unit[] opposingUnits = null;
+        switch (_type)
+        {
+            case UnitType.Enemy:
+                opposingUnits = PlayerUnitManager.Instance?.GetUnits();
+                break;
+            case UnitType.Player:
+                opposingUnits = EnemyUnitManager.Instance?.GetUnits();
+                break;
+        }
+        if (opposingUnits == null)
+        {
+            return null;
+        }
+
+
+        var minimumDistanceSqr = float.MaxValue;
+        var maxDistanceSqr = _range * _range;
+        Unit nearestUnit = null;
+        foreach (var unit in opposingUnits)
+        {
+            if (unit == null || !unit.IsVisible) continue;
+
+            var distanceSqr = (unit.transform.position - transform.position).sqrMagnitude;
+            if (distanceSqr < maxDistanceSqr && distanceSqr < minimumDistanceSqr)
+            {
+                minimumDistanceSqr = distanceSqr;
+                nearestUnit = unit;
+            }
+        }
+
+        return nearestUnit;
+    }
 
     private bool RotatetToFaceTarget(GameObject target)
     {
@@ -104,15 +146,6 @@ public class UnitAutoAttack : MonoBehaviour
         foreach (var weapon in _weapons)
         {
             weapon.SetEnabled(enabled);
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (_showRange)
-        {
-            Gizmos.color = new Color(1, 0, 0, 0.1f);
-            Gizmos.DrawSphere(transform.position, _range);
         }
     }
 }

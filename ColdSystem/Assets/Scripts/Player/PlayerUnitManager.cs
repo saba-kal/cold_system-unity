@@ -1,5 +1,4 @@
 ﻿using FischlWorks_FogWar;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -11,6 +10,7 @@ public class PlayerUnitManager : MonoBehaviour
     [SerializeField] private GameObject _selectedUnitIndicatorPrefab;
 
     private Unit[] _playerUnits;
+    private UnitVisibilityManager _visibilityManager;
 
     private void Awake()
     {
@@ -29,14 +29,18 @@ public class PlayerUnitManager : MonoBehaviour
     private void Start()
     {
         var fogOfWar = csFogWar.Instance;
+        _visibilityManager = new UnitVisibilityManager(_playerUnits, EnemyUnitManager.Instance?.GetUnits() ?? new Unit[0]);
         foreach (var unit in _playerUnits)
         {
-            unit.Initialize(_enemyUnitManager?.GetUnits(), UnitType.Player);
+            unit.Initialize(UnitType.Player);
             unit.SetHealthBarActive(false);
-            unit.AddComponent<csFogVisibilityAgent>();
             unit.OnUnitDestroyed += OnUnitDeatroyed;
-            fogOfWar?.AddFogRevealer(new csFogWar.FogRevealer(unit.transform, Mathf.RoundToInt(unit.GetRadius()), true));
         }
+    }
+
+    private void Update()
+    {
+        _visibilityManager.UpdateVisibileUnits();
     }
 
     public Unit[] GetUnits()

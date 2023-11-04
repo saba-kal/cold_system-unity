@@ -172,6 +172,7 @@ Material:
     - _CullMode: 2
     - _CullModeForward: 2
     - _Cutoff: 0.5
+    - _CutoutSmoothness: 0.178
     - _DepthOffsetEnable: 0
     - _DetailAlbedoScale: 1
     - _DetailNormalScale: 1
@@ -225,7 +226,9 @@ Material:
     - _PPDMinSamples: 5
     - _PPDPrimitiveLength: 1
     - _PPDPrimitiveWidth: 1
-    - _RayConeAngle: 0.1
+    - _RayConeAngle: 0.25
+    - _RayConeThickness: 0.7
+    - _RayStartRadius: 0.1
     - _RayTracing: 0
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0

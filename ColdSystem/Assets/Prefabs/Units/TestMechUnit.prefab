@@ -96,6 +96,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd631cd3a52a87243b1c2c470d2f5693, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fieldOfViewPosition: {x: 0, y: 2.5, z: -0.5}
+  _fieldOfViewDistance: 20
+  _fieldOfViewAngle: 120
+  _fieldOfViewDepressionAngle: 60
+  _fieldOfViewElevationAngle: 30
+  _showFieldOfViewGizmo: 0
 --- !u!114 &1448841100003415109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,8 +130,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _turret: {fileID: 3737538279939832885}
   _turretRotationSpeed: 50
-  _range: 30
-  _showRange: 0
 --- !u!114 &3233220225316238771
 MonoBehaviour:
   m_ObjectHideFlags: 0

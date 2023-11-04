@@ -6,6 +6,7 @@
 
 uniform int _RayCount = 64;
 uniform int _RayOriginCount = 5;
+uniform int _RayOffset = 64;
 uniform float3 _RayStartPositions[5];
 uniform float3 _RayEndPositions[2000];
 
@@ -47,15 +48,12 @@ void CalculateDistanceToFieldOfView_float(float3 position, float distanceThresho
 {
     Out = 1000.0;
     T = 1000.0;
-    lineLength = 1;
+    lineLength = 1000.0;
+    int rayStartIndex = 0;
     for (int i = 0; i < _RayOriginCount; i++) {
         float3 lineStart = _RayStartPositions[i];
 
-        if (distance(lineStart, position) > 50){
-            continue;
-        }
-
-        for (int j = 0; j < _RayCount; j++) {
+        for (int j = rayStartIndex; j < rayStartIndex + _RayOffset; j++) {
             float3 lineEnd = _RayEndPositions[j];
             float dist;
             float t;
@@ -67,6 +65,7 @@ void CalculateDistanceToFieldOfView_float(float3 position, float distanceThresho
                 lineLength = distance(lineStart, lineEnd);
             }
         }
+        rayStartIndex += _RayOffset;
     }
 }
 

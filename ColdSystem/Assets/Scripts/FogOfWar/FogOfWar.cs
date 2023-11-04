@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(MeshFilter))]
 public class FogOfWar : MonoBehaviour
 {
     [Header("Fog Settings")]
-    [SerializeField] private Vector2 _fogSize = new Vector2(100, 100);
+    [SerializeField] private Material _fogMaterial;
+    [SerializeField] private Vector2 _fogChunkCount = new Vector2(5, 5);
+    [SerializeField] private Vector2 _fogChunkSize = new Vector2(100, 100);
     [SerializeField][Range(0.1f, 10f)] private float _fogMeshCellSize = 1f;
     [SerializeField] private float _maxFogHeight = 100f;
     [SerializeField] private float _fogHeightOffset = 2f;
@@ -30,14 +32,43 @@ public class FogOfWar : MonoBehaviour
 
     public void InitializeHeightAdjustedFog()
     {
+        if (_fogMaterial == null)
+        {
+            Debug.LogError("Fog is missing material.");
+        }
+
+        //Destroy existing chunks.
+        for (var i = transform.childCount; i > 0; --i)
+        {
+            DestroyImmediate(transform.GetChild(0).gameObject);
+        }
+
+        var totalChunkCount = 0;
+        for (var x = 0; x < _fogChunkCount.x; x++)
+        {
+            for (var y = 0; y < _fogChunkCount.y; y++)
+            {
+                CreateFogChunk(new Vector3(x * _fogChunkSize.x, 0, y * _fogChunkSize.y));
+                totalChunkCount++;
+                if (totalChunkCount >= 100)
+                {
+                    Debug.LogError("Reached maximum chunk count of 100. Unable to create more fog chunks.");
+                    return;
+                }
+            }
+        }
+    }
+
+    public void CreateFogChunk(Vector3 chunkPosition)
+    {
         if (_meshFilter == null)
         {
             _meshFilter = GetComponent<MeshFilter>();
         }
 
         var meshDimensions = new Vector2Int(
-            Mathf.RoundToInt(_fogSize.x / _fogMeshCellSize),
-            Mathf.RoundToInt(_fogSize.y / _fogMeshCellSize));
+            Mathf.RoundToInt(_fogChunkSize.x / _fogMeshCellSize),
+            Mathf.RoundToInt(_fogChunkSize.y / _fogMeshCellSize));
         var vertices = new Vector3[(meshDimensions.x + 1) * (meshDimensions.y + 1)];
         var uvs = new Vector2[vertices.Length];
         var i = 0;
@@ -47,7 +78,7 @@ public class FogOfWar : MonoBehaviour
             {
                 var xPosition = x * _fogMeshCellSize;
                 var zPosition = y * _fogMeshCellSize;
-                vertices[i] = GetHeightAdjustedPointUsingRaycast(xPosition, zPosition);
+                vertices[i] = GetHeightAdjustedPointUsingRaycast(xPosition, zPosition, chunkPosition);
                 uvs[i] = new Vector2(1.0f - x / (float)meshDimensions.x, 1.0f - y / (float)meshDimensions.y);
                 i++;
             }
@@ -72,19 +103,28 @@ public class FogOfWar : MonoBehaviour
         mesh.RecalculateNormals();
         mesh.uv = uvs;
 
-        _meshFilter.mesh = mesh;
+        var fogObject = new GameObject($"FogChunk_{chunkPosition.x}_{chunkPosition.z}");
+        fogObject.transform.parent = transform;
+        fogObject.transform.localPosition = chunkPosition;
+
+        var meshFilter = fogObject.AddComponent<MeshFilter>();
+        meshFilter.mesh = mesh;
+
+        var meshRenderer = fogObject.AddComponent<MeshRenderer>();
+        meshRenderer.material = _fogMaterial;
+        meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
     }
 
-    private Vector3 GetHeightAdjustedPointUsingRaycast(float x, float z)
+    private Vector3 GetHeightAdjustedPointUsingRaycast(float x, float z, Vector3 chunkPosition)
     {
         if (Physics.Raycast(
-            new Vector3(x + transform.position.x, _maxFogHeight, z + transform.position.z),
+            new Vector3(x + chunkPosition.x, _maxFogHeight, z + chunkPosition.z),
             Vector3.down,
             out var hit,
             _maxFogHeight,
             _wrapFogToLayers))
         {
-            return transform.InverseTransformPoint(hit.point) + new Vector3(0, _fogHeightOffset, 0);
+            return hit.point + new Vector3(0, _fogHeightOffset, 0) - chunkPosition;
         }
 
         return new Vector3(x, _fogHeightOffset, z);
@@ -97,19 +137,32 @@ public class FogOfWar : MonoBehaviour
             return;
         }
 
-        var rayStartPositions = new List<Vector4>();
-        var rayEndPositions = new List<Vector4>();
-        foreach (var unit in PlayerUnitManager.Instance.GetUnits())
+        var rayStartPositions = new Vector4[5];
+        var rayEndPositions = new Vector4[2000];
+        var units = PlayerUnitManager.Instance.GetUnits().Where(u => u != null).ToList();
+        var rayOriginCount = 0;
+        var totalRayCount = 0;
+        var rayOffset = 0;
+        for (var i = 0; i < rayStartPositions.Length && i < units.Count; i++)
         {
-            if (unit == null) continue; //Unit is dead.
+            var unit = units[i];
+
+            rayOriginCount++;
 
             var rayCasts = GetProjectedRectangleFieldOfViewPoints(unit);
-            rayStartPositions.Add(unit.transform.position);
-            rayEndPositions.AddRange(rayCasts);
+            rayStartPositions[i] = unit.GetFieldOfViewStartPosition();
+            rayOffset = rayCasts.Count;
+
+            for (var j = 0; j < rayCasts.Count; j++)
+            {
+                rayEndPositions[totalRayCount + j] = rayCasts[j];
+            }
+            totalRayCount += rayOffset;
         }
 
-        Shader.SetGlobalInt("_RayOriginCount", rayStartPositions.Count);
-        Shader.SetGlobalInt("_RayCount", rayEndPositions.Count);
+        Shader.SetGlobalInt("_RayOriginCount", rayOriginCount);
+        Shader.SetGlobalInt("_RayCount", totalRayCount);
+        Shader.SetGlobalInt("_RayOffset", rayOffset);
         Shader.SetGlobalVectorArray("_RayStartPositions", rayStartPositions);
         Shader.SetGlobalVectorArray("_RayEndPositions", rayEndPositions);
     }
@@ -122,12 +175,13 @@ public class FogOfWar : MonoBehaviour
 
         for (var ix = 0; ix < _horizontalRayCount; ix++)
         {
-            var yawAngle = unit.transform.eulerAngles.y - unit.FieldOfViewAngle / 2f + stepAngleSizeX * ix;
+            var unitEulerAngles = unit.GetFaceDirectionEulerAngles();
+            var yawAngle = unitEulerAngles.y - unit.FieldOfViewAngle / 2f + stepAngleSizeX * ix;
             for (var iy = 0; iy < _verticalRayCount; iy++)
             {
-                var pitchAngle = unit.transform.eulerAngles.x - unit.FieldOfViewDepressionAngle + stepAngleSizeY * iy;
-                var rayCastInfo = GetFieldOfViewRaycast(unit.transform.position, yawAngle, pitchAngle, unit.GetRadius());
-                Debug.DrawLine(unit.transform.position, rayCastInfo.Point, rayCastInfo.Hit ? Color.red : Color.white);
+                var pitchAngle = unitEulerAngles.x - unit.FieldOfViewDepressionAngle + stepAngleSizeY * iy;
+                var rayCastInfo = GetFieldOfViewRaycast(unit.GetFieldOfViewStartPosition(), yawAngle, pitchAngle, unit.FieldOfViewDistance);
+                Debug.DrawLine(unit.GetFieldOfViewStartPosition(), rayCastInfo.Point, rayCastInfo.Hit ? Color.red : Color.white);
                 points.Add(rayCastInfo.Point);
             }
         }
