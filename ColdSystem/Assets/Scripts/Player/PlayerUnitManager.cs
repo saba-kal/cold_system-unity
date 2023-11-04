@@ -1,5 +1,4 @@
-﻿using FischlWorks_FogWar;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 public class PlayerUnitManager : MonoBehaviour
@@ -28,7 +27,6 @@ public class PlayerUnitManager : MonoBehaviour
 
     private void Start()
     {
-        var fogOfWar = csFogWar.Instance;
         _visibilityManager = new UnitVisibilityManager(_playerUnits, EnemyUnitManager.Instance?.GetUnits() ?? new Unit[0]);
         foreach (var unit in _playerUnits)
         {
@@ -90,10 +88,6 @@ public class PlayerUnitManager : MonoBehaviour
 
     private void OnUnitDeatroyed(Unit unit)
     {
-        var fogOfWar = csFogWar.Instance;
-        if (fogOfWar != null)
-        {
-            fogOfWar.RemoveFogRevealer(unit.transform);
-        }
+        return; //Maybe do something in future.
     }
 }

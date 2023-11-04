@@ -2,8 +2,6 @@
 #ifndef MYHLSLINCLUDE_UNLCUDED
 #define MYHLSLINCLUDE_UNLCUDED
 
-#include "Assets/Shaders/DistanceToLine.hlsl"
-
 uniform int _RayCount = 64;
 uniform int _RayOriginCount = 5;
 uniform int _RayOffset = 64;
