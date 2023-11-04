@@ -1,32 +1,44 @@
-﻿using FischlWorks_FogWar;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 public class PlayerUnitManager : MonoBehaviour
 {
+    public static PlayerUnitManager Instance { get; private set; }
+
     [SerializeField] private EnemyUnitManager _enemyUnitManager;
     [SerializeField] private GameObject _selectedUnitIndicatorPrefab;
-    [SerializeField] private FieldOfViewMeshGenerator _fieldOfViewPrefab;
 
     private Unit[] _playerUnits;
+    private UnitVisibilityManager _visibilityManager;
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+
         _playerUnits = GetComponentsInChildren<Unit>();
     }
 
     private void Start()
     {
-        var fogOfWar = csFogWar.Instance;
+        _visibilityManager = new UnitVisibilityManager(_playerUnits, EnemyUnitManager.Instance?.GetUnits() ?? new Unit[0]);
         foreach (var unit in _playerUnits)
         {
-            unit.Initialize(_enemyUnitManager.GetUnits(), UnitType.Player);
+            unit.Initialize(UnitType.Player);
             unit.SetHealthBarActive(false);
-            unit.AddComponent<csFogVisibilityAgent>();
             unit.OnUnitDestroyed += OnUnitDeatroyed;
-            fogOfWar?.AddFogRevealer(new csFogWar.FogRevealer(unit.transform, Mathf.RoundToInt(unit.GetRadius()), true));
         }
+    }
+
+    private void Update()
+    {
+        _visibilityManager.UpdateVisibileUnits();
     }
 
     public Unit[] GetUnits()
@@ -76,10 +88,6 @@ public class PlayerUnitManager : MonoBehaviour
 
     private void OnUnitDeatroyed(Unit unit)
     {
-        var fogOfWar = csFogWar.Instance;
-        if (fogOfWar != null)
-        {
-            fogOfWar.RemoveFogRevealer(unit.transform);
-        }
+        return; //Maybe do something in future.
     }
 }

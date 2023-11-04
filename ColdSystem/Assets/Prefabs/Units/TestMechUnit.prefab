@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 1448841100003415109}
   - component: {fileID: 582506859260778313}
   - component: {fileID: 3233220225316238771}
-  - component: {fileID: 4153104326245456448}
   m_Layer: 0
   m_Name: TestMechUnit
   m_TagString: Untagged
@@ -97,6 +96,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd631cd3a52a87243b1c2c470d2f5693, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fieldOfViewPosition: {x: 0, y: 2.5, z: -0.5}
+  _fieldOfViewDistance: 20
+  _fieldOfViewAngle: 120
+  _fieldOfViewDepressionAngle: 60
+  _fieldOfViewElevationAngle: 30
+  _showFieldOfViewGizmo: 0
 --- !u!114 &1448841100003415109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,8 +130,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _turret: {fileID: 3737538279939832885}
   _turretRotationSpeed: 50
-  _range: 30
-  _showRange: 0
 --- !u!114 &3233220225316238771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,21 +143,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 100
---- !u!114 &4153104326245456448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4210878123164907179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 985add12ee4836e40b7241671b1d892c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fogWar: {fileID: 0}
-  visibility: 0
-  additionalRadius: 0
 --- !u!1001 &2676751868446241882
 PrefabInstance:
   m_ObjectHideFlags: 0
