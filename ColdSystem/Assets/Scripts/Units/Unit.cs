@@ -5,7 +5,8 @@
 public class Unit : MonoBehaviour
 {
     public delegate void UnitDestroyed(Unit unit);
-    public event UnitDestroyed OnUnitDestroyed;
+    public static event UnitDestroyed OnUnitDestroyed;
+
     public bool Selected { get; set; }
     public GameObject SelectedIndicator { get; set; }
     public UnitType Type { get; private set; }

@@ -76,7 +76,7 @@ public class PlayerRtsController : MonoBehaviour
         }
 
         _rtsCamera?.MoveCamera(cameraMoveDirection.normalized);
-        _rtsCamera?.RotateCamera(_rtsInpusActions.Gameplay.RotateCamera.ReadValue<float>());
+        _rtsCamera?.RotateCamera(-_rtsInpusActions.Gameplay.RotateCamera.ReadValue<float>());
     }
 
     private void OnLocationSelected(InputAction.CallbackContext context)

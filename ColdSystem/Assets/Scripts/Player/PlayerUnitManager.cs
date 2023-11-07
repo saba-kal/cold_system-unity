@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerUnitManager : MonoBehaviour
 {
+    public delegate void AllPlayerUnitsDestroyed();
+    public static event AllPlayerUnitsDestroyed OnAllPlayerUnitsDestroyed;
+
     public static PlayerUnitManager Instance { get; private set; }
 
     [SerializeField] private GameObject _selectedUnitIndicatorPrefab;
@@ -26,6 +29,16 @@ public class PlayerUnitManager : MonoBehaviour
         _playerUnits = GetComponentsInChildren<Unit>().ToList();
     }
 
+    private void OnEnable()
+    {
+        Unit.OnUnitDestroyed += OnUnitDeatroyed;
+    }
+
+    private void OnDisable()
+    {
+        Unit.OnUnitDestroyed -= OnUnitDeatroyed;
+    }
+
     private void Start()
     {
         _visibilityManager = new UnitVisibilityManager(UnitType.Player);
@@ -33,7 +46,6 @@ public class PlayerUnitManager : MonoBehaviour
         {
             unit.Initialize(UnitType.Player);
             unit.SetHealthBarActive(false);
-            unit.OnUnitDestroyed += OnUnitDeatroyed;
         }
     }
 
@@ -87,8 +99,18 @@ public class PlayerUnitManager : MonoBehaviour
         unit.SelectedIndicator.SetActive(selected);
     }
 
-    private void OnUnitDeatroyed(Unit unit)
+    private void OnUnitDeatroyed(Unit deadUnit)
     {
-        return; //Maybe do something in future.
+        if (deadUnit.Type != UnitType.Player)
+        {
+            return;
+        }
+
+        foreach (var unit in _playerUnits)
+        {
+            if (unit != null && unit != deadUnit) return;
+        }
+
+        OnAllPlayerUnitsDestroyed?.Invoke();
     }
 }

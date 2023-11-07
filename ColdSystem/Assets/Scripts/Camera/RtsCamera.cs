@@ -12,6 +12,8 @@ public class RtsCamera : MonoBehaviour
     [SerializeField] private float _zoomSmoothness = 1f;
     [SerializeField] private float _minZoom = 1f;
     [SerializeField] private float _maxZoom = 40f;
+    [SerializeField] private Vector2 _minPosition = new Vector2(-500, -500);
+    [SerializeField] private Vector2 _maxPosition = new Vector2(500, 500);
     [SerializeField] private Transform _cameraTarget;
 
     private CinemachineTransposer _cameraTransposer;
@@ -56,6 +58,11 @@ public class RtsCamera : MonoBehaviour
         {
             _cameraTarget.position += translation;
         }
+
+        _cameraTarget.position = new Vector3(
+            Mathf.Clamp(_cameraTarget.position.x, _minPosition.x, _maxPosition.x),
+            _cameraTarget.position.y,
+            Mathf.Clamp(_cameraTarget.position.z, _minPosition.y, _maxPosition.y));
     }
 
     public void RotateCamera(float direction)
