@@ -2,29 +2,27 @@
 
 public class UnitVisibilityManager
 {
-    private readonly Unit[] _friendlyUnits;
-    private readonly Unit[] _enemyUnits;
+    private readonly UnitType _type;
 
-    public UnitVisibilityManager(Unit[] friendlyUnits, Unit[] enemyUnits)
+    public UnitVisibilityManager(UnitType type)
     {
-        _friendlyUnits = friendlyUnits;
-        _enemyUnits = enemyUnits;
+        _type = type;
     }
 
     public void UpdateVisibileUnits()
     {
 
-        foreach (var enemyUnit in _enemyUnits)
+        foreach (var enemyUnit in UnitFunctions.GetUnitsEnemyTo(_type))
         {
             if (enemyUnit == null) continue; //Unit is dead.
             enemyUnit.SetVisible(false);
         }
 
-        foreach (var frendlyUnit in _friendlyUnits)
+        foreach (var frendlyUnit in UnitFunctions.GetUnitsFriendlyTo(_type))
         {
             if (frendlyUnit == null) continue; //Unit is dead.
 
-            foreach (var enemyUnit in _enemyUnits)
+            foreach (var enemyUnit in UnitFunctions.GetUnitsEnemyTo(_type))
             {
                 if (enemyUnit == null) continue; //Unit is dead.
 
@@ -36,11 +34,6 @@ public class UnitVisibilityManager
                 }
             }
         }
-    }
-
-    private bool UnitIsWithinFieldOfView(Unit unit, Unit opposingUnit)
-    {
-        return false;
     }
 
     private bool UnitHasLineOfSight(Unit unit, Unit opposingUnit)

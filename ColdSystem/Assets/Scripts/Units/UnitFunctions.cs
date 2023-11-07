@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public static class UnitFunctions
 {
@@ -48,5 +49,31 @@ public static class UnitFunctions
                 return LayerMask.GetMask(Constants.ENEMY_UNIT_LAYER);
         }
         return 0;
+    }
+
+    public static List<Unit> GetUnitsFriendlyTo(UnitType type)
+    {
+        switch (type)
+        {
+            case UnitType.Player:
+                return PlayerUnitManager.Instance?.GetUnits() ?? new List<Unit>();
+            case UnitType.Enemy:
+                return EnemyUnitManager.Instance?.GetUnits() ?? new List<Unit>();
+        }
+
+        return new List<Unit>();
+    }
+
+    public static List<Unit> GetUnitsEnemyTo(UnitType type)
+    {
+        switch (type)
+        {
+            case UnitType.Player:
+                return EnemyUnitManager.Instance?.GetUnits() ?? new List<Unit>();
+            case UnitType.Enemy:
+                return PlayerUnitManager.Instance?.GetUnits() ?? new List<Unit>();
+        }
+
+        return new List<Unit>();
     }
 }

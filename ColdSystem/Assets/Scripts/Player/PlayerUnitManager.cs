@@ -1,14 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 
 public class PlayerUnitManager : MonoBehaviour
 {
     public static PlayerUnitManager Instance { get; private set; }
 
-    [SerializeField] private EnemyUnitManager _enemyUnitManager;
     [SerializeField] private GameObject _selectedUnitIndicatorPrefab;
 
-    private Unit[] _playerUnits;
+    private List<Unit> _playerUnits;
     private UnitVisibilityManager _visibilityManager;
 
     private void Awake()
@@ -22,12 +23,12 @@ public class PlayerUnitManager : MonoBehaviour
             Instance = this;
         }
 
-        _playerUnits = GetComponentsInChildren<Unit>();
+        _playerUnits = GetComponentsInChildren<Unit>().ToList();
     }
 
     private void Start()
     {
-        _visibilityManager = new UnitVisibilityManager(_playerUnits, EnemyUnitManager.Instance?.GetUnits() ?? new Unit[0]);
+        _visibilityManager = new UnitVisibilityManager(UnitType.Player);
         foreach (var unit in _playerUnits)
         {
             unit.Initialize(UnitType.Player);
@@ -41,7 +42,7 @@ public class PlayerUnitManager : MonoBehaviour
         _visibilityManager.UpdateVisibileUnits();
     }
 
-    public Unit[] GetUnits()
+    public List<Unit> GetUnits()
     {
         return _playerUnits;
     }
@@ -65,7 +66,7 @@ public class PlayerUnitManager : MonoBehaviour
             return;
         }
 
-        if (_playerUnits.Length == 0 || unitIndex >= _playerUnits.Length)
+        if (_playerUnits.Count == 0 || unitIndex >= _playerUnits.Count)
         {
             return;
         }

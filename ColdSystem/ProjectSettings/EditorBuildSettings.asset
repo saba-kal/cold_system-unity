@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameMenu.unity
     guid: 9fb2d1e5a5cebcd41b56e3bd2d75256e
+  - enabled: 1
+    path: Assets/Scenes/EndlessWavesLevel/EndlessWavesLevel.unity
+    guid: b0cf08c7f76a35e46b83fa2a89d93352
   m_configObjects: {}

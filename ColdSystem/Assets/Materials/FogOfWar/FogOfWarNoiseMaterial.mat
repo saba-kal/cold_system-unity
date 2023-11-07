@@ -226,7 +226,7 @@ Material:
     - _PPDMinSamples: 5
     - _PPDPrimitiveLength: 1
     - _PPDPrimitiveWidth: 1
-    - _RayConeAngle: 0.25
+    - _RayConeAngle: 0.2
     - _RayConeThickness: 0.7
     - _RayStartRadius: 0.1
     - _RayTracing: 0

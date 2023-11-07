@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RtsCamera : MonoBehaviour
 {
+    public static RtsCamera Instance { get; private set; }
+
     [SerializeField] private float _panSpeed = 10f;
     [SerializeField] private float _rotateSpeed = 100f;
     [SerializeField] private float _zoomSpeed = 6f;
@@ -17,6 +19,15 @@ public class RtsCamera : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+
         var virtualCamera = GetComponentInChildren<CinemachineVirtualCamera>();
         _cameraTransposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
         _targetZoom = _cameraTransposer.m_FollowOffset.z;
@@ -36,7 +47,7 @@ public class RtsCamera : MonoBehaviour
 
         var translation = Quaternion.Euler(0, _cameraTarget.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.y) *
             _panSpeed * Mathf.Abs(_targetZoom / 2f) * Time.deltaTime;
-        var rayStartPosition = _cameraTarget.position + new Vector3(0, 10, 0) + translation;
+        var rayStartPosition = _cameraTarget.position + new Vector3(0, 100, 0) + translation;
         if (Physics.Raycast(rayStartPosition, Vector3.down, out var hit, 500f, LayerMask.GetMask(Constants.GROUND_LAYER)))
         {
             _cameraTarget.position = hit.point;
