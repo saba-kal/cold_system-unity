@@ -959,7 +959,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9a240382afa05c45b7f06f51eaeaa7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneName: SabaTestLevel
+  _sceneName: EndlessWavesLevel
   _additiveScenes:
   - GameMenu
 --- !u!1 &1778281356

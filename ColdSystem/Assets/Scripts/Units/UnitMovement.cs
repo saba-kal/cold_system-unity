@@ -36,4 +36,9 @@ public class UnitMovement : MonoBehaviour
     {
         _agent.SetDestination(destination);
     }
+
+    public bool DestinationReached()
+    {
+        return _agent.remainingDistance <= _agent.stoppingDistance + 0.1f;
+    }
 }

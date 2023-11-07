@@ -12,6 +12,7 @@ public class Health : MonoBehaviour
     [SerializeField] private float _maxHealth;
 
     private float _currentHealth;
+    private bool _allHealthLost = false;
 
     private void Awake()
     {
@@ -23,9 +24,10 @@ public class Health : MonoBehaviour
         _currentHealth -= damage;
         _currentHealth = Mathf.Clamp(_currentHealth, 0, _maxHealth);
         OnDamageTaken?.Invoke();
-        if (_currentHealth <= 0)
+        if (_currentHealth <= 0 && !_allHealthLost)
         {
             OnHealthLost?.Invoke();
+            _allHealthLost = true;
         }
     }
 
