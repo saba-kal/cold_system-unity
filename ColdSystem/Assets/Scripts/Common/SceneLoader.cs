@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class SceneLoader : MonoBehaviour
 {
+    [SerializeField] private bool _releodCurrentScene;
     [SerializeField] private string _sceneName;
     [SerializeField] private List<string> _additiveScenes;
 
@@ -17,6 +18,11 @@ public class SceneLoader : MonoBehaviour
     /// </summary>
     public void LoadScene()
     {
+        if (_releodCurrentScene)
+        {
+            _sceneName = SceneManager.GetActiveScene().name;
+        }
+
         if (_additiveScenes == null || _additiveScenes.Count == 0)
         {
             StartCoroutine(LoadSceneAsync());

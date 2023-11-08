@@ -49,7 +49,7 @@ MonoBehaviour:
   _fogChunkSize: {x: 100, y: 100}
   _fogMeshCellSize: 1
   _maxFogHeight: 100
-  _fogHeightOffset: 2
+  _fogHeightOffset: 1
   _wrapFogToLayers:
     serializedVersion: 2
     m_Bits: 8

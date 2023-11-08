@@ -1,4 +1,6 @@
-﻿using Unity.VisualScripting;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -6,7 +8,9 @@ public class EnemyUnitManager : MonoBehaviour
 {
     public static EnemyUnitManager Instance { get; private set; }
 
-    private Unit[] _enemyUnits;
+    [SerializeField] private bool _addRandomMovementToUnits = false;
+
+    private List<Unit> _enemyUnits;
     private UnitVisibilityManager _visibilityManager;
 
     private void Awake()
@@ -20,17 +24,15 @@ public class EnemyUnitManager : MonoBehaviour
             Instance = this;
         }
 
-        _enemyUnits = GetComponentsInChildren<Unit>();
+        _enemyUnits = GetComponentsInChildren<Unit>().ToList();
     }
 
     private void Start()
     {
-        _visibilityManager = new UnitVisibilityManager(_enemyUnits, PlayerUnitManager.Instance?.GetUnits() ?? new Unit[0]);
+        _visibilityManager = new UnitVisibilityManager(UnitType.Enemy);
         foreach (var unit in _enemyUnits)
         {
-            var unitVisibility = unit.AddComponent<UnitVisibility>();
-            unitVisibility.SetVisible(false);
-            unit.Initialize(UnitType.Enemy);
+            SetUpUnit(unit);
         }
     }
 
@@ -39,8 +41,29 @@ public class EnemyUnitManager : MonoBehaviour
         _visibilityManager.UpdateVisibileUnits();
     }
 
-    public Unit[] GetUnits()
+    public List<Unit> GetUnits()
     {
         return _enemyUnits;
+    }
+
+    public void AddUnit(Unit unit)
+    {
+        SetUpUnit(unit);
+        unit.transform.SetParent(transform, true);
+        _enemyUnits.Add(unit);
+    }
+
+    private void SetUpUnit(Unit unit)
+    {
+        unit.Initialize(UnitType.Enemy);
+        if (FogOfWar.Instance != null)
+        {
+            var unitVisibility = unit.AddComponent<UnitVisibility>();
+            unitVisibility.SetVisible(false);
+        }
+        if (_addRandomMovementToUnits)
+        {
+            unit.AddComponent<MoveToRandomPointsOfInterest>();
+        }
     }
 }

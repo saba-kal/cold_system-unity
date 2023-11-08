@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class UnitAutoAttack : MonoBehaviour
 {
@@ -59,7 +60,7 @@ public class UnitAutoAttack : MonoBehaviour
 
     private Unit GetNearestVisibleEnemy()
     {
-        Unit[] opposingUnits = null;
+        List<Unit> opposingUnits = null;
         switch (_type)
         {
             case UnitType.Enemy:

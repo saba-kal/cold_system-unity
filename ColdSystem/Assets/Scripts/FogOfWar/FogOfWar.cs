@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FogOfWar : MonoBehaviour
 {
+    public static FogOfWar Instance { get; private set; }
+
     [Header("Fog Settings")]
     [SerializeField] private Material _fogMaterial;
     [SerializeField] private Vector2 _fogChunkCount = new Vector2(5, 5);
@@ -22,6 +24,15 @@ public class FogOfWar : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+
         _meshFilter = GetComponent<MeshFilter>();
     }
 
@@ -118,13 +129,13 @@ public class FogOfWar : MonoBehaviour
     private Vector3 GetHeightAdjustedPointUsingRaycast(float x, float z, Vector3 chunkPosition)
     {
         if (Physics.Raycast(
-            new Vector3(x + chunkPosition.x, _maxFogHeight, z + chunkPosition.z),
+            new Vector3(x + chunkPosition.x, _maxFogHeight, z + chunkPosition.z) + transform.position,
             Vector3.down,
             out var hit,
             _maxFogHeight,
             _wrapFogToLayers))
         {
-            return hit.point + new Vector3(0, _fogHeightOffset, 0) - chunkPosition;
+            return hit.point + new Vector3(0, _fogHeightOffset, 0) - transform.position - chunkPosition;
         }
 
         return new Vector3(x, _fogHeightOffset, z);

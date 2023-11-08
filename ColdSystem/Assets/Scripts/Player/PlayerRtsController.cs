@@ -3,9 +3,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerRtsController : MonoBehaviour
 {
-    [SerializeField] private RtsCamera _rtsCamera;
     [SerializeField] private float _cameraPanScreenEdgeSize = 40;
 
+    private RtsCamera _rtsCamera;
     private PlayerUnitManager _unitManager;
     private Camera _camera;
     private RtsInputActions _rtsInpusActions;
@@ -28,6 +28,11 @@ public class PlayerRtsController : MonoBehaviour
     private void Start()
     {
         _unitManager = PlayerUnitManager.Instance;
+        _rtsCamera = RtsCamera.Instance;
+        if (_rtsCamera == null)
+        {
+            Debug.LogError("RTS camera is missing in the scene.");
+        }
     }
 
     private void OnEnable()
@@ -70,8 +75,8 @@ public class PlayerRtsController : MonoBehaviour
             cameraMoveDirection.y = -1;
         }
 
-        _rtsCamera.MoveCamera(cameraMoveDirection.normalized);
-        _rtsCamera.RotateCamera(_rtsInpusActions.Gameplay.RotateCamera.ReadValue<float>());
+        _rtsCamera?.MoveCamera(cameraMoveDirection.normalized);
+        _rtsCamera?.RotateCamera(-_rtsInpusActions.Gameplay.RotateCamera.ReadValue<float>());
     }
 
     private void OnLocationSelected(InputAction.CallbackContext context)
