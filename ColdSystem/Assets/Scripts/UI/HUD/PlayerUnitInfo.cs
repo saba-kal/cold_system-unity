@@ -4,16 +4,19 @@ using UnityEngine;
 public class PlayerUnitInfo : MonoBehaviour
 {
     [SerializeField] private HealthBar _healthBar;
+    [SerializeField] private HealthBar _abilityBar;
     [SerializeField] private TextMeshProUGUI _unitNumberText;
     [SerializeField] private GameObject _unitAttackModeIcon;
     [SerializeField] private GameObject _unitMoveModeIcon;
     [SerializeField] private GameObject _deadStateIcon;
 
     private Unit _unit;
+    private UnitAbility _unitAbility;
 
     private void Update()
     {
         ToggleUnitModeIcons();
+        UpdateAbilityBar();
     }
 
     public void SetUnit(Unit unit, int number)
@@ -21,6 +24,11 @@ public class PlayerUnitInfo : MonoBehaviour
         _unit = unit;
         _healthBar.SetHealth(unit.GetComponent<Health>());
         _unitNumberText.text = number.ToString();
+        _unitAbility = unit.GetComponent<UnitAbility>();
+        if (_unitAbility == null)
+        {
+            _abilityBar.SetHealth(100, 0);
+        }
         ToggleUnitModeIcons();
     }
 
@@ -38,5 +46,15 @@ public class PlayerUnitInfo : MonoBehaviour
             _unitMoveModeIcon.SetActive(false);
             _deadStateIcon.SetActive(true);
         }
+    }
+
+    private void UpdateAbilityBar()
+    {
+        if (_unitAbility == null)
+        {
+            return;
+        }
+
+        _abilityBar.SetHealth(_unitAbility.CoolDown, _unitAbility.TimeSinceLastActivation);
     }
 }

@@ -80,7 +80,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _projectileSpeed: 50
   _projectileDamage: 5
-  _timeBetweenShots: 1
+  _timeBetweenShots: 2
   _projectileSpawnPoint: {fileID: 4085307659759745988}
   _projectilePrefab: {fileID: 1797293667438511489, guid: a1780291fb89fae4390d892e8d53d0a9,
     type: 3}

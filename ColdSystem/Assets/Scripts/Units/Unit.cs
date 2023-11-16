@@ -26,6 +26,7 @@ public class Unit : MonoBehaviour
     private UnitMovement _unitMovement;
     private UnitAutoAttack _unitAutoAttack;
     private UnitVisibility _unitVisiblity;
+    private UnitAbility _ability;
     private bool _isVisible = true;
 
     private void Awake()
@@ -33,6 +34,7 @@ public class Unit : MonoBehaviour
         _unitMovement = GetComponent<UnitMovement>();
         _unitAutoAttack = GetComponent<UnitAutoAttack>();
         _unitVisiblity = GetComponent<UnitVisibility>();
+        _ability = GetComponent<UnitAbility>();
         var health = GetComponent<Health>();
         if (health != null)
         {
@@ -89,6 +91,11 @@ public class Unit : MonoBehaviour
             _unitVisiblity = GetComponent<UnitVisibility>();
         }
         _unitVisiblity?.SetVisible(visible);
+    }
+
+    public void ActivateAbility()
+    {
+        _ability?.Activate();
     }
 
     private void OnHealthLost()

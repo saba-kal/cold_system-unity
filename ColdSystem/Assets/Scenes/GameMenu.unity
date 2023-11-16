@@ -311,6 +311,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerUnitInfo (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2593002214210233264, guid: a335950081645da4591a485a450c4dd2,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2593002214210233264, guid: a335950081645da4591a485a450c4dd2,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4693290079871367696, guid: a335950081645da4591a485a450c4dd2,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1165,6 +1175,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerUnitInfo (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2593002214210233264, guid: a335950081645da4591a485a450c4dd2,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2593002214210233264, guid: a335950081645da4591a485a450c4dd2,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4693290079871367696, guid: a335950081645da4591a485a450c4dd2,
         type: 3}
@@ -3354,6 +3374,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerUnitInfo (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2593002214210233264, guid: a335950081645da4591a485a450c4dd2,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2593002214210233264, guid: a335950081645da4591a485a450c4dd2,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4693290079871367696, guid: a335950081645da4591a485a450c4dd2,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -4011,6 +4041,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerUnitInfo (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2593002214210233264, guid: a335950081645da4591a485a450c4dd2,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2593002214210233264, guid: a335950081645da4591a485a450c4dd2,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4693290079871367696, guid: a335950081645da4591a485a450c4dd2,
         type: 3}
@@ -4975,6 +5015,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerUnitInfo
+      objectReference: {fileID: 0}
+    - target: {fileID: 2593002214210233264, guid: a335950081645da4591a485a450c4dd2,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2593002214210233264, guid: a335950081645da4591a485a450c4dd2,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4693290079871367696, guid: a335950081645da4591a485a450c4dd2,
         type: 3}

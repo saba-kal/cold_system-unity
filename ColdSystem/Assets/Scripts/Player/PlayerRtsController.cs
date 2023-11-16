@@ -39,12 +39,14 @@ public class PlayerRtsController : MonoBehaviour
     {
         _rtsInpusActions.Enable();
         _rtsInpusActions.Gameplay.SelectLocation.performed += OnLocationSelected;
+        _rtsInpusActions.Gameplay.ActivateAbility.performed += OnAbilityActivated;
         _rtsInpusActions.Gameplay.ZoomCamera.performed += OnCameraZoom;
     }
 
     private void OnDisable()
     {
         _rtsInpusActions.Gameplay.SelectLocation.performed -= OnLocationSelected;
+        _rtsInpusActions.Gameplay.ActivateAbility.performed -= OnAbilityActivated;
         _rtsInpusActions.Gameplay.ZoomCamera.performed -= OnCameraZoom;
         _rtsInpusActions.Disable();
     }
@@ -86,6 +88,11 @@ public class PlayerRtsController : MonoBehaviour
         {
             _unitManager?.SetDestination(hit.point);
         }
+    }
+
+    private void OnAbilityActivated(InputAction.CallbackContext context)
+    {
+        _unitManager?.ActivateAbilities();
     }
 
     private void OnCameraZoom(InputAction.CallbackContext context)

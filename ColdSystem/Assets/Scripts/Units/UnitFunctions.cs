@@ -76,4 +76,17 @@ public static class UnitFunctions
 
         return new List<Unit>();
     }
+
+    public static UnitType GetUnitTypeEnemyTo(UnitType type)
+    {
+        switch (type)
+        {
+            case UnitType.Player:
+                return UnitType.Enemy;
+            case UnitType.Enemy:
+                return UnitType.Player;
+        }
+
+        return UnitType.Enemy;
+    }
 }

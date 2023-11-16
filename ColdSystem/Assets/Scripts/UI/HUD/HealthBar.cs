@@ -13,7 +13,7 @@ public class HealthBar : MonoBehaviour
         _healthSlider = GetComponent<Slider>();
         if (_health != null)
         {
-            _health.OnDamageTaken += OnDamageTaken;
+            _health.OnHealthChanged += OnDamageTaken;
         }
     }
 
@@ -27,9 +27,15 @@ public class HealthBar : MonoBehaviour
     public void SetHealth(Health health)
     {
         _health = health;
-        _health.OnDamageTaken += OnDamageTaken;
+        _health.OnHealthChanged += OnDamageTaken;
         _healthSlider.maxValue = _health.GetMaxHealth();
         _healthSlider.value = _health.GetCurrentHealth();
+    }
+
+    public void SetHealth(float maxHealth, float currentHealth)
+    {
+        _healthSlider.maxValue = maxHealth;
+        _healthSlider.value = currentHealth;
     }
 
     private void OnDamageTaken()

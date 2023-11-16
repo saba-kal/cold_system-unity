@@ -148,6 +148,12 @@ public class FogOfWar : MonoBehaviour
             return;
         }
 
+        UpdateLineOfSightVisibility();
+        UpdateRevealedAreasVisibility();
+    }
+
+    private void UpdateLineOfSightVisibility()
+    {
         var rayStartPositions = new Vector4[5];
         var rayEndPositions = new Vector4[2000];
         var units = PlayerUnitManager.Instance.GetUnits().Where(u => u != null).ToList();
@@ -176,6 +182,23 @@ public class FogOfWar : MonoBehaviour
         Shader.SetGlobalInt("_RayOffset", rayOffset);
         Shader.SetGlobalVectorArray("_RayStartPositions", rayStartPositions);
         Shader.SetGlobalVectorArray("_RayEndPositions", rayEndPositions);
+    }
+
+    private void UpdateRevealedAreasVisibility()
+    {
+        var unitVisibilityManager = PlayerUnitManager.Instance.GetComponent<UnitVisibilityManager>();
+        var revealedAreas = unitVisibilityManager.GetRevealedAreas();
+        var revealedAreaOrigins = new Vector4[5];
+        var revealedAreaRadii = new float[5];
+        for (var i = 0; i < revealedAreaOrigins.Length && i < revealedAreas.Count; i++)
+        {
+            revealedAreaOrigins[i] = revealedAreas[i].Position;
+            revealedAreaRadii[i] = revealedAreas[i].Radius;
+        }
+
+        Shader.SetGlobalInt("_RevealedAreaCount", revealedAreas.Count);
+        Shader.SetGlobalVectorArray("_RevealedAreaOrigins", revealedAreaOrigins);
+        Shader.SetGlobalFloatArray("_RevealedAreaRadii", revealedAreaRadii);
     }
 
     private List<Vector4> GetProjectedRectangleFieldOfViewPoints(Unit unit)

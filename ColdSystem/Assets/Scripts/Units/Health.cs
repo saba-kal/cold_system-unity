@@ -3,10 +3,10 @@
 
 public class Health : MonoBehaviour
 {
-    public delegate void DamageTaken();
+    public delegate void HealthChanged();
     public delegate void HealthLost();
 
-    public event DamageTaken OnDamageTaken;
+    public event HealthChanged OnHealthChanged;
     public event HealthLost OnHealthLost;
 
     [SerializeField] private float _maxHealth;
@@ -23,12 +23,19 @@ public class Health : MonoBehaviour
     {
         _currentHealth -= damage;
         _currentHealth = Mathf.Clamp(_currentHealth, 0, _maxHealth);
-        OnDamageTaken?.Invoke();
+        OnHealthChanged?.Invoke();
         if (_currentHealth <= 0 && !_allHealthLost)
         {
             OnHealthLost?.Invoke();
             _allHealthLost = true;
         }
+    }
+
+    public void Heal(float healAmount)
+    {
+        _currentHealth += healAmount;
+        _currentHealth = Mathf.Clamp(_currentHealth, 0, _maxHealth);
+        OnHealthChanged?.Invoke();
     }
 
     public float GetCurrentHealth() => _currentHealth;

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3808701758728097744}
   - component: {fileID: 1159816072826726491}
+  - component: {fileID: 9158069997097825748}
   m_Layer: 0
   m_Name: EnemyUnitManager
   m_TagString: Untagged
@@ -44,4 +45,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b8f472dd095bd84a87de3a2cc8a17c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _addRandomMovementToUnits: 0
+  _addRandomMovementToUnits: 1
+--- !u!114 &9158069997097825748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6072992449385891319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85053bf8630a1a24ca5e13bf86cd4429, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _type: 1

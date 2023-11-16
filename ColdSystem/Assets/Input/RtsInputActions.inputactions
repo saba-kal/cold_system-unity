@@ -69,6 +69,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "ActivateAbility",
+                    "type": "Button",
+                    "id": "3470ca99-9a89-4265-af45-4d50941c453d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "MoveCamera",
                     "type": "Value",
                     "id": "9f7340df-d844-4459-92e4-71d13e07c980",
@@ -294,6 +303,17 @@
                     "action": "RotateCamera",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "cba50abc-de5a-4f75-b7c7-972621abfe7d",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ActivateAbility",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

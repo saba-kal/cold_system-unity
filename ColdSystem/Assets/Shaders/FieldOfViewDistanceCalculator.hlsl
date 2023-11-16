@@ -1,6 +1,7 @@
 ﻿//UNITY_SHADER_NO_UPGRADE
 #ifndef MYHLSLINCLUDE_UNLCUDED
 #define MYHLSLINCLUDE_UNLCUDED
+#include "Assets/Shaders/IsInsideRevealedArea.hlsl"
 
 uniform int _RayCount = 64;
 uniform int _RayOriginCount = 5;
@@ -8,6 +9,9 @@ uniform int _RayOffset = 64;
 uniform float3 _RayStartPositions[5];
 uniform float3 _RayEndPositions[2000];
 
+uniform int _RevealedAreaCount = 5;
+uniform float3 _RevealedAreaOrigins[5];
+uniform float _RevealedAreaRadii[5];
 
 void DistanceToLine_float(float3 position, float3 lineStart, float3 lineEnd, out float Out, out float T) 
 {
@@ -67,5 +71,15 @@ void CalculateDistanceToFieldOfView_float(float3 position, float distanceThresho
     }
 }
 
+void IsInsideRevealedArea_float(float3 position, out float isInside) 
+{
+    isInside = 1.0;
+    for (int i = 0; i < _RevealedAreaCount; i++) {
+        if (distance(position, _RevealedAreaOrigins[i]) <= _RevealedAreaRadii[i]) {
+            isInside = 0.0;
+            return;
+        }
+    }
+}
 
 #endif //MYHLSLINCLUDE_UNLCUDED

@@ -11,7 +11,6 @@ public class EnemyUnitManager : MonoBehaviour
     [SerializeField] private bool _addRandomMovementToUnits = false;
 
     private List<Unit> _enemyUnits;
-    private UnitVisibilityManager _visibilityManager;
 
     private void Awake()
     {
@@ -29,16 +28,10 @@ public class EnemyUnitManager : MonoBehaviour
 
     private void Start()
     {
-        _visibilityManager = new UnitVisibilityManager(UnitType.Enemy);
         foreach (var unit in _enemyUnits)
         {
             SetUpUnit(unit);
         }
-    }
-
-    private void Update()
-    {
-        _visibilityManager.UpdateVisibileUnits();
     }
 
     public List<Unit> GetUnits()

@@ -13,7 +13,6 @@ public class PlayerUnitManager : MonoBehaviour
     [SerializeField] private GameObject _selectedUnitIndicatorPrefab;
 
     private List<Unit> _playerUnits;
-    private UnitVisibilityManager _visibilityManager;
 
     private void Awake()
     {
@@ -41,17 +40,11 @@ public class PlayerUnitManager : MonoBehaviour
 
     private void Start()
     {
-        _visibilityManager = new UnitVisibilityManager(UnitType.Player);
         foreach (var unit in _playerUnits)
         {
             unit.Initialize(UnitType.Player);
             unit.SetHealthBarActive(false);
         }
-    }
-
-    private void Update()
-    {
-        _visibilityManager.UpdateVisibileUnits();
     }
 
     public List<Unit> GetUnits()
@@ -66,6 +59,17 @@ public class PlayerUnitManager : MonoBehaviour
             if (unit != null && unit.Selected)
             {
                 unit.SetDestination(destination);
+            }
+        }
+    }
+
+    public void ActivateAbilities()
+    {
+        foreach (var unit in _playerUnits)
+        {
+            if (unit != null && unit.Selected)
+            {
+                unit.ActivateAbility();
             }
         }
     }

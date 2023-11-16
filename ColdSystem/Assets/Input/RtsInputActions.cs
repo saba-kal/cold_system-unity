@@ -91,6 +91,15 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""ActivateAbility"",
+                    ""type"": ""Button"",
+                    ""id"": ""3470ca99-9a89-4265-af45-4d50941c453d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""MoveCamera"",
                     ""type"": ""Value"",
                     ""id"": ""9f7340df-d844-4459-92e4-71d13e07c980"",
@@ -316,6 +325,17 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""RotateCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cba50abc-de5a-4f75-b7c7-972621abfe7d"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ActivateAbility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -331,6 +351,7 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
         m_Gameplay_SelectUnit4 = m_Gameplay.FindAction("SelectUnit4", throwIfNotFound: true);
         m_Gameplay_SelectUnit5 = m_Gameplay.FindAction("SelectUnit5", throwIfNotFound: true);
         m_Gameplay_SelectAllUnits = m_Gameplay.FindAction("SelectAllUnits", throwIfNotFound: true);
+        m_Gameplay_ActivateAbility = m_Gameplay.FindAction("ActivateAbility", throwIfNotFound: true);
         m_Gameplay_MoveCamera = m_Gameplay.FindAction("MoveCamera", throwIfNotFound: true);
         m_Gameplay_ZoomCamera = m_Gameplay.FindAction("ZoomCamera", throwIfNotFound: true);
         m_Gameplay_RotateCamera = m_Gameplay.FindAction("RotateCamera", throwIfNotFound: true);
@@ -402,6 +423,7 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_SelectUnit4;
     private readonly InputAction m_Gameplay_SelectUnit5;
     private readonly InputAction m_Gameplay_SelectAllUnits;
+    private readonly InputAction m_Gameplay_ActivateAbility;
     private readonly InputAction m_Gameplay_MoveCamera;
     private readonly InputAction m_Gameplay_ZoomCamera;
     private readonly InputAction m_Gameplay_RotateCamera;
@@ -416,6 +438,7 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
         public InputAction @SelectUnit4 => m_Wrapper.m_Gameplay_SelectUnit4;
         public InputAction @SelectUnit5 => m_Wrapper.m_Gameplay_SelectUnit5;
         public InputAction @SelectAllUnits => m_Wrapper.m_Gameplay_SelectAllUnits;
+        public InputAction @ActivateAbility => m_Wrapper.m_Gameplay_ActivateAbility;
         public InputAction @MoveCamera => m_Wrapper.m_Gameplay_MoveCamera;
         public InputAction @ZoomCamera => m_Wrapper.m_Gameplay_ZoomCamera;
         public InputAction @RotateCamera => m_Wrapper.m_Gameplay_RotateCamera;
@@ -449,6 +472,9 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
             @SelectAllUnits.started += instance.OnSelectAllUnits;
             @SelectAllUnits.performed += instance.OnSelectAllUnits;
             @SelectAllUnits.canceled += instance.OnSelectAllUnits;
+            @ActivateAbility.started += instance.OnActivateAbility;
+            @ActivateAbility.performed += instance.OnActivateAbility;
+            @ActivateAbility.canceled += instance.OnActivateAbility;
             @MoveCamera.started += instance.OnMoveCamera;
             @MoveCamera.performed += instance.OnMoveCamera;
             @MoveCamera.canceled += instance.OnMoveCamera;
@@ -483,6 +509,9 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
             @SelectAllUnits.started -= instance.OnSelectAllUnits;
             @SelectAllUnits.performed -= instance.OnSelectAllUnits;
             @SelectAllUnits.canceled -= instance.OnSelectAllUnits;
+            @ActivateAbility.started -= instance.OnActivateAbility;
+            @ActivateAbility.performed -= instance.OnActivateAbility;
+            @ActivateAbility.canceled -= instance.OnActivateAbility;
             @MoveCamera.started -= instance.OnMoveCamera;
             @MoveCamera.performed -= instance.OnMoveCamera;
             @MoveCamera.canceled -= instance.OnMoveCamera;
@@ -518,6 +547,7 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
         void OnSelectUnit4(InputAction.CallbackContext context);
         void OnSelectUnit5(InputAction.CallbackContext context);
         void OnSelectAllUnits(InputAction.CallbackContext context);
+        void OnActivateAbility(InputAction.CallbackContext context);
         void OnMoveCamera(InputAction.CallbackContext context);
         void OnZoomCamera(InputAction.CallbackContext context);
         void OnRotateCamera(InputAction.CallbackContext context);
