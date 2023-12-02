@@ -10,6 +10,7 @@ public class UnitMovement : MonoBehaviour
     private NavMeshAgent _agent;
     private Animator _animator;
     private UnitAutoAttack _autoAttack;
+    private Unit _targetUnit;
     private float _originalSpeed;
 
     private void Start()
@@ -30,6 +31,11 @@ public class UnitMovement : MonoBehaviour
         }
         _agent.speed = _originalSpeed * speedMultiplier;
         _animator?.SetFloat("RunAnimationSpeed", _runAnimationSpeed * speedMultiplier);
+
+        if (_targetUnit != null)
+        {
+            MoveTowardsTargetUnit();
+        }
     }
 
     public void SetDestination(Vector3 destination)
@@ -40,5 +46,27 @@ public class UnitMovement : MonoBehaviour
     public bool DestinationReached()
     {
         return _agent.remainingDistance <= _agent.stoppingDistance + 0.1f;
+    }
+
+    public void SetTargetUnit(Unit unit)
+    {
+        _targetUnit = unit;
+    }
+
+    private void MoveTowardsTargetUnit()
+    {
+        if (_targetUnit == null)
+        {
+            return;
+        }
+
+        if (_autoAttack.UnitCanBeAttacked(_targetUnit))
+        {
+            SetDestination(transform.position);
+        }
+        else
+        {
+            SetDestination(_targetUnit.transform.position);
+        }
     }
 }

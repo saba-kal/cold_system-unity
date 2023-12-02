@@ -3,32 +3,32 @@ using UnityEngine;
 
 public class UnitAutoAttack : MonoBehaviour
 {
-    [SerializeField] private GameObject _turret;
     [SerializeField] private float _turretRotationSpeed = 5f;
 
     private float _range = 20f;
     private BaseWeapon[] _weapons;
+    private UnitTurret _turret;
     private Unit _target;
     private UnitType _type;
 
     private void Awake()
     {
         _weapons = GetComponentsInChildren<BaseWeapon>();
+        _turret = GetComponent<UnitTurret>();
     }
 
     private void Update()
     {
-        var turretIsFacingTarget = false;
         _target = GetNearestVisibleEnemy();
         if (_target != null && _turret != null)
         {
-            turretIsFacingTarget = RotatetToFaceTarget(_target.gameObject);
+            RotatetToFaceTarget(_target.gameObject);
         }
         else
         {
             ResetAllRotation();
         }
-        SetWeaponsEnabled(turretIsFacingTarget);
+        SetWeaponsEnabled(_turret?.IsFacingTarget ?? false);
     }
 
     public void Initialize(UnitType type, float range)
@@ -56,6 +56,12 @@ public class UnitAutoAttack : MonoBehaviour
         }
 
         return _turret.transform.eulerAngles;
+    }
+
+    public bool UnitCanBeAttacked(Unit unit)
+    {
+        var distanceSqr = (unit.transform.position - transform.position).sqrMagnitude;
+        return distanceSqr < _range * _range && unit.IsVisible;
     }
 
     private Unit GetNearestVisibleEnemy()
@@ -94,21 +100,18 @@ public class UnitAutoAttack : MonoBehaviour
         return nearestUnit;
     }
 
-    private bool RotatetToFaceTarget(GameObject target)
+    private void RotatetToFaceTarget(GameObject target)
     {
         var targetPos = target.transform.position + new Vector3(0, 2, 0);
-        var turretIsFacingTarget = RotateToFaceTarget(_turret, targetPos, new Vector3(0, 1, 0));
+        _turret?.SetTarget(target.transform); ;
         foreach (var weapon in _weapons)
         {
             RotateToFaceTarget(weapon.gameObject, targetPos, new Vector3(1, 0, 0));
         }
-
-        return turretIsFacingTarget;
     }
 
     private void ResetAllRotation()
     {
-        ResetRotation(_turret);
         foreach (var weapon in _weapons)
         {
             ResetRotation(weapon.gameObject);
@@ -131,15 +134,6 @@ public class UnitAutoAttack : MonoBehaviour
         rotation = Quaternion.Euler(Vector3.Scale(rotation.eulerAngles, axis));
         objectToRotate.transform.localRotation = rotation;
         return true;
-    }
-
-    private float ClampAngle(float angle, float minAngle, float maxAngle)
-    {
-        if (angle > 180)
-        {
-            angle -= 360;
-        }
-        return Mathf.Clamp(angle, minAngle, maxAngle);
     }
 
     private void SetWeaponsEnabled(bool enabled)

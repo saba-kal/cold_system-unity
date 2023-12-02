@@ -7,6 +7,12 @@ public class Unit : MonoBehaviour
     public delegate void UnitDestroyed(Unit unit);
     public static event UnitDestroyed OnUnitDestroyed;
 
+    public delegate void TargetAquired(Unit sourceUnit, Unit targetUnit);
+    public static event TargetAquired OnTargetAquired;
+
+    public delegate void TargetLost(Unit sourceUnit, Unit targetUnit);
+    public static event TargetLost OnTargetLost;
+
     public bool Selected { get; set; }
     public GameObject SelectedIndicator { get; set; }
     public UnitType Type { get; private set; }
@@ -27,7 +33,9 @@ public class Unit : MonoBehaviour
     private UnitAutoAttack _unitAutoAttack;
     private UnitVisibility _unitVisiblity;
     private UnitAbility _ability;
+    private UnitTurret _turret;
     private bool _isVisible = true;
+    private bool _isFocusedOnTarget = false;
 
     private void Awake()
     {
@@ -35,6 +43,7 @@ public class Unit : MonoBehaviour
         _unitAutoAttack = GetComponent<UnitAutoAttack>();
         _unitVisiblity = GetComponent<UnitVisibility>();
         _ability = GetComponent<UnitAbility>();
+        _turret = GetComponent<UnitTurret>();
         var health = GetComponent<Health>();
         if (health != null)
         {
@@ -52,6 +61,14 @@ public class Unit : MonoBehaviour
     public void SetDestination(Vector3 destination)
     {
         _unitMovement.SetDestination(destination);
+        _unitMovement.SetTargetUnit(null);
+    }
+
+    public void SetTargetUnit(Unit unit)
+    {
+        _isFocusedOnTarget = true;
+        _unitMovement.SetTargetUnit(unit);
+        //TODO: set target on auto-attack
     }
 
     public bool IsAttacking()
@@ -76,11 +93,7 @@ public class Unit : MonoBehaviour
 
     public Vector3 GetFaceDirectionEulerAngles()
     {
-        if (_unitAutoAttack != null)
-        {
-            return _unitAutoAttack.GetFaceDirectionEulerAngles();
-        }
-        return transform.eulerAngles;
+        return _turret?.GetFaceDirectionEulerAngles() ?? transform.eulerAngles;
     }
 
     public void SetVisible(bool visible)

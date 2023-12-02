@@ -84,9 +84,18 @@ public class PlayerRtsController : MonoBehaviour
     private void OnLocationSelected(InputAction.CallbackContext context)
     {
         var ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
-        if (Physics.Raycast(ray, out var hit) && hit.collider)
+        var layerMask = LayerMask.GetMask(Constants.GROUND_LAYER, Constants.ENEMY_UNIT_LAYER);
+        if (Physics.Raycast(ray, out var hit, 2000f, layerMask))
         {
-            _unitManager?.SetDestination(hit.point);
+            var unit = hit.collider.GetComponent<Unit>();
+            if (unit != null)
+            {
+                _unitManager?.SetTargetUnitToAttack(unit);
+            }
+            else
+            {
+                _unitManager?.SetDestination(hit.point);
+            }
         }
     }
 

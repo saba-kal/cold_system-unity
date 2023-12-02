@@ -63,6 +63,17 @@ public class PlayerUnitManager : MonoBehaviour
         }
     }
 
+    public void SetTargetUnitToAttack(Unit targetUnit)
+    {
+        foreach (var unit in _playerUnits)
+        {
+            if (unit != null && unit.Selected)
+            {
+                unit.SetTargetUnit(targetUnit);
+            }
+        }
+    }
+
     public void ActivateAbilities()
     {
         foreach (var unit in _playerUnits)
