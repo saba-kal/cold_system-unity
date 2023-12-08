@@ -49,11 +49,6 @@ public class EnemyUnitManager : MonoBehaviour
     private void SetUpUnit(Unit unit)
     {
         unit.Initialize(UnitType.Enemy);
-        if (FogOfWar.Instance != null)
-        {
-            var unitVisibility = unit.AddComponent<UnitVisibility>();
-            unitVisibility.SetVisible(false);
-        }
         if (_addRandomMovementToUnits)
         {
             unit.AddComponent<MoveToRandomPointsOfInterest>();

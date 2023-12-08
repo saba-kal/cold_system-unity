@@ -9,9 +9,35 @@ public class PlayerUnitInfo : MonoBehaviour
     [SerializeField] private GameObject _unitAttackModeIcon;
     [SerializeField] private GameObject _unitMoveModeIcon;
     [SerializeField] private GameObject _deadStateIcon;
+    [SerializeField] private GameObject _attackDisabledIcon;
+    [SerializeField] private GameObject _spottedIndicator;
 
     private Unit _unit;
     private UnitAbility _unitAbility;
+
+    private void OnEnable()
+    {
+        Unit.OnUnitVisibilityChanged += OnUnitVisibilityChanged;
+    }
+
+    private void OnDisable()
+    {
+        Unit.OnUnitVisibilityChanged -= OnUnitVisibilityChanged;
+    }
+
+    private void OnUnitVisibilityChanged(Unit unit, bool isVisible)
+    {
+        if (unit == _unit)
+        {
+            _spottedIndicator.SetActive(isVisible);
+        }
+    }
+
+    private void Start()
+    {
+        _spottedIndicator.SetActive(false);
+        _attackDisabledIcon.SetActive(false);
+    }
 
     private void Update()
     {
@@ -38,12 +64,14 @@ public class PlayerUnitInfo : MonoBehaviour
         {
             _unitAttackModeIcon.SetActive(_unit.IsAttacking());
             _unitMoveModeIcon.SetActive(!_unit.IsAttacking());
+            _attackDisabledIcon.SetActive(!_unit.AutoAttackEnabled);
             _deadStateIcon.SetActive(false);
         }
         else
         {
             _unitAttackModeIcon.SetActive(false);
             _unitMoveModeIcon.SetActive(false);
+            _attackDisabledIcon.SetActive(false);
             _deadStateIcon.SetActive(true);
         }
     }

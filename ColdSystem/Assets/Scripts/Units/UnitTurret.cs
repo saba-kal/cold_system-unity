@@ -31,6 +31,11 @@ public class UnitTurret : MonoBehaviour
         return _turret.transform.eulerAngles;
     }
 
+    public Vector3 GetFaceDirection()
+    {
+        return _turret.transform.forward;
+    }
+
     private void ResetRotation()
     {
         _turret.transform.localRotation = Quaternion.RotateTowards(
@@ -53,6 +58,10 @@ public class UnitTurret : MonoBehaviour
         var angleToTarget = Vector2.Angle(
             new Vector2(_turret.transform.forward.x, _turret.transform.forward.z),
             new Vector2(targetDirection.x, targetDirection.z));
+        if (GetComponent<Unit>().Type == UnitType.Player)
+        {
+            Debug.Log(angleToTarget);
+        }
         IsFacingTarget = angleToTarget < 10;
     }
 

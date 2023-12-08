@@ -41,6 +41,7 @@ public class PlayerRtsController : MonoBehaviour
         _rtsInpusActions.Gameplay.SelectLocation.performed += OnLocationSelected;
         _rtsInpusActions.Gameplay.ActivateAbility.performed += OnAbilityActivated;
         _rtsInpusActions.Gameplay.ZoomCamera.performed += OnCameraZoom;
+        _rtsInpusActions.Gameplay.ToggleAutoAttack.performed += OnToggleAutoAttack;
     }
 
     private void OnDisable()
@@ -48,6 +49,7 @@ public class PlayerRtsController : MonoBehaviour
         _rtsInpusActions.Gameplay.SelectLocation.performed -= OnLocationSelected;
         _rtsInpusActions.Gameplay.ActivateAbility.performed -= OnAbilityActivated;
         _rtsInpusActions.Gameplay.ZoomCamera.performed -= OnCameraZoom;
+        _rtsInpusActions.Gameplay.ToggleAutoAttack.performed -= OnToggleAutoAttack;
         _rtsInpusActions.Disable();
     }
 
@@ -109,5 +111,10 @@ public class PlayerRtsController : MonoBehaviour
         // This stupid bugs requires me to clamp axis value: https://forum.unity.com/threads/how-do-you-get-mouse-scroll-input.825672/
         var value = Mathf.Clamp(context.ReadValue<float>(), -1, 1);
         _rtsCamera.ZoomCamera(value);
+    }
+
+    private void OnToggleAutoAttack(InputAction.CallbackContext context)
+    {
+        _unitManager?.ToggleAutoAttack();
     }
 }

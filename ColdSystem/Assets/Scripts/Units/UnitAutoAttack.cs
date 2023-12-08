@@ -3,22 +3,42 @@ using UnityEngine;
 
 public class UnitAutoAttack : MonoBehaviour
 {
+    public delegate void WeaponFired();
+    public event WeaponFired OnWeaponFired;
+
+    public bool IsAttacking { get; private set; }
+    public bool Enabled => _enabled;
+
     [SerializeField] private float _turretRotationSpeed = 5f;
 
+    private bool _enabled = true;
     private float _range = 20f;
     private BaseWeapon[] _weapons;
     private UnitTurret _turret;
     private Unit _target;
+    private Unit _focusTarget; // Unlike the regular target, this one will be focused as long as it is visible.
     private UnitType _type;
 
     private void Awake()
     {
         _weapons = GetComponentsInChildren<BaseWeapon>();
         _turret = GetComponent<UnitTurret>();
+        foreach (var weapon in _weapons)
+        {
+            weapon.SetOnWeaponFired(OnBaseWeaponFired);
+        }
     }
 
     private void Update()
     {
+        if (!_enabled)
+        {
+            IsAttacking = false;
+            ResetAllRotation();
+            SetWeaponsEnabled(false);
+            return;
+        }
+
         _target = GetNearestVisibleEnemy();
         if (_target != null && _turret != null)
         {
@@ -28,7 +48,8 @@ public class UnitAutoAttack : MonoBehaviour
         {
             ResetAllRotation();
         }
-        SetWeaponsEnabled(_turret?.IsFacingTarget ?? false);
+        IsAttacking = _target != null;
+        SetWeaponsEnabled(IsAttacking && (_turret?.IsFacingTarget ?? false));
     }
 
     public void Initialize(UnitType type, float range)
@@ -40,13 +61,6 @@ public class UnitAutoAttack : MonoBehaviour
             weapon.Initialize(type);
         }
     }
-
-    public bool IsAttacking()
-    {
-        return _target != null;
-    }
-
-    public float GetRange() => _range;
 
     public Vector3 GetFaceDirectionEulerAngles()
     {
@@ -64,8 +78,31 @@ public class UnitAutoAttack : MonoBehaviour
         return distanceSqr < _range * _range && unit.IsVisible;
     }
 
+    public void SetTargetUnit(Unit unit)
+    {
+        _focusTarget = unit;
+    }
+
+    public void ToggleEnabled()
+    {
+        _enabled = !_enabled;
+    }
+
     private Unit GetNearestVisibleEnemy()
     {
+        var maxDistanceSqr = _range * _range;
+        if (_focusTarget != null && _focusTarget.IsVisible &&
+            (_focusTarget.transform.position - transform.position).sqrMagnitude < maxDistanceSqr)
+        {
+            return _focusTarget;
+        }
+
+        //Focus target is no longer visible. Remove the focus.
+        if (_focusTarget != null && !_focusTarget.IsVisible)
+        {
+            _focusTarget = null;
+        }
+
         List<Unit> opposingUnits = null;
         switch (_type)
         {
@@ -83,7 +120,6 @@ public class UnitAutoAttack : MonoBehaviour
 
 
         var minimumDistanceSqr = float.MaxValue;
-        var maxDistanceSqr = _range * _range;
         Unit nearestUnit = null;
         foreach (var unit in opposingUnits)
         {
@@ -112,6 +148,7 @@ public class UnitAutoAttack : MonoBehaviour
 
     private void ResetAllRotation()
     {
+        _turret?.SetTarget(null);
         foreach (var weapon in _weapons)
         {
             ResetRotation(weapon.gameObject);
@@ -142,5 +179,10 @@ public class UnitAutoAttack : MonoBehaviour
         {
             weapon.SetEnabled(enabled);
         }
+    }
+
+    private void OnBaseWeaponFired()
+    {
+        OnWeaponFired?.Invoke();
     }
 }

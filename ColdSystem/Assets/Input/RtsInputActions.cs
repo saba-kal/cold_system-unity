@@ -125,6 +125,15 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ToggleAutoAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""b3f9a754-3040-4ac2-acee-f100f7bd274c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -336,6 +345,17 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""ActivateAbility"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9f1c6a66-9fd8-4a95-a4cc-cdc52ba9f2fd"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleAutoAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -355,6 +375,7 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
         m_Gameplay_MoveCamera = m_Gameplay.FindAction("MoveCamera", throwIfNotFound: true);
         m_Gameplay_ZoomCamera = m_Gameplay.FindAction("ZoomCamera", throwIfNotFound: true);
         m_Gameplay_RotateCamera = m_Gameplay.FindAction("RotateCamera", throwIfNotFound: true);
+        m_Gameplay_ToggleAutoAttack = m_Gameplay.FindAction("ToggleAutoAttack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -427,6 +448,7 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_MoveCamera;
     private readonly InputAction m_Gameplay_ZoomCamera;
     private readonly InputAction m_Gameplay_RotateCamera;
+    private readonly InputAction m_Gameplay_ToggleAutoAttack;
     public struct GameplayActions
     {
         private @RtsInputActions m_Wrapper;
@@ -442,6 +464,7 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
         public InputAction @MoveCamera => m_Wrapper.m_Gameplay_MoveCamera;
         public InputAction @ZoomCamera => m_Wrapper.m_Gameplay_ZoomCamera;
         public InputAction @RotateCamera => m_Wrapper.m_Gameplay_RotateCamera;
+        public InputAction @ToggleAutoAttack => m_Wrapper.m_Gameplay_ToggleAutoAttack;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -484,6 +507,9 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
             @RotateCamera.started += instance.OnRotateCamera;
             @RotateCamera.performed += instance.OnRotateCamera;
             @RotateCamera.canceled += instance.OnRotateCamera;
+            @ToggleAutoAttack.started += instance.OnToggleAutoAttack;
+            @ToggleAutoAttack.performed += instance.OnToggleAutoAttack;
+            @ToggleAutoAttack.canceled += instance.OnToggleAutoAttack;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -521,6 +547,9 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
             @RotateCamera.started -= instance.OnRotateCamera;
             @RotateCamera.performed -= instance.OnRotateCamera;
             @RotateCamera.canceled -= instance.OnRotateCamera;
+            @ToggleAutoAttack.started -= instance.OnToggleAutoAttack;
+            @ToggleAutoAttack.performed -= instance.OnToggleAutoAttack;
+            @ToggleAutoAttack.canceled -= instance.OnToggleAutoAttack;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -551,5 +580,6 @@ public partial class @RtsInputActions: IInputActionCollection2, IDisposable
         void OnMoveCamera(InputAction.CallbackContext context);
         void OnZoomCamera(InputAction.CallbackContext context);
         void OnRotateCamera(InputAction.CallbackContext context);
+        void OnToggleAutoAttack(InputAction.CallbackContext context);
     }
 }

@@ -25,7 +25,7 @@ public class UnitMovement : MonoBehaviour
     {
         _animator?.SetFloat("Speed", _agent.velocity.sqrMagnitude);
         var speedMultiplier = 1.0f;
-        if (_autoAttack?.IsAttacking() ?? false)
+        if (_autoAttack?.IsAttacking ?? false)
         {
             speedMultiplier = _attackModeSpeedMultiplier;
         }
