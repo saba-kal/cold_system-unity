@@ -124,6 +124,11 @@ public class Unit : MonoBehaviour
         return _fieldOfView?.TargetIsInsideFieldOfView(target) ?? false;
     }
 
+    public bool TargetIsInLineOfSight(Unit target)
+    {
+        return _fieldOfView?.TargetIsInLineOfSight(target) ?? false;
+    }
+
     public FieldOfViewValues GetFieldOfView()
     {
         return _fieldOfView?.GetFieldOfView() ?? new FieldOfViewValues();

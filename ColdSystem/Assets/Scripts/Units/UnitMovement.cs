@@ -10,6 +10,7 @@ public class UnitMovement : MonoBehaviour
     private NavMeshAgent _agent;
     private Animator _animator;
     private UnitAutoAttack _autoAttack;
+    private UnitFieldOfView _fieldOfView;
     private Unit _targetUnit;
     private float _originalSpeed;
 
@@ -17,6 +18,7 @@ public class UnitMovement : MonoBehaviour
     {
         _agent = GetComponent<NavMeshAgent>();
         _autoAttack = GetComponent<UnitAutoAttack>();
+        _fieldOfView = GetComponent<UnitFieldOfView>();
         _animator = GetComponentInChildren<Animator>();
         _originalSpeed = _agent.speed;
     }
@@ -60,7 +62,11 @@ public class UnitMovement : MonoBehaviour
             return;
         }
 
-        if (_autoAttack.UnitCanBeAttacked(_targetUnit))
+        var distanceSqrToTarget = (_targetUnit.transform.position - transform.position).sqrMagnitude;
+        var desiredDistance = _fieldOfView.GetFieldOfView().ViewDistance / 2;
+
+        if (_autoAttack.UnitCanBeAttacked(_targetUnit) &&
+            distanceSqrToTarget < (desiredDistance * desiredDistance))
         {
             SetDestination(transform.position);
         }

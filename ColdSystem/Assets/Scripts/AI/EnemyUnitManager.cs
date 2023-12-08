@@ -8,7 +8,7 @@ public class EnemyUnitManager : MonoBehaviour
 {
     public static EnemyUnitManager Instance { get; private set; }
 
-    [SerializeField] private bool _addRandomMovementToUnits = false;
+    [SerializeField] private bool _enableAi = true;
 
     private List<Unit> _enemyUnits;
 
@@ -49,9 +49,9 @@ public class EnemyUnitManager : MonoBehaviour
     private void SetUpUnit(Unit unit)
     {
         unit.Initialize(UnitType.Enemy);
-        if (_addRandomMovementToUnits)
+        if (_enableAi)
         {
-            unit.AddComponent<MoveToRandomPointsOfInterest>();
+            unit.AddComponent<BasicPatrolAI>();
         }
     }
 }

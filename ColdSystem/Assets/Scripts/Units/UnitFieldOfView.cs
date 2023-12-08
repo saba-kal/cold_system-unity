@@ -44,6 +44,21 @@ public class UnitFieldOfView : MonoBehaviour
         };
     }
 
+    public bool TargetIsInLineOfSight(Unit target)
+    {
+        var layerMask = LayerMask.GetMask(
+            Constants.GROUND_LAYER,
+            Constants.OBSTACLE_LAYER,
+            UnitFunctions.GetUnitLayerName(target.Type));
+        var fromPosition = GetFieldOfViewStartPosition();
+        var toPosition = target.GetFieldOfViewStartPosition();
+        if (Physics.Raycast(fromPosition, toPosition - fromPosition, out var hitInfo, _viewDistance, layerMask))
+        {
+            return hitInfo.collider.gameObject.layer == UnitFunctions.GetUnitLayer(target.Type);
+        }
+        return false;
+    }
+
     private bool TargetIsInsideFieldOfViewAngle(Unit target)
     {
         var directionToTarget = target.GetFieldOfViewStartPosition() - GetFieldOfViewStartPosition();
@@ -62,21 +77,6 @@ public class UnitFieldOfView : MonoBehaviour
             new Vector3(directionToTarget.x, 0, directionToTarget.z));
         var maxVerticalAngle = transform.position.y >= target.transform.position.y ? _depressionAngle : _elevationAngle;
         return verticalAngle <= maxVerticalAngle;
-    }
-
-    private bool TargetIsInLineOfSight(Unit target)
-    {
-        var layerMask = LayerMask.GetMask(
-            Constants.GROUND_LAYER,
-            Constants.OBSTACLE_LAYER,
-            UnitFunctions.GetUnitLayerName(target.Type));
-        var fromPosition = GetFieldOfViewStartPosition();
-        var toPosition = target.GetFieldOfViewStartPosition();
-        if (Physics.Raycast(fromPosition, toPosition - fromPosition, out var hitInfo, _viewDistance, layerMask))
-        {
-            return hitInfo.collider.gameObject.layer == UnitFunctions.GetUnitLayer(target.Type);
-        }
-        return false;
     }
 
     private void OnDrawGizmos()

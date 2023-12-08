@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fieldOfViewPosition: {x: 0, y: 2.61, z: 0}
-  _viewDistance: 20
+  _viewDistance: 40
   _angle: 120
   _depressionAngle: 60
   _elevationAngle: 30

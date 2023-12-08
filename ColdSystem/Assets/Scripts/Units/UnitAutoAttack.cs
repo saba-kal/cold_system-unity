@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Unit))]
 public class UnitAutoAttack : MonoBehaviour
 {
     public delegate void WeaponFired();
@@ -15,6 +16,7 @@ public class UnitAutoAttack : MonoBehaviour
     private float _range = 20f;
     private BaseWeapon[] _weapons;
     private UnitTurret _turret;
+    private Unit _unit;
     private Unit _target;
     private Unit _focusTarget; // Unlike the regular target, this one will be focused as long as it is visible.
     private UnitType _type;
@@ -23,6 +25,7 @@ public class UnitAutoAttack : MonoBehaviour
     {
         _weapons = GetComponentsInChildren<BaseWeapon>();
         _turret = GetComponent<UnitTurret>();
+        _unit = GetComponent<Unit>();
         foreach (var weapon in _weapons)
         {
             weapon.SetOnWeaponFired(OnBaseWeaponFired);
@@ -88,6 +91,11 @@ public class UnitAutoAttack : MonoBehaviour
         _enabled = !_enabled;
     }
 
+    public void SetEnabled(bool enabled)
+    {
+        _enabled = enabled;
+    }
+
     private Unit GetNearestVisibleEnemy()
     {
         var maxDistanceSqr = _range * _range;
@@ -121,15 +129,16 @@ public class UnitAutoAttack : MonoBehaviour
 
         var minimumDistanceSqr = float.MaxValue;
         Unit nearestUnit = null;
-        foreach (var unit in opposingUnits)
+        foreach (var opposingUnit in opposingUnits)
         {
-            if (unit == null || !unit.IsVisible) continue;
+            if (opposingUnit == null || !opposingUnit.IsVisible) continue;
 
-            var distanceSqr = (unit.transform.position - transform.position).sqrMagnitude;
-            if (distanceSqr < maxDistanceSqr && distanceSqr < minimumDistanceSqr)
+            var distanceSqr = (opposingUnit.transform.position - transform.position).sqrMagnitude;
+            if (distanceSqr < maxDistanceSqr && distanceSqr < minimumDistanceSqr &&
+                _unit.TargetIsInLineOfSight(opposingUnit))
             {
                 minimumDistanceSqr = distanceSqr;
-                nearestUnit = unit;
+                nearestUnit = opposingUnit;
             }
         }
 
