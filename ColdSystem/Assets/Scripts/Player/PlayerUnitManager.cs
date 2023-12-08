@@ -8,6 +8,9 @@ public class PlayerUnitManager : MonoBehaviour
     public delegate void AllPlayerUnitsDestroyed();
     public static event AllPlayerUnitsDestroyed OnAllPlayerUnitsDestroyed;
 
+    public delegate void FocusTargetAquired(Unit targetUnit);
+    public static event FocusTargetAquired OnFocusTargetAquired;
+
     public static PlayerUnitManager Instance { get; private set; }
 
     [SerializeField] private GameObject _selectedUnitIndicatorPrefab;
@@ -54,23 +57,35 @@ public class PlayerUnitManager : MonoBehaviour
 
     public void SetDestination(Vector3 destination)
     {
-        foreach (var unit in _playerUnits)
+        foreach (var unit in GetSelectedUnits())
         {
-            if (unit != null && unit.Selected)
-            {
-                unit.SetDestination(destination);
-            }
+            unit.SetDestination(destination);
         }
+    }
+
+    public void SetTargetUnitToAttack(Unit targetUnit)
+    {
+        foreach (var unit in GetSelectedUnits())
+        {
+            unit.SetTargetUnit(targetUnit);
+        }
+
+        OnFocusTargetAquired?.Invoke(targetUnit);
     }
 
     public void ActivateAbilities()
     {
-        foreach (var unit in _playerUnits)
+        foreach (var unit in GetSelectedUnits())
         {
-            if (unit != null && unit.Selected)
-            {
-                unit.ActivateAbility();
-            }
+            unit.ActivateAbility();
+        }
+    }
+
+    public void ToggleAutoAttack()
+    {
+        foreach (var unit in GetSelectedUnits())
+        {
+            unit.ToggleAutoAttack();
         }
     }
 
@@ -101,6 +116,11 @@ public class PlayerUnitManager : MonoBehaviour
             unit.SelectedIndicator.transform.localPosition = Vector3.zero;
         }
         unit.SelectedIndicator.SetActive(selected);
+    }
+
+    private List<Unit> GetSelectedUnits()
+    {
+        return _playerUnits.Where(unit => unit != null && unit.Selected).ToList();
     }
 
     private void OnUnitDeatroyed(Unit deadUnit)

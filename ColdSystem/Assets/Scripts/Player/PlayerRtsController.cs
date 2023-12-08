@@ -41,6 +41,7 @@ public class PlayerRtsController : MonoBehaviour
         _rtsInpusActions.Gameplay.SelectLocation.performed += OnLocationSelected;
         _rtsInpusActions.Gameplay.ActivateAbility.performed += OnAbilityActivated;
         _rtsInpusActions.Gameplay.ZoomCamera.performed += OnCameraZoom;
+        _rtsInpusActions.Gameplay.ToggleAutoAttack.performed += OnToggleAutoAttack;
     }
 
     private void OnDisable()
@@ -48,6 +49,7 @@ public class PlayerRtsController : MonoBehaviour
         _rtsInpusActions.Gameplay.SelectLocation.performed -= OnLocationSelected;
         _rtsInpusActions.Gameplay.ActivateAbility.performed -= OnAbilityActivated;
         _rtsInpusActions.Gameplay.ZoomCamera.performed -= OnCameraZoom;
+        _rtsInpusActions.Gameplay.ToggleAutoAttack.performed -= OnToggleAutoAttack;
         _rtsInpusActions.Disable();
     }
 
@@ -84,9 +86,18 @@ public class PlayerRtsController : MonoBehaviour
     private void OnLocationSelected(InputAction.CallbackContext context)
     {
         var ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
-        if (Physics.Raycast(ray, out var hit) && hit.collider)
+        var layerMask = LayerMask.GetMask(Constants.GROUND_LAYER, Constants.ENEMY_UNIT_LAYER);
+        if (Physics.Raycast(ray, out var hit, 2000f, layerMask))
         {
-            _unitManager?.SetDestination(hit.point);
+            var unit = hit.collider.GetComponent<Unit>();
+            if (unit != null)
+            {
+                _unitManager?.SetTargetUnitToAttack(unit);
+            }
+            else
+            {
+                _unitManager?.SetDestination(hit.point);
+            }
         }
     }
 
@@ -100,5 +111,10 @@ public class PlayerRtsController : MonoBehaviour
         // This stupid bugs requires me to clamp axis value: https://forum.unity.com/threads/how-do-you-get-mouse-scroll-input.825672/
         var value = Mathf.Clamp(context.ReadValue<float>(), -1, 1);
         _rtsCamera.ZoomCamera(value);
+    }
+
+    private void OnToggleAutoAttack(InputAction.CallbackContext context)
+    {
+        _unitManager?.ToggleAutoAttack();
     }
 }

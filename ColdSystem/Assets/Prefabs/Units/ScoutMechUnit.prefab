@@ -16,6 +16,9 @@ GameObject:
   - component: {fileID: 582506859260778313}
   - component: {fileID: 3233220225316238771}
   - component: {fileID: -6229713148887050683}
+  - component: {fileID: 7806393964690202915}
+  - component: {fileID: 6350764236770435719}
+  - component: {fileID: 3741892139159987636}
   m_Layer: 0
   m_Name: ScoutMechUnit
   m_TagString: Untagged
@@ -97,12 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd631cd3a52a87243b1c2c470d2f5693, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fieldOfViewPosition: {x: 0, y: 2.5, z: -0.5}
-  _fieldOfViewDistance: 20
-  _fieldOfViewAngle: 120
-  _fieldOfViewDepressionAngle: 60
-  _fieldOfViewElevationAngle: 30
-  _showFieldOfViewGizmo: 0
 --- !u!114 &1448841100003415109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,7 +126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cc2e6a9bf13e5e42afcc70bfb29f454, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _turret: {fileID: 3737538279939832885}
   _turretRotationSpeed: 50
 --- !u!114 &3233220225316238771
 MonoBehaviour:
@@ -157,10 +153,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cooldown: 25
-  _radius: 25
+  _radius: 50
   _duration: 20
   _effectPrefab: {fileID: 1702613675522875944, guid: 72e337d869cc97443b0eb43bb2f15471,
     type: 3}
+--- !u!114 &7806393964690202915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4210878123164907179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6ad2553276a96640bbb941e8cbe8db5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onWeaponFiredRevealDuration: 5
+--- !u!114 &6350764236770435719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4210878123164907179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab6a47c9569688245b0ecbbac8a1ebfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fieldOfViewPosition: {x: 0, y: 2.5, z: 0}
+  _viewDistance: 40
+  _angle: 120
+  _depressionAngle: 60
+  _elevationAngle: 30
+  _showFieldOfViewGizmo: 0
+--- !u!114 &3741892139159987636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4210878123164907179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4e3fe99669e12842a4b9301641b64ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _turret: {fileID: 3737538279939832885}
+  _rotationSpeed: 30
 --- !u!1001 &2676751868446241882
 PrefabInstance:
   m_ObjectHideFlags: 0

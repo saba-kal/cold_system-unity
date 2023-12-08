@@ -5,6 +5,7 @@ using UnityEngine.VFX;
 
 public class HealAbility : UnitAbility
 {
+
     [SerializeField] private float _radius = 10f;
     [SerializeField] private float _healDuration = 3f;
     [SerializeField] private float _healAmount = 30f;
@@ -13,6 +14,12 @@ public class HealAbility : UnitAbility
 
     private GameObject _effect = null;
     private VisualEffect _visualEffect = null;
+    private UnitAutoAttack _autoAttack = null;
+
+    private void Awake()
+    {
+        _autoAttack = GetComponent<UnitAutoAttack>();
+    }
 
     protected override void Start()
     {
@@ -60,6 +67,7 @@ public class HealAbility : UnitAbility
         ActivateEffect();
         while (totalDuration < _healDuration)
         {
+            _autoAttack?.SetEnabled(false);
             foreach (var health in unitHealths)
             {
                 if ((health.transform.position - transform.position).sqrMagnitude <= (_radius * _radius))
@@ -70,6 +78,7 @@ public class HealAbility : UnitAbility
             totalDuration += Time.deltaTime;
             yield return null;
         }
+        _autoAttack?.SetEnabled(true);
         DeactivateEffect();
     }
 
