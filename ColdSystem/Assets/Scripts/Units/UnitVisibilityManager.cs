@@ -58,37 +58,32 @@ public class UnitVisibilityManager : MonoBehaviour
 
     private void SetEnemyUnitsInLineOfSightVisible()
     {
-        foreach (var frendlyUnit in UnitFunctions.GetUnitsFriendlyTo(_type))
+        foreach (var friendlyUnit in UnitFunctions.GetUnitsFriendlyTo(_type))
         {
-            if (frendlyUnit == null) continue; //Unit is dead.
+            if (friendlyUnit == null) continue; //Unit is dead.
 
             foreach (var enemyUnit in UnitFunctions.GetUnitsEnemyTo(_type))
             {
                 if (enemyUnit == null || enemyUnit.IsVisible) continue; //Unit is dead or already visible.
 
-                var distanceSqr = (frendlyUnit.transform.position - enemyUnit.transform.position).sqrMagnitude;
-                var maxDistanceSqr = frendlyUnit.FieldOfViewDistance * frendlyUnit.FieldOfViewDistance;
-                if (distanceSqr < maxDistanceSqr && UnitHasLineOfSight(frendlyUnit, enemyUnit))
+                if (UnitWeaponFireHeardByOpposingUnit(enemyUnit, friendlyUnit))
                 {
                     enemyUnit.SetVisible(true);
+                }
+                else
+                {
+                    var enemyIsVisible = friendlyUnit.TargetIsInsideFieldOfView(enemyUnit);
+                    enemyUnit.SetVisible(enemyIsVisible);
                 }
             }
         }
     }
 
-    private bool UnitHasLineOfSight(Unit unit, Unit opposingUnit)
+    private bool UnitWeaponFireHeardByOpposingUnit(Unit unit, Unit opposingUnit)
     {
-        var layerMask = LayerMask.GetMask(
-            Constants.GROUND_LAYER,
-            Constants.OBSTACLE_LAYER,
-            UnitFunctions.GetUnitLayerName(opposingUnit.Type));
-        var fromPosition = unit.GetFieldOfViewStartPosition();
-        var toPosition = opposingUnit.GetFieldOfViewStartPosition();
-        if (Physics.Raycast(fromPosition, toPosition - fromPosition, out var hitInfo, unit.FieldOfViewDistance, layerMask))
-        {
-            return hitInfo.collider.gameObject.layer == UnitFunctions.GetUnitLayer(opposingUnit.Type);
-        }
-        return false;
+        var fieldOfViewRange = opposingUnit.GetFieldOfView().ViewDistance;
+        return unit.IsTimeSinceWeaponFireBelowRevealThreshold() &&
+            (unit.transform.position - opposingUnit.transform.position).sqrMagnitude <= fieldOfViewRange * fieldOfViewRange;
     }
 
     private void UpdateRevealedAreas()

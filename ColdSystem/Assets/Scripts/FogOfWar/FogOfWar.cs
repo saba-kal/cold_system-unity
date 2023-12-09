@@ -18,7 +18,7 @@ public class FogOfWar : MonoBehaviour
     [Header("Field of View Settings")]
     [SerializeField][Range(2, 20)] private int _horizontalRayCount = 8;
     [SerializeField][Range(2, 20)] private int _verticalRayCount = 8;
-    [SerializeField] private LayerMask _raycastAganstLayers;
+    [SerializeField] private LayerMask _raycastAgainstLayers;
 
     private MeshFilter _meshFilter;
 
@@ -204,17 +204,18 @@ public class FogOfWar : MonoBehaviour
     private List<Vector4> GetProjectedRectangleFieldOfViewPoints(Unit unit)
     {
         var points = new List<Vector4>();
-        var stepAngleSizeX = unit.FieldOfViewAngle / _horizontalRayCount;
-        var stepAngleSizeY = (unit.FieldOfViewDepressionAngle + unit.FieldOfViewElevationAngle) / _verticalRayCount;
+        var fieldOfView = unit.GetFieldOfView();
+        var stepAngleSizeX = fieldOfView.Angle / _horizontalRayCount;
+        var stepAngleSizeY = (fieldOfView.DepressionAngle + fieldOfView.ElevationAngle) / _verticalRayCount;
 
         for (var ix = 0; ix < _horizontalRayCount; ix++)
         {
             var unitEulerAngles = unit.GetFaceDirectionEulerAngles();
-            var yawAngle = unitEulerAngles.y - unit.FieldOfViewAngle / 2f + stepAngleSizeX * ix;
+            var yawAngle = unitEulerAngles.y - fieldOfView.Angle / 2f + stepAngleSizeX * ix;
             for (var iy = 0; iy < _verticalRayCount; iy++)
             {
-                var pitchAngle = unitEulerAngles.x - unit.FieldOfViewDepressionAngle + stepAngleSizeY * iy;
-                var rayCastInfo = GetFieldOfViewRaycast(unit.GetFieldOfViewStartPosition(), yawAngle, pitchAngle, unit.FieldOfViewDistance);
+                var pitchAngle = unitEulerAngles.x - fieldOfView.DepressionAngle + stepAngleSizeY * iy;
+                var rayCastInfo = GetFieldOfViewRaycast(unit.GetFieldOfViewStartPosition(), yawAngle, pitchAngle, fieldOfView.ViewDistance);
                 Debug.DrawLine(unit.GetFieldOfViewStartPosition(), rayCastInfo.Point, rayCastInfo.Hit ? Color.red : Color.white);
                 points.Add(rayCastInfo.Point);
             }
@@ -230,7 +231,7 @@ public class FogOfWar : MonoBehaviour
         var point = startPosition + direction * maxDistance;
         var distance = maxDistance;
 
-        if (Physics.Raycast(startPosition, direction, out var hit, maxDistance, _raycastAganstLayers))
+        if (Physics.Raycast(startPosition, direction, out var hit, maxDistance, _raycastAgainstLayers))
         {
             isHit = true;
             point = hit.point;
