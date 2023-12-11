@@ -47,7 +47,8 @@ public class UnitMovement : MonoBehaviour
 
     public bool DestinationReached()
     {
-        return _agent.remainingDistance <= _agent.stoppingDistance + 0.1f;
+        return (_agent.destination - transform.position).sqrMagnitude <=
+            (_agent.stoppingDistance * _agent.stoppingDistance) + 0.1f;
     }
 
     public void SetTargetUnit(Unit unit)
