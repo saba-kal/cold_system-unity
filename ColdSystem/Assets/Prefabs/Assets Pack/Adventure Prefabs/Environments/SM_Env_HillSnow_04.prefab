@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2316848}
   - component: {fileID: 64244377001054140}
   - component: {fileID: 905845954568138106}
+  - component: {fileID: 2130963921176013400}
   m_Layer: 0
   m_Name: SM_Env_HillSnow_04
   m_TagString: Untagged
@@ -134,3 +135,25 @@ LODGroup:
     renderers:
     - renderer: {fileID: 2316848}
   m_Enabled: 1
+--- !u!64 &2130963921176013400
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128976}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 64092a3e1896fdb4db37fd93543e7ee7, type: 3}
