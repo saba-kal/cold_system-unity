@@ -61,9 +61,9 @@ public class FogOfWar : MonoBehaviour
             {
                 CreateFogChunk(new Vector3(x * _fogChunkSize.x, 0, y * _fogChunkSize.y));
                 totalChunkCount++;
-                if (totalChunkCount >= 100)
+                if (totalChunkCount >= 1000)
                 {
-                    Debug.LogError("Reached maximum chunk count of 100. Unable to create more fog chunks.");
+                    Debug.LogError("Reached maximum chunk count of 1000. Unable to create more fog chunks.");
                     return;
                 }
             }

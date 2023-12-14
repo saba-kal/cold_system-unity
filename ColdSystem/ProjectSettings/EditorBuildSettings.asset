@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EndlessWavesLevel/EndlessWavesLevel.unity
     guid: b0cf08c7f76a35e46b83fa2a89d93352
+  - enabled: 1
+    path: Assets/Scenes/SampleWinterMap/Map Scene.unity
+    guid: 82e06c421daef0f45a0156f63c4b0000
   m_configObjects: {}
