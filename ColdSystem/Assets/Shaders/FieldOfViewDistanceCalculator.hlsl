@@ -1,7 +1,6 @@
 ﻿//UNITY_SHADER_NO_UPGRADE
 #ifndef MYHLSLINCLUDE_UNLCUDED
 #define MYHLSLINCLUDE_UNLCUDED
-#include "Assets/Shaders/IsInsideRevealedArea.hlsl"
 
 uniform int _RayCount = 64;
 uniform int _RayOriginCount = 5;
