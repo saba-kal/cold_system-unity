@@ -16,6 +16,8 @@ public class EndlessWaveSpawner : MonoBehaviour
 
     private void Start()
     {
+        WaveNumber = 0;
+        TimeUntilNextWave = 0;
         if (_waves.Count == 0)
         {
             Debug.LogError("No waves were set for the endless wave spawner. Enemies will not spawn as a result.");

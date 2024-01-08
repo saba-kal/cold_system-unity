@@ -8,6 +8,16 @@ public class UnitTurret : MonoBehaviour
     [SerializeField] private float _rotationSpeed = 25f;
 
     private Transform _target = null;
+    private Transform _turretParent = null;
+    private Vector3 _turretLocalPosition = Vector3.zero;
+
+    private void Start()
+    {
+        // Turret rotation needs to be independent of mech rotation. Therefore, we need to remove it as a child of the mech.
+        _turretLocalPosition = _turret.transform.localPosition;
+        _turretParent = _turret.transform.parent;
+        _turret.transform.parent = null;
+    }
 
     private void Update()
     {
@@ -19,6 +29,8 @@ public class UnitTurret : MonoBehaviour
         {
             RotateToFaceTarget();
         }
+
+        _turret.transform.position = _turretParent.position + _turretLocalPosition;
     }
 
     public void SetTarget(Transform target)
@@ -36,23 +48,28 @@ public class UnitTurret : MonoBehaviour
         return _turret.transform.forward;
     }
 
+    public void DestroyTurret()
+    {
+        Destroy(_turret);
+    }
+
     private void ResetRotation()
     {
-        _turret.transform.localRotation = Quaternion.RotateTowards(
-            _turret.transform.localRotation,
-            Quaternion.Euler(0, 0, 0),
+        _turret.transform.rotation = Quaternion.RotateTowards(
+            _turret.transform.rotation,
+            _turretParent.rotation,
             _rotationSpeed * Time.deltaTime);
         IsFacingTarget = false;
     }
 
     private void RotateToFaceTarget()
     {
-        var originalRotation = _turret.transform.localRotation;
+        var originalRotation = _turret.transform.rotation;
         _turret.transform.LookAt(_target);
-        var rotation = Quaternion.RotateTowards(originalRotation, _turret.transform.localRotation, _rotationSpeed * Time.deltaTime);
+        var rotation = Quaternion.RotateTowards(originalRotation, _turret.transform.rotation, _rotationSpeed * Time.deltaTime);
 
         rotation = Quaternion.Euler(new Vector3(0, rotation.eulerAngles.y, 0));
-        _turret.transform.localRotation = rotation;
+        _turret.transform.rotation = rotation;
 
         var targetDirection = _target.position - _turret.transform.position;
         var angleToTarget = Vector2.Angle(

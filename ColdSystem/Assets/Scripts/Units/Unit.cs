@@ -142,6 +142,7 @@ public class Unit : MonoBehaviour
     private void OnHealthLost()
     {
         OnUnitDestroyed?.Invoke(this);
+        _turret?.DestroyTurret();
         Destroy(gameObject);
     }
 

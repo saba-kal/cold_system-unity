@@ -515,5 +515,7 @@ MonoBehaviour:
   _zoomSpeed: 6
   _zoomSmoothness: 10
   _minZoom: 5
-  _maxZoom: 40
+  _maxZoom: 80
+  _minPosition: {x: -500, y: -500}
+  _maxPosition: {x: 500, y: 500}
   _cameraTarget: {fileID: 7841310073127268052}

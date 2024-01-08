@@ -4,12 +4,16 @@ using UnityEngine.InputSystem;
 public class PlayerRtsController : MonoBehaviour
 {
     [SerializeField] private float _cameraPanScreenEdgeSize = 40;
+    [SerializeField] private Texture2D _attackCursor;
 
     private RtsCamera _rtsCamera;
     private PlayerUnitManager _unitManager;
     private Camera _camera;
     private RtsInputActions _rtsInpusActions;
     private InputAction[] _selectUnitInputActions;
+    private GroupFormationManager _groupFormationManager;
+    private Vector3 _mouseGroundPosition;
+    private Unit _enemyUnitUnderMouse;
 
     private void Awake()
     {
@@ -23,6 +27,7 @@ public class PlayerRtsController : MonoBehaviour
             _rtsInpusActions.Gameplay.SelectUnit4,
             _rtsInpusActions.Gameplay.SelectUnit5
         };
+        _groupFormationManager = GetComponentInChildren<GroupFormationManager>();
     }
 
     private void Start()
@@ -55,10 +60,14 @@ public class PlayerRtsController : MonoBehaviour
 
     private void Update()
     {
+        var selectedUnitCount = 0;
         for (var i = 0; i < _selectUnitInputActions.Length; i++)
         {
-            _unitManager?.SetUnitSelected(i, _selectUnitInputActions[i].IsPressed() || _rtsInpusActions.Gameplay.SelectAllUnits.IsPressed());
+            var isSelected = _selectUnitInputActions[i].IsPressed() || _rtsInpusActions.Gameplay.SelectAllUnits.IsPressed();
+            var isSelectSuccessful = _unitManager?.SetUnitSelected(i, isSelected) ?? false;
+            if (isSelected && isSelectSuccessful) selectedUnitCount++;
         }
+        _groupFormationManager.SelectedUnitCount = selectedUnitCount;
 
         var cameraMoveDirection = _rtsInpusActions.Gameplay.MoveCamera.ReadValue<Vector2>();
         var mousePosition = Mouse.current.position.ReadValue();
@@ -81,22 +90,45 @@ public class PlayerRtsController : MonoBehaviour
 
         _rtsCamera?.MoveCamera(cameraMoveDirection.normalized);
         _rtsCamera?.RotateCamera(-_rtsInpusActions.Gameplay.RotateCamera.ReadValue<float>());
-    }
 
-    private void OnLocationSelected(InputAction.CallbackContext context)
-    {
-        var ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
+
+        var ray = _camera.ScreenPointToRay(mousePosition);
         var layerMask = LayerMask.GetMask(Constants.GROUND_LAYER, Constants.ENEMY_UNIT_LAYER);
         if (Physics.Raycast(ray, out var hit, 2000f, layerMask))
         {
             var unit = hit.collider.GetComponent<Unit>();
             if (unit != null)
             {
-                _unitManager?.SetTargetUnitToAttack(unit);
+                _enemyUnitUnderMouse = unit;
+                _groupFormationManager.SelectedUnitCount = 0;
+                if (_attackCursor != null)
+                {
+                    Cursor.SetCursor(_attackCursor, new Vector2(64, 0), CursorMode.Auto);
+                }
             }
             else
             {
-                _unitManager?.SetDestination(hit.point);
+                _mouseGroundPosition = hit.point;
+                _groupFormationManager.FormationPosition = _mouseGroundPosition;
+                Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+            }
+        }
+    }
+
+    private void OnLocationSelected(InputAction.CallbackContext context)
+    {
+        if (_enemyUnitUnderMouse != null)
+        {
+            _unitManager?.SetTargetUnitToAttack(_enemyUnitUnderMouse);
+        }
+        else
+        {
+            var formationPositions = _groupFormationManager.GetFormationPositions();
+            var i = 0;
+            foreach (var unit in _unitManager.GetSelectedUnits())
+            {
+                unit.SetDestination(formationPositions[i]);
+                i++;
             }
         }
     }

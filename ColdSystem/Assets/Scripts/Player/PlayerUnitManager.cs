@@ -89,23 +89,23 @@ public class PlayerUnitManager : MonoBehaviour
         }
     }
 
-    public void SetUnitSelected(int unitIndex, bool selected)
+    public bool SetUnitSelected(int unitIndex, bool selected)
     {
         if (unitIndex < 0)
         {
             Debug.LogError($"Unit index out of range: {unitIndex}");
-            return;
+            return false;
         }
 
         if (_playerUnits.Count == 0 || unitIndex >= _playerUnits.Count)
         {
-            return;
+            return false;
         }
 
         var unit = _playerUnits[unitIndex];
         if (unit == null)
         {
-            return;
+            return false;
         }
 
         unit.Selected = selected;
@@ -116,9 +116,10 @@ public class PlayerUnitManager : MonoBehaviour
             unit.SelectedIndicator.transform.localPosition = Vector3.zero;
         }
         unit.SelectedIndicator.SetActive(selected);
+        return true;
     }
 
-    private List<Unit> GetSelectedUnits()
+    public List<Unit> GetSelectedUnits()
     {
         return _playerUnits.Where(unit => unit != null && unit.Selected).ToList();
     }
