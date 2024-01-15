@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 3116727970793542972}
   - component: {fileID: 1434466195709317845}
   m_Layer: 0
-  m_Name: AutoCannon
+  m_Name: BurstCannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,12 +78,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36543550cd274eb4986e243e887df6cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeBetweenShots: 2
+  TimeBetweenShots: 6
   _projectileSpeed: 50
   _projectileDamage: 5
   _spreadFactor: 0.05
-  _burstCount: 1
-  _timeBetweenBurstShots: 0.5
+  _burstCount: 4
+  _timeBetweenBurstShots: 0.2
   _projectileSpawnPoint: {fileID: 4085307659759745988}
   _projectilePrefab: {fileID: 1797293667438511489, guid: a1780291fb89fae4390d892e8d53d0a9,
     type: 3}
@@ -245,6 +245,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 7077ee4c26ee79442b1f88a4dbb92f8a,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 17e6fe2863d1b054dbebee313383012d, type: 2}
     - target: {fileID: 919132149155446097, guid: 7077ee4c26ee79442b1f88a4dbb92f8a,
         type: 3}
       propertyPath: m_Name

@@ -14,6 +14,7 @@ public class PlayerUnitManager : MonoBehaviour
     public static PlayerUnitManager Instance { get; private set; }
 
     [SerializeField] private GameObject _selectedUnitIndicatorPrefab;
+    [SerializeField] private List<Vector3> _unitSpawnPositions;
 
     private List<Unit> _playerUnits;
 
@@ -28,7 +29,7 @@ public class PlayerUnitManager : MonoBehaviour
             Instance = this;
         }
 
-        _playerUnits = GetComponentsInChildren<Unit>().ToList();
+        SpawnPlayerUnits();
     }
 
     private void OnEnable()
@@ -124,6 +125,55 @@ public class PlayerUnitManager : MonoBehaviour
         return _playerUnits.Where(unit => unit != null && unit.Selected).ToList();
     }
 
+    private void SpawnPlayerUnits()
+    {
+        if (LoadoutMenu.PlayerLoadout != null && LoadoutMenu.PlayerLoadout.Count > 0 &&
+            LoadoutMenu.PlayerLoadout.Count <= _unitSpawnPositions.Count)
+        {
+            DestroyExistingUnits();
+
+            _playerUnits = new List<Unit>();
+            for (var i = 0; i < LoadoutMenu.PlayerLoadout.Count; i++)
+            {
+                var spawnPosition = _unitSpawnPositions[i] + transform.position;
+                if (Physics.Raycast(
+                    spawnPosition + new Vector3(0, 10, 0),
+                    Vector3.down,
+                    out var hit,
+                    200f,
+                    LayerMask.GetMask(Constants.GROUND_LAYER)))
+                {
+                    spawnPosition = hit.point;
+                }
+
+                var loadout = LoadoutMenu.PlayerLoadout[i];
+                var unit = UnitFactory.Create(
+                    loadout.Unit,
+                    new List<BaseWeapon>
+                    {
+                        loadout.LeftWeapon,
+                        loadout.RightWeapon,
+                    },
+                    transform,
+                    spawnPosition);
+                _playerUnits.Add(unit);
+            }
+        }
+        else
+        {
+            _playerUnits = GetComponentsInChildren<Unit>().ToList();
+        }
+    }
+
+    private void DestroyExistingUnits()
+    {
+        var units = GetComponentsInChildren<Unit>();
+        foreach (var unit in units)
+        {
+            Destroy(unit.gameObject);
+        }
+    }
+
     private void OnUnitDeatroyed(Unit deadUnit)
     {
         if (deadUnit.Type != UnitType.Player)
@@ -137,5 +187,28 @@ public class PlayerUnitManager : MonoBehaviour
         }
 
         OnAllPlayerUnitsDestroyed?.Invoke();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        foreach (var spawnPosition in _unitSpawnPositions)
+        {
+            var globalSpawnPosition = transform.position + spawnPosition;
+            if (Physics.Raycast(
+                    globalSpawnPosition + new Vector3(0, 10, 0),
+                    Vector3.down,
+                    out var hit,
+                    200f,
+                    LayerMask.GetMask(Constants.GROUND_LAYER)))
+            {
+                Gizmos.DrawLine(globalSpawnPosition + new Vector3(0, 10, 0), hit.point);
+                Gizmos.DrawSphere(hit.point, 0.5f);
+            }
+            else
+            {
+                Gizmos.DrawSphere(globalSpawnPosition, 0.5f);
+            }
+        }
     }
 }

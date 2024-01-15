@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class UnitTurret : MonoBehaviour
 {
@@ -51,6 +53,16 @@ public class UnitTurret : MonoBehaviour
     public void DestroyTurret()
     {
         Destroy(_turret);
+    }
+
+    public List<BaseWeapon> GetWeapons()
+    {
+        return _turret.GetComponentsInChildren<BaseWeapon>().ToList();
+    }
+
+    public List<WeaponMount> GetWeaponMounts()
+    {
+        return _turret.GetComponentsInChildren<WeaponMount>().ToList();
     }
 
     private void ResetRotation()

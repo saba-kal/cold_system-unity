@@ -70,6 +70,7 @@ public class HealAbility : UnitAbility
             _autoAttack?.SetEnabled(false);
             foreach (var health in unitHealths)
             {
+                if (health == null) continue; //Unit is dead.
                 if ((health.transform.position - transform.position).sqrMagnitude <= (_radius * _radius))
                 {
                     health.Heal(healAmountPerSecond * Time.deltaTime);
