@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class BaseWeapon : MonoBehaviour
 {
+    public float TimeBetweenShots = 1f;
+
     protected bool _enabled = false;
     protected UnitType _parentUnitType;
     protected Action _onWeaponFired;
@@ -22,4 +24,6 @@ public abstract class BaseWeapon : MonoBehaviour
     {
         _onWeaponFired = onWeaponFired;
     }
+
+    public abstract void Fire();
 }

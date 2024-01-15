@@ -47,6 +47,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _selectedUnitIndicatorPrefab: {fileID: 785946601342635308, guid: b70f9220367840b4ea3a4b199d9ca44d,
     type: 3}
+  _unitSpawnPositions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 5, y: 0, z: 0}
+  - {x: 10, y: 0, z: 0}
+  - {x: 15, y: 0, z: 0}
 --- !u!114 &6723648031061245813
 MonoBehaviour:
   m_ObjectHideFlags: 0

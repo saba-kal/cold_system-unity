@@ -78,9 +78,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36543550cd274eb4986e243e887df6cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TimeBetweenShots: 2
   _projectileSpeed: 50
   _projectileDamage: 5
-  _timeBetweenShots: 2
+  _spreadFactor: 0.05
+  _burstCount: 1
+  _timeBetweenBurstShots: 0.5
   _projectileSpawnPoint: {fileID: 4085307659759745988}
   _projectilePrefab: {fileID: 1797293667438511489, guid: a1780291fb89fae4390d892e8d53d0a9,
     type: 3}

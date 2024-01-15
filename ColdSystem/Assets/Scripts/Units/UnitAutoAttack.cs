@@ -10,11 +10,9 @@ public class UnitAutoAttack : MonoBehaviour
     public bool IsAttacking { get; private set; }
     public bool Enabled => _enabled;
 
-    [SerializeField] private float _turretRotationSpeed = 5f;
-
     private bool _enabled = true;
     private float _range = 20f;
-    private BaseWeapon[] _weapons;
+    private WeaponManager _weaponManager;
     private UnitTurret _turret;
     private Unit _unit;
     private Unit _target;
@@ -23,13 +21,9 @@ public class UnitAutoAttack : MonoBehaviour
 
     private void Awake()
     {
-        _weapons = GetComponentsInChildren<BaseWeapon>();
+        _weaponManager = GetComponent<WeaponManager>();
         _turret = GetComponent<UnitTurret>();
         _unit = GetComponent<Unit>();
-        foreach (var weapon in _weapons)
-        {
-            weapon.SetOnWeaponFired(OnBaseWeaponFired);
-        }
     }
 
     private void Update()
@@ -37,32 +31,33 @@ public class UnitAutoAttack : MonoBehaviour
         if (!_enabled)
         {
             IsAttacking = false;
-            ResetAllRotation();
-            SetWeaponsEnabled(false);
+            _turret?.SetTarget(null);
+            _weaponManager.SetLookTarget(null);
+            _weaponManager.SetWeaponsActive(false);
             return;
         }
 
         _target = GetNearestVisibleEnemy();
         if (_target != null && _turret != null)
         {
-            RotatetToFaceTarget(_target.gameObject);
+            _turret?.SetTarget(_target.transform);
+            _weaponManager.SetLookTarget(_target);
         }
         else
         {
-            ResetAllRotation();
+            _turret?.SetTarget(null);
+            _weaponManager.SetLookTarget(null);
         }
         IsAttacking = _target != null;
-        SetWeaponsEnabled(IsAttacking && (_turret?.IsFacingTarget ?? false));
+        _weaponManager.SetWeaponsActive(IsAttacking && (_turret?.IsFacingTarget ?? false));
     }
 
     public void Initialize(UnitType type, float range)
     {
         _type = type;
         _range = range;
-        foreach (var weapon in _weapons)
-        {
-            weapon.Initialize(type);
-        }
+        _weaponManager.Initialize(type);
+        _weaponManager.SetOnWeaponFired(OnBaseWeaponFired);
     }
 
     public Vector3 GetFaceDirectionEulerAngles()
@@ -143,51 +138,6 @@ public class UnitAutoAttack : MonoBehaviour
         }
 
         return nearestUnit;
-    }
-
-    private void RotatetToFaceTarget(GameObject target)
-    {
-        var targetPos = target.transform.position + new Vector3(0, 2, 0);
-        _turret?.SetTarget(target.transform); ;
-        foreach (var weapon in _weapons)
-        {
-            RotateToFaceTarget(weapon.gameObject, targetPos, new Vector3(1, 0, 0));
-        }
-    }
-
-    private void ResetAllRotation()
-    {
-        _turret?.SetTarget(null);
-        foreach (var weapon in _weapons)
-        {
-            ResetRotation(weapon.gameObject);
-        }
-    }
-
-    private void ResetRotation(GameObject objectToRotate)
-    {
-        objectToRotate.transform.localRotation = Quaternion.Lerp(
-            objectToRotate.transform.localRotation,
-            Quaternion.Euler(0, 0, 0),
-            _turretRotationSpeed * Time.deltaTime);
-    }
-
-    private bool RotateToFaceTarget(GameObject objectToRotate, Vector3 targetWorldPosition, Vector3 axis)
-    {
-        var originalRotation = objectToRotate.transform.localRotation;
-        objectToRotate.transform.LookAt(targetWorldPosition);
-        var rotation = Quaternion.Slerp(originalRotation, objectToRotate.transform.localRotation, _turretRotationSpeed * Time.deltaTime);
-        rotation = Quaternion.Euler(Vector3.Scale(rotation.eulerAngles, axis));
-        objectToRotate.transform.localRotation = rotation;
-        return true;
-    }
-
-    private void SetWeaponsEnabled(bool enabled)
-    {
-        foreach (var weapon in _weapons)
-        {
-            weapon.SetEnabled(enabled);
-        }
     }
 
     private void OnBaseWeaponFired()
