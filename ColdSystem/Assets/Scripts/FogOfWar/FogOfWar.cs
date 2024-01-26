@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 public class FogOfWar : MonoBehaviour
@@ -168,9 +167,9 @@ public class FogOfWar : MonoBehaviour
 
             var rayCasts = GetProjectedRectangleFieldOfViewPoints(unit);
             rayStartPositions[i] = unit.GetFieldOfViewStartPosition();
-            rayOffset = rayCasts.Count;
+            rayOffset = rayCasts.Length;
 
-            for (var j = 0; j < rayCasts.Count; j++)
+            for (var j = 0; j < rayCasts.Length; j++)
             {
                 rayEndPositions[totalRayCount + j] = rayCasts[j];
             }
@@ -201,13 +200,14 @@ public class FogOfWar : MonoBehaviour
         Shader.SetGlobalFloatArray("_RevealedAreaRadii", revealedAreaRadii);
     }
 
-    private List<Vector4> GetProjectedRectangleFieldOfViewPoints(Unit unit)
+    private Vector4[] GetProjectedRectangleFieldOfViewPoints(Unit unit)
     {
-        var points = new List<Vector4>();
+        var points = new Vector4[_horizontalRayCount * _verticalRayCount];
         var fieldOfView = unit.GetFieldOfView();
         var stepAngleSizeX = fieldOfView.Angle / _horizontalRayCount;
         var stepAngleSizeY = (fieldOfView.DepressionAngle + fieldOfView.ElevationAngle) / _verticalRayCount;
 
+        var index = 0;
         for (var ix = 0; ix < _horizontalRayCount; ix++)
         {
             var unitEulerAngles = unit.GetFaceDirectionEulerAngles();
@@ -217,7 +217,8 @@ public class FogOfWar : MonoBehaviour
                 var pitchAngle = unitEulerAngles.x - fieldOfView.DepressionAngle + stepAngleSizeY * iy;
                 var rayCastInfo = GetFieldOfViewRaycast(unit.GetFieldOfViewStartPosition(), yawAngle, pitchAngle, fieldOfView.ViewDistance);
                 Debug.DrawLine(unit.GetFieldOfViewStartPosition(), rayCastInfo.Point, rayCastInfo.Hit ? Color.red : Color.white);
-                points.Add(rayCastInfo.Point);
+                points[index] = rayCastInfo.Point;
+                index++;
             }
         }
 

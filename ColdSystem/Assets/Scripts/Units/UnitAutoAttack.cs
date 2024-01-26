@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Unit))]
+[RequireComponent(typeof(Unit), typeof(WeaponManager))]
 public class UnitAutoAttack : MonoBehaviour
 {
     public delegate void WeaponFired();

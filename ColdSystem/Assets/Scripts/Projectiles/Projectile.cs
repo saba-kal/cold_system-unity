@@ -16,6 +16,7 @@ public class Projectile : MonoBehaviour
     public void Initialize(Vector3 velocity, float damage, UnitType parentUnitType, GameObject onDestroyEffect)
     {
         GetComponent<Rigidbody>().velocity = velocity;
+        transform.rotation = Quaternion.LookRotation(velocity);
         _damage = damage;
         gameObject.layer = UnitFunctions.GetProjectileLayer(parentUnitType);
         _onDestroyEffect = onDestroyEffect;

@@ -38,6 +38,10 @@ public class MechLoadoutMenu : MonoBehaviour
         _bodyTypeDropdown.onValueChanged.AddListener(_ => onChange());
         _leftWeaponDropdown.onValueChanged.AddListener(_ => onChange());
         _rightWeaponDropdown.onValueChanged.AddListener(_ => onChange());
+
+        _bodyTypeDropdown.RefreshShownValue();
+        _leftWeaponDropdown.RefreshShownValue();
+        _rightWeaponDropdown.RefreshShownValue();
     }
 
     public void UpdateSelectionsFromUnitData(PlayerUnitData playerUnitData)

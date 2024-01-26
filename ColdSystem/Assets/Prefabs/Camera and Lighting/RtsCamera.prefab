@@ -512,10 +512,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _panSpeed: 3
   _rotateSpeed: 100
-  _zoomSpeed: 6
+  _zoomSpeed: 10
   _zoomSmoothness: 10
-  _minZoom: 5
-  _maxZoom: 80
+  _minZoom: 20
+  _maxZoom: 120
   _minPosition: {x: -500, y: -500}
   _maxPosition: {x: 500, y: 500}
   _cameraTarget: {fileID: 7841310073127268052}

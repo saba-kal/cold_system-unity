@@ -93,4 +93,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _formationPositionIndicatorPrefab: {fileID: 6432766812352076482, guid: b2627b1b8b92aa049a4ccf43afa6dc15,
     type: 3}
-  _circleFormationRadius: 4
+  _circleFormationRadius: 12

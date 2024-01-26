@@ -12,11 +12,13 @@ public class UnitVisibility : MonoBehaviour
     private List<MeshRenderer> _meshRenderers = null;
     private List<SkinnedMeshRenderer> _skinnedMeshRenderers = null;
     private List<Canvas> _canvases = null;
+    private List<Animator> _animators = null;
     private float _timeSinceLastWeaponFired = 100f;
 
     private void Awake()
     {
         _unit = GetComponent<Unit>();
+        _animators = GetComponentsInChildren<Animator>().ToList();
         _meshRenderers = GetComponentsInChildren<MeshRenderer>().ToList();
         _skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
         _canvases = GetComponentsInChildren<Canvas>().ToList();
@@ -78,19 +80,26 @@ public class UnitVisibility : MonoBehaviour
             return;
         }
 
+        var newVisibility = _isVisible;
+
+        foreach (var animator in _animators)
+        {
+            animator.enabled = newVisibility;
+        }
+
         foreach (var renderer in _meshRenderers)
         {
-            renderer.enabled = _isVisible;
+            renderer.enabled = newVisibility;
         }
 
         foreach (var renderer in _skinnedMeshRenderers)
         {
-            renderer.enabled = _isVisible;
+            renderer.enabled = newVisibility;
         }
 
         foreach (var canvas in _canvases)
         {
-            canvas.enabled = _isVisible;
+            canvas.enabled = newVisibility;
         }
     }
 }

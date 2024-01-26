@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
+    [Header("Only set these if testing weapons. By default, leave them alone.")]
     [SerializeField] private bool _weaponsActive = false;
+    [SerializeField] private Unit _testTarget;
 
     private UnitTurret _turret;
     private List<BaseWeapon> _weapons;
@@ -18,10 +20,23 @@ public class WeaponManager : MonoBehaviour
     private void Awake()
     {
         _turret = GetComponent<UnitTurret>();
+        if (_weaponsActive)
+        {
+            Initialize(UnitType.Player);
+            if (_testTarget != null)
+            {
+                SetLookTarget(_testTarget);
+            }
+        }
     }
 
     private void Update()
     {
+        if (_weapons == null || _weapons.Count == 0)
+        {
+            return;
+        }
+
         if (_fireWeapopnsSequentially && _weaponsActive && _timeSinceLastShot >= _timeBetweenShots)
         {
             _weapons[_weaponIndex].Fire();
@@ -35,7 +50,7 @@ public class WeaponManager : MonoBehaviour
     public void Initialize(UnitType type)
     {
         _weapons = GetComponentsInChildren<BaseWeapon>().ToList();
-        foreach (var turretWeapon in _turret.GetWeapons())
+        foreach (var turretWeapon in _turret?.GetWeapons() ?? new List<BaseWeapon>())
         {
             if (!_weapons.Contains(turretWeapon))
             {
@@ -44,7 +59,7 @@ public class WeaponManager : MonoBehaviour
         }
 
         _mounts = GetComponentsInChildren<WeaponMount>().ToList();
-        foreach (var turretMount in _turret.GetWeaponMounts())
+        foreach (var turretMount in _turret?.GetWeaponMounts() ?? new List<WeaponMount>())
         {
             if (!_mounts.Contains(turretMount))
             {
@@ -55,6 +70,7 @@ public class WeaponManager : MonoBehaviour
         if (_weapons == null || _weapons.Count == 0)
         {
             Debug.LogError("Weapon manager could not find any weapons to fire. Make sure weapons are added as child game objects.");
+            return;
         }
 
         _timeBetweenShots = _weapons[0].TimeBetweenShots;

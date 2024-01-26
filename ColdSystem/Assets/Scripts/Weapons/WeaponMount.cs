@@ -4,6 +4,7 @@ public class WeaponMount : MonoBehaviour
 {
     [SerializeField] private float _maxVerticalGimbal = 50f;
     [SerializeField] private float _maxHorizontalGimbal = 5f;
+    [SerializeField] private Vector3 _gimbalLookOffset = new Vector3(0, 0, 0);
 
     private BaseWeapon _weapon;
     private Unit _lookTarget;
@@ -43,7 +44,7 @@ public class WeaponMount : MonoBehaviour
 
     private void RotateToFaceTarget()
     {
-        _weapon.transform.LookAt(_lookTarget.GetFieldOfViewStartPosition());
+        _weapon.transform.LookAt(_lookTarget.GetFieldOfViewStartPosition() + _gimbalLookOffset);
 
         var eulerAngles = _weapon.transform.localEulerAngles;
         eulerAngles.x = Utils.ClampAngle(eulerAngles.x, -_maxVerticalGimbal, _maxVerticalGimbal);

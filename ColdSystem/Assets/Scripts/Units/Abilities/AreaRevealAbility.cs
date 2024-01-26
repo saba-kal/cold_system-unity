@@ -14,6 +14,7 @@ public class AreaRevealAbility : UnitAbility
 
     private UnitType _targetUnitType = UnitType.Enemy;
     private GameObject _effect = null;
+    private float _timeEffectActive = 0f;
 
     protected override void Start()
     {
@@ -28,6 +29,14 @@ public class AreaRevealAbility : UnitAbility
         }
     }
 
+    private void OnDestroy()
+    {
+        if (_effect != null)
+        {
+            Destroy(_effect, Mathf.Clamp(_duration - _timeEffectActive, 0, _duration));
+        }
+    }
+
     protected override void ExecuteAbility()
     {
         OnAreaRevealed?.Invoke(new RevealedArea
@@ -39,6 +48,7 @@ public class AreaRevealAbility : UnitAbility
         });
         if (_effect != null)
         {
+            _timeEffectActive = 0f;
             _effect.SetActive(true);
             _effect.transform.position = transform.position;
             _effect.transform.localScale = Vector3.one * _radius * 2;
@@ -48,7 +58,11 @@ public class AreaRevealAbility : UnitAbility
 
     private IEnumerator HideEffectAfterTime()
     {
-        yield return new WaitForSeconds(_duration);
+        while (_timeEffectActive <= _duration)
+        {
+            _timeEffectActive += Time.deltaTime;
+            yield return null;
+        }
         _effect.SetActive(false);
     }
 }

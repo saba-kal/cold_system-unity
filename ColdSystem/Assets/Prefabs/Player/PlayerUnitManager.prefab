@@ -49,9 +49,9 @@ MonoBehaviour:
     type: 3}
   _unitSpawnPositions:
   - {x: 0, y: 0, z: 0}
-  - {x: 5, y: 0, z: 0}
   - {x: 10, y: 0, z: 0}
-  - {x: 15, y: 0, z: 0}
+  - {x: 20, y: 0, z: 0}
+  - {x: 30, y: 0, z: 0}
 --- !u!114 &6723648031061245813
 MonoBehaviour:
   m_ObjectHideFlags: 0
