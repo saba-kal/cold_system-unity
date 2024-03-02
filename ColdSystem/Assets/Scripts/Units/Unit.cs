@@ -54,7 +54,7 @@ public class Unit : MonoBehaviour
     {
         gameObject.layer = UnitFunctions.GetUnitLayer(type);
         Type = type;
-        _unitAutoAttack?.Initialize(type, _fieldOfView.GetFieldOfView()?.ViewDistance ?? 25f);
+        _unitAutoAttack?.Initialize(type, _fieldOfView?.GetFieldOfView().ViewDistance ?? 25f);
         _enemyUnitHud?.Initialize(this);
     }
 

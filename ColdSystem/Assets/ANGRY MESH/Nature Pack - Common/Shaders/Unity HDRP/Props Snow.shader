@@ -48,6 +48,7 @@ Shader "ANGRYMESH/Nature Pack/HDRP/Props Snow"
 		#pragma multi_compile_instancing
 		#pragma instancing_options renderinglayer
 		#pragma multi_compile _ LOD_FADE_CROSSFADE
+		#pragma multi_compile_fragment AREA_SHADOW_MEDIUM AREA_SHADOW_HIGH
 
 		struct GlobalSurfaceDescription
 		{
@@ -669,11 +670,11 @@ Shader "ANGRYMESH/Nature Pack/HDRP/Props Snow"
 				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion (ClampNdotV (dot (surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness (surfaceData.perceptualSmoothness));
 
 				#if HAVE_DECALS
-				if (_EnableDecals)
-				{
-					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData (posInput, surfaceDescription.Alpha);
-					ApplyDecalToSurfaceData (decalSurfaceData, surfaceData);
-				}
+				//if (_EnableDecals)
+				//{
+				//	DecalSurfaceData decalSurfaceData = GetDecalSurfaceData (posInput, surfaceDescription.Alpha);
+				//	ApplyDecalToSurfaceData (decalSurfaceData, surfaceData);
+				//}
 				#endif
 
 				#if defined(_BENTNORMALMAP) && defined(_ENABLESPECULAROCCLUSION)
@@ -1014,11 +1015,11 @@ Shader "ANGRYMESH/Nature Pack/HDRP/Props Snow"
 				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(NdotV, surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
 				#endif
 				#if HAVE_DECALS
-				if (_EnableDecals)
-				{
-					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData (posInput, surfaceDescription.Alpha);
-					ApplyDecalToSurfaceData (decalSurfaceData, surfaceData);
-				}
+				//if (_EnableDecals)
+				//{
+				//	DecalSurfaceData decalSurfaceData = GetDecalSurfaceData (posInput, surfaceDescription.Alpha);
+				//	ApplyDecalToSurfaceData (decalSurfaceData, surfaceData);
+				//}
 				#endif
             }
         
@@ -1235,11 +1236,11 @@ Shader "ANGRYMESH/Nature Pack/HDRP/Props Snow"
 				#endif
 				
 				#if HAVE_DECALS
-				if (_EnableDecals)
-				{
-					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData (posInput, surfaceDescription.Alpha);
-					ApplyDecalToSurfaceData (decalSurfaceData, surfaceData);
-				}
+				//if (_EnableDecals)
+				//{
+				//	DecalSurfaceData decalSurfaceData = GetDecalSurfaceData (posInput, surfaceDescription.Alpha);
+				//	ApplyDecalToSurfaceData (decalSurfaceData, surfaceData);
+				//}
 				#endif
 			}
         
@@ -1485,11 +1486,11 @@ Shader "ANGRYMESH/Nature Pack/HDRP/Props Snow"
 				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(NdotV, surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
 				#endif
 				#if HAVE_DECALS
-				if (_EnableDecals)
-				{
-					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData (posInput, surfaceDescription.Alpha);
-					ApplyDecalToSurfaceData (decalSurfaceData, surfaceData);
-				}
+				//if (_EnableDecals)
+				//{
+				//	DecalSurfaceData decalSurfaceData = GetDecalSurfaceData (posInput, surfaceDescription.Alpha);
+				//	ApplyDecalToSurfaceData (decalSurfaceData, surfaceData);
+				//}
 				#endif
 			}
         
@@ -1814,11 +1815,11 @@ Shader "ANGRYMESH/Nature Pack/HDRP/Props Snow"
 				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion ( NdotV, surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness ( surfaceData.perceptualSmoothness ) );
 				#endif
 				#if HAVE_DECALS
-				if (_EnableDecals)
-				{
-					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData (posInput, surfaceDescription.Alpha);
-					ApplyDecalToSurfaceData (decalSurfaceData, surfaceData);
-				}
+				//if (_EnableDecals)
+				//{
+				//	DecalSurfaceData decalSurfaceData = GetDecalSurfaceData (posInput, surfaceDescription.Alpha);
+				//	ApplyDecalToSurfaceData (decalSurfaceData, surfaceData);
+				//}
 				#endif
 			}
         

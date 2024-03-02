@@ -1,0 +1,541 @@
+fileFormatVersion: 2
+guid: 046bb03714b60254ebcc0ba6b4bdf527
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: standardSurface4
+    second: {fileID: 2100000, guid: b6438cc4b18b6bc4096f9e3c922a7a8a, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: walk
+      takeName: walk
+      internalID: -3419257869308726280
+      firstFrame: 30
+      lastFrame: 109
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: curve1
+        weight: 1
+      - path: curve1/joint11
+        weight: 1
+      - path: curve1/joint11/joint12
+        weight: 1
+      - path: curve1/joint11/joint12/ikHandle3
+        weight: 1
+      - path: curve1/joint11/joint12/joint13
+        weight: 1
+      - path: curve1/joint11/joint12/joint13/ikHandle2
+        weight: 1
+      - path: curve1/joint11/joint12/joint13/joint14
+        weight: 1
+      - path: curve1/joint11/joint12/joint13/joint14/ikHandle1
+        weight: 1
+      - path: curve2
+        weight: 1
+      - path: curve2/joint32
+        weight: 1
+      - path: curve2/joint32/joint33
+        weight: 1
+      - path: curve2/joint32/joint33/ikHandle6
+        weight: 1
+      - path: curve2/joint32/joint33/ikHandle9
+        weight: 1
+      - path: curve2/joint32/joint33/joint34
+        weight: 1
+      - path: curve2/joint32/joint33/joint34/ikHandle5
+        weight: 1
+      - path: curve2/joint32/joint33/joint34/ikHandle8
+        weight: 1
+      - path: curve2/joint32/joint33/joint34/joint35
+        weight: 1
+      - path: curve2/joint32/joint33/joint34/joint35/ikHandle4
+        weight: 1
+      - path: curve2/joint32/joint33/joint34/joint35/ikHandle7
+        weight: 1
+      - path: curve3
+        weight: 1
+      - path: curve3/curve4
+        weight: 1
+      - path: curve3/joint6
+        weight: 1
+      - path: curve3/joint6/joint1
+        weight: 1
+      - path: curve3/joint6/joint1/joint2
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/joint4
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/joint4/joint5
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/joint4/polySurface46701
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/joint7
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/joint7/joint8
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/joint7/polySurface46702
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/joint9
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/joint9/joint10
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/joint9/polySurface46600
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/joint19
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/joint19/joint20
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/joint19/polySurface46615
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/polySurface46599
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/polySurface46599/polySurface46582
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/polySurface46599/polySurface46601
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/polySurface46599/polySurface46605
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/polySurface46599/polySurface46614
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/polySurface46599/polySurface46704
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/polySurface46599/polySurface46712
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/joint3/polySurface46599/polySurface46712/polySurface46711
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/polySurface46610
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/polySurface46610/polySurface46583
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/polySurface46610/polySurface46585
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/polySurface46610/polySurface46612
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/polySurface46610/polySurface46616
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/polySurface46610/polySurface46631
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/polySurface46610/polySurface46632
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/polySurface46610/polySurface46633
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/polySurface46610/polySurface46634
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/polySurface46610/polySurface46707
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/polySurface46610/polySurface46708
+        weight: 1
+      - path: curve3/joint6/joint1/joint2/polySurface46610/polySurface46715
+        weight: 1
+      - path: curve3/joint6/joint1/polySurface46597
+        weight: 1
+      - path: curve3/joint6/joint1/polySurface46597/polySurface46641
+        weight: 1
+      - path: curve3/joint6/joint1/polySurface46597/polySurface46642
+        weight: 1
+      - path: curve3/joint6/joint1/polySurface46597/polySurface46717
+        weight: 1
+      - path: curve3/joint6/joint1/polySurface46597/polySurface46723
+        weight: 1
+      - path: curve3/joint6/joint21
+        weight: 1
+      - path: curve3/joint6/joint21/joint22
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/joint23
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/joint23/joint24
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/joint23/joint24/joint25
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/joint23/joint24/polySurface46706
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/joint23/joint26
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/joint23/joint26/joint27
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/joint23/joint26/polySurface46687
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/joint23/joint28
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/joint23/joint28/joint29
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/joint23/joint28/polySurface46703
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/joint23/joint30
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/joint23/joint30/joint31
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/joint23/joint30/polySurface46679
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/joint23/polySurface46688
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/joint23/polySurface46688/polySurface46664
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/joint23/polySurface46688/polySurface46665
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/joint23/polySurface46688/polySurface46684
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/joint23/polySurface46688/polySurface46685
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/joint23/polySurface46688/polySurface46705
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/polySurface46680
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/polySurface46680/polySurface46655
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/polySurface46680/polySurface46656
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/polySurface46680/polySurface46660
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/polySurface46680/polySurface46661
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/polySurface46680/polySurface46674
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/polySurface46680/polySurface46682
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/polySurface46680/polySurface46686
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/polySurface46680/polySurface46696
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/polySurface46680/polySurface46709
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/polySurface46680/polySurface46710
+        weight: 1
+      - path: curve3/joint6/joint21/joint22/polySurface46680/polySurface46716
+        weight: 1
+      - path: curve3/joint6/joint21/polySurface46672
+        weight: 1
+      - path: curve3/joint6/joint21/polySurface46672/polySurface46677
+        weight: 1
+      - path: curve3/joint6/joint21/polySurface46672/polySurface46678
+        weight: 1
+      - path: curve3/joint6/joint21/polySurface46672/polySurface46718
+        weight: 1
+      - path: curve3/joint6/joint21/polySurface46672/polySurface46724
+        weight: 1
+      - path: curve3/joint6/joint36
+        weight: 0
+      - path: curve3/joint6/joint36/joint37
+        weight: 0
+      - path: curve3/joint6/joint36/joint38
+        weight: 0
+      - path: curve3/joint6/joint36/joint38/joint39
+        weight: 0
+      - path: curve3/joint6/joint36/joint38/joint39/joint40
+        weight: 0
+      - path: curve3/joint6/joint36/joint38/joint39/joint40/joint41
+        weight: 0
+      - path: curve3/joint6/joint36/joint38/joint39/joint40/joint41/joint42
+        weight: 0
+      - path: curve3/joint6/joint36/joint38/joint39/joint40/joint41/polySurface46604
+        weight: 0
+      - path: curve3/joint6/joint36/joint38/joint39/joint40/joint41/polySurface46713
+        weight: 0
+      - path: curve3/joint6/joint36/joint38/joint39/joint40/polySurface46592
+        weight: 0
+      - path: curve3/joint6/joint36/joint38/joint39/polySurface46603
+        weight: 0
+      - path: curve3/joint6/joint36/joint38/joint39/polySurface46603/polySurface46584
+        weight: 0
+      - path: curve3/joint6/joint36/joint38/polySurface46589
+        weight: 0
+      - path: curve3/joint6/joint36/joint38/polySurface46589/polySurface46587
+        weight: 0
+      - path: curve3/joint6/joint36/joint38/polySurface46589/polySurface46594
+        weight: 0
+      - path: curve3/joint6/joint36/joint38/polySurface46589/polySurface46596
+        weight: 0
+      - path: curve3/joint6/joint36/joint38/polySurface46589/polySurface46611
+        weight: 0
+      - path: curve3/joint6/joint36/joint43
+        weight: 0
+      - path: curve3/joint6/joint36/joint43/joint44
+        weight: 0
+      - path: curve3/joint6/joint36/joint43/joint44/joint45
+        weight: 0
+      - path: curve3/joint6/joint36/joint43/joint44/joint45/joint46
+        weight: 0
+      - path: curve3/joint6/joint36/joint43/joint44/joint45/joint46/joint47
+        weight: 0
+      - path: curve3/joint6/joint36/joint43/joint44/joint45/joint46/polySurface46670
+        weight: 0
+      - path: curve3/joint6/joint36/joint43/joint44/joint45/joint46/polySurface46714
+        weight: 0
+      - path: curve3/joint6/joint36/joint43/joint44/joint45/polySurface46651
+        weight: 0
+      - path: curve3/joint6/joint36/joint43/joint44/polySurface46666
+        weight: 0
+      - path: curve3/joint6/joint36/joint43/joint44/polySurface46666/polySurface46673
+        weight: 0
+      - path: curve3/joint6/joint36/joint43/polySurface46649
+        weight: 0
+      - path: curve3/joint6/joint36/joint43/polySurface46649/polySurface46650
+        weight: 0
+      - path: curve3/joint6/joint36/joint43/polySurface46649/polySurface46671
+        weight: 0
+      - path: curve3/joint6/joint36/joint43/polySurface46649/polySurface46675
+        weight: 0
+      - path: curve3/joint6/joint36/joint43/polySurface46649/polySurface46681
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46588
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46590
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46591
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46606
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46607
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46608
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46609
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46613
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46617
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46618
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46619
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46620
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46621
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46622
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46623
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46624
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46625
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46626
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46627
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46628
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46629
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46630
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46643
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46644
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46645
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46646
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46647
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46648
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46652
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46654
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46657
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46658
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46659
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46662
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46663
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46667
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46668
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46676
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46683
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46689
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46690
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46691
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46692
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46693
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46694
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46695
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46697
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46698
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46699
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46700
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46722
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46726
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46727
+        weight: 0
+      - path: curve3/joint6/joint36/polySurface46598/polySurface46728
+        weight: 0
+      - path: curve3/joint6/polySurface46586
+        weight: 1
+      - path: curve3/joint6/polySurface46586/polySurface46593
+        weight: 1
+      - path: curve3/joint6/polySurface46586/polySurface46602
+        weight: 1
+      - path: curve3/joint6/polySurface46586/polySurface46635
+        weight: 1
+      - path: curve3/joint6/polySurface46586/polySurface46636
+        weight: 1
+      - path: curve3/joint6/polySurface46586/polySurface46637
+        weight: 1
+      - path: curve3/joint6/polySurface46586/polySurface46638
+        weight: 1
+      - path: curve3/joint6/polySurface46586/polySurface46639
+        weight: 1
+      - path: curve3/joint6/polySurface46586/polySurface46640
+        weight: 1
+      - path: curve3/joint6/polySurface46586/polySurface46669
+        weight: 1
+      - path: curve3/transform1
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 30
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

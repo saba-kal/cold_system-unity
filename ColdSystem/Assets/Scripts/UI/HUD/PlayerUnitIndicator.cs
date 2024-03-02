@@ -28,7 +28,7 @@ public class PlayerUnitIndicator : MonoBehaviour
             return;
         }
 
-        var unitWorldPosition = _unit.transform.position + new Vector3(0, 4, 0);
+        var unitWorldPosition = _unit.GetFieldOfViewStartPosition() + new Vector3(0, 2, 0);
         var viewportPosition = _camera.WorldToViewportPoint(unitWorldPosition);
         //var viewportPosition = RectTransformUtility.WorldToScreenPoint(_camera, unitWorldPosition);
         if (viewportPosition.z < 0)
@@ -73,7 +73,6 @@ public class PlayerUnitIndicator : MonoBehaviour
 
     private void UpdateDirctionalIndicators(Vector2 unitViewportPosition)
     {
-        HideAllIndicators();
         if (_unit == null)
         {
             return;
@@ -84,22 +83,38 @@ public class PlayerUnitIndicator : MonoBehaviour
         {
             // Unit is visible in viewport or past the bottom edge of the screen.
             _bottomUnitIndicator.SetActive(true);
+
+            _leftUnitIndicator.SetActive(false);
+            _topUnitIndicator.SetActive(false);
+            _rightUnitIndicator.SetActive(false);
         }
         else if (unitViewportPosition.x >= 0 && unitViewportPosition.x <= 1 &&
             unitViewportPosition.y > 1)
         {
             // Unit past the top edge of the screen.
             _topUnitIndicator.SetActive(true);
+
+            _leftUnitIndicator.SetActive(false);
+            _bottomUnitIndicator.SetActive(false);
+            _rightUnitIndicator.SetActive(false);
         }
         else if (unitViewportPosition.x < 0)
         {
             // Unit past the left edge of the screen.
             _leftUnitIndicator.SetActive(true);
+
+            _topUnitIndicator.SetActive(false);
+            _bottomUnitIndicator.SetActive(false);
+            _rightUnitIndicator.SetActive(false);
         }
         else if (unitViewportPosition.x > 1)
         {
             // Unit past the right edge of the screen.
             _rightUnitIndicator.SetActive(true);
+
+            _topUnitIndicator.SetActive(false);
+            _bottomUnitIndicator.SetActive(false);
+            _leftUnitIndicator.SetActive(false);
         }
     }
 

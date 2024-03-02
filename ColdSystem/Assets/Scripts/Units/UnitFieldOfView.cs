@@ -4,17 +4,26 @@
 public class UnitFieldOfView : MonoBehaviour
 {
     [SerializeField] private Vector3 _fieldOfViewPosition;
-    [SerializeField][Range(5f, 50f)] private float _viewDistance = 20f;
+    [SerializeField][Range(5f, 100f)] private float _viewDistance = 20f;
     [SerializeField][Range(10f, 360f)] private float _angle = 120f;
     [SerializeField][Range(0f, 180f)] private float _depressionAngle = 60f;
     [SerializeField][Range(0f, 180f)] private float _elevationAngle = 30f;
     [SerializeField] private bool _showFieldOfViewGizmo = false;
 
     private Unit _unit;
+    private FieldOfViewValues _fieldOfViewValues;
 
     private void Awake()
     {
         _unit = GetComponent<Unit>();
+        _fieldOfViewValues = new FieldOfViewValues
+        {
+            FieldOfViewPosition = _fieldOfViewPosition,
+            ViewDistance = _viewDistance,
+            Angle = _angle,
+            DepressionAngle = _depressionAngle,
+            ElevationAngle = _elevationAngle
+        };
     }
 
     public bool TargetIsInsideFieldOfView(Unit target)
@@ -34,14 +43,7 @@ public class UnitFieldOfView : MonoBehaviour
 
     public FieldOfViewValues GetFieldOfView()
     {
-        return new FieldOfViewValues
-        {
-            FieldOfViewPosition = _fieldOfViewPosition,
-            ViewDistance = _viewDistance,
-            Angle = _angle,
-            DepressionAngle = _depressionAngle,
-            ElevationAngle = _elevationAngle
-        };
+        return _fieldOfViewValues;
     }
 
     public bool TargetIsInLineOfSight(Unit target)
@@ -113,7 +115,7 @@ public class UnitFieldOfView : MonoBehaviour
     }
 }
 
-public class FieldOfViewValues
+public struct FieldOfViewValues
 {
     public Vector3 FieldOfViewPosition { get; set; }
     public float ViewDistance { get; set; }

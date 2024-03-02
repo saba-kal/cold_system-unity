@@ -55,6 +55,6 @@ MonoBehaviour:
     m_Bits: 8
   _horizontalRayCount: 16
   _verticalRayCount: 16
-  _raycastAganstLayers:
+  _raycastAgainstLayers:
     serializedVersion: 2
     m_Bits: 1032

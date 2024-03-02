@@ -83,7 +83,10 @@ public class ProjectileWeapon : BaseWeapon
 
         projectile.Initialize(_projectileSpeed * direction, _projectileDamage, _parentUnitType, _onProjectileHitEffectPrefab);
         _timeSinceLastShot = 0;
-        _audioSource?.Play();
+        if (_audioSource != null)
+        {
+            _audioSource.Play();
+        }
         _onWeaponFired?.Invoke();
     }
 }

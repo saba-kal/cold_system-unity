@@ -26,6 +26,12 @@ public class HealthBar : MonoBehaviour
 
     public void SetHealth(Health health)
     {
+        if (health == null)
+        {
+            Debug.LogError("Could not setup unit health HUD because unit is missing health.");
+            return;
+        }
+
         _health = health;
         _health.OnHealthChanged += OnDamageTaken;
         _healthSlider.maxValue = _health.GetMaxHealth();

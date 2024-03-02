@@ -16,12 +16,12 @@ public class UnitTurret : MonoBehaviour
     private void Start()
     {
         // Turret rotation needs to be independent of mech rotation. Therefore, we need to remove it as a child of the mech.
-        _turretLocalPosition = _turret.transform.localPosition;
+        _turretLocalPosition = _turret.transform.localPosition * _turret.transform.lossyScale.x;
         _turretParent = _turret.transform.parent;
         _turret.transform.parent = null;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (_target == null)
         {
